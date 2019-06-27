@@ -4,35 +4,59 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 
+
+//      The CustomObjectCollection serves as the connection between TreeObjectCollection and GridObjectCollection
+//  to allow the GridObjectCollections in each DataObject to be displayed in a layored format based on TreeObjectCollection.
+//
+//
 public class CustomObjectCollection : MonoBehaviour
 {
+    //The root boolean marks a DataObject as the origin of the tree and sets its data lists on Start()
     [SerializeField]
     bool root = false;
 
+
+    //This is used in the ActivateAsContainer function to prevent the DataObject from being cleared along with its siblings
     [SerializeField]
     bool activeContainer = false;
 
-    private string secretKey = "mySecretKey"; // Edit this value and make sure it's the same as the one stored on the server
+
+    //SecretKey is currently unused.
+    //private string secretKey = "mySecretKey"; // Edit this value and make sure it's the same as the one stored on the server
+    
+    //This is the URL for the PHP script that selects data from a MySQL Database.
     private string selectScriptURL = "http://prodigalcompany.com/npjTest/selectFromDatabase.php";
 
     //Text to display the result on
     //public Text statusText;
 
+
+    //Reference to the DataObject prefab for spawning recursive child DataObjects at runtime.
     [SerializeField]
     GameObject dataObjectPrefab;
 
+
+    //RowCount is primarily a debug variable.
     [SerializeField]
     int rowCount = 0;
+
+    //DataList contains the extended results of the SELECT query
     List<string> DataList;
+
+    //CodeList contains the first index of the results (The NAICS Code in this case.)
     List<string> CodeList;
+
+    //DataObjectList is a reference to all the DataObjects that correspond to the data in the above lists.
     List<Transform> DataObjectList;
+
+    //DataTree is the root node in which all the DataObjects beneath this one are included
     TreeObjectCollection<string> dataTree;
 
     
 
     void Start()
     {
-        
+        //If this is the Root DataObject in the tree, establish its parameters on Start()
         if (root == true)
         {
             dataObjectPrefab = (GameObject)Resources.Load("Prefabs/DataObject");
@@ -44,11 +68,12 @@ public class CustomObjectCollection : MonoBehaviour
         
     }
 
-    public void UpdateMasterAttributeList()
+    /*public void UpdateMasterAttributeList()
     {
 
-    }
+    }*/
 
+    //Called to Instantiate new DataObjects and populate them with Data from their respective parents
     public void SetDataLists(TreeObjectCollection<string> DataTreeToSet)
     {
         dataObjectPrefab = (GameObject)Resources.Load("Prefabs/DataObject");
@@ -61,53 +86,88 @@ public class CustomObjectCollection : MonoBehaviour
             CodeList.Add(DataList[i].Split('|')[0].Trim());
         }
         dataTree = DataTreeToSet;
-        /*for (int i = 0; i < dataTree.children.Count; i++)
-        {
-            //Debug.Log("New Children[" + i + "] = " + dataTree.children[i].data);
-            GameObject dataObject = Instantiate(dataObjectPrefab, transform);
-            dataObject.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = dataTree.children[i].data;
-            DataObjectList.Add(dataObject.transform);
-            dataObject.transform.GetChild(1).GetComponent<CustomObjectCollection>().SetDataLists(dataTree.children[i]);
-        }*/
-        
         
     }
 
+    //Simple Get() for the activeContainer variable
     public bool GetActiveContainer()
     {
         return activeContainer;
     }
 
+    //Called when the user finishes manipulating this DataObject
     public void ActivateAsContainer()
     {
-        Debug.Log("ACTIVATE");
-        if (transform.parent.parent != null)
+        //Case for DataObject displayed as a child
+        if (activeContainer == false)
         {
-            Transform parentContainer = transform.parent.parent;
-            if (parentContainer.GetComponent<CustomObjectCollection>() != null)
+            //Debug.Log("ACTIVATE");
+            //Make sure this isn't the root and there is indeed a container above this 
+            if (transform.parent.parent != null)
             {
-                activeContainer = true;
-                for (int i = 0; i < parentContainer.childCount; i++)
+                Transform parentContainer = transform.parent.parent;
+                if (parentContainer.GetComponent<CustomObjectCollection>() != null)
                 {
-                    if (parentContainer.GetChild(i).GetChild(1).GetComponent<CustomObjectCollection>().GetActiveContainer() == false)
+                    activeContainer = true;
+                    for (int i = 0; i < parentContainer.childCount; i++)
                     {
-                        parentContainer.GetChild(i).gameObject.SetActive(false);
+                        //Deactivate all of this object's siblings
+                        if (parentContainer.GetChild(i).GetChild(1).GetComponent<CustomObjectCollection>().GetActiveContainer() == false)
+                        {
+                            parentContainer.GetChild(i).gameObject.SetActive(false);
+                        }
                     }
                 }
             }
+            //Instantiate this object's children
+            for (int i = 0; i < dataTree.children.Count; i++)
+            {
+                //Debug.Log("New Children[" + i + "] = " + dataTree.children[i].data);
+                GameObject dataObject = Instantiate(dataObjectPrefab, transform);
+                dataObject.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Text>().text = dataTree.children[i].data;
+                DataObjectList.Add(dataObject.transform);
+                dataObject.transform.GetChild(1).GetComponent<CustomObjectCollection>().SetDataLists(dataTree.children[i]);
+            }
+            //Add this object to a seperate collection of the Active Containers that hold the children currently displayed
+            GetComponent<Microsoft.MixedReality.Toolkit.Utilities.GridObjectCollection>().UpdateCollection();
+            GameObject.FindGameObjectWithTag("FixedView").GetComponent<StackObjectCollection>().PushContainerObject(transform.parent);
         }
-        for (int i = 0; i < dataTree.children.Count; i++)
+        //Case for DataObject displayed and stored as a parent of the children currently displayed
+        else
         {
-            //Debug.Log("New Children[" + i + "] = " + dataTree.children[i].data);
-            GameObject dataObject = Instantiate(dataObjectPrefab, transform);
-            dataObject.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = dataTree.children[i].data;
-            DataObjectList.Add(dataObject.transform);
-            dataObject.transform.GetChild(1).GetComponent<CustomObjectCollection>().SetDataLists(dataTree.children[i]);
+            //Debug.Log("deactivate");
+            //Remove and reset all the other parents above this one in the collection of parents
+            Transform currentContainer = GameObject.FindGameObjectWithTag("FixedView").GetComponent<StackObjectCollection>().PopContainerObject().GetChild(1);
+            while (currentContainer != null)
+            {
+                for (int i = 0; i < currentContainer.childCount; i++)
+                {
+                    GameObject.Destroy(currentContainer.GetChild(i).gameObject);
+                }
+                if (currentContainer.parent.parent != null)
+                {
+                    Transform parentContainer = currentContainer.parent.parent;
+                    if (parentContainer.GetComponent<CustomObjectCollection>() != null)
+                    {
+                        activeContainer = false;
+                        for (int i = 0; i < parentContainer.childCount; i++)
+                        {
+                            parentContainer.GetChild(i).gameObject.SetActive(true);
+                        }
+                        parentContainer.GetComponent<Microsoft.MixedReality.Toolkit.Utilities.GridObjectCollection>().UpdateCollection();
+                    }
+                }
+                if (currentContainer == transform)
+                {
+                    break;
+                }
+                currentContainer = GameObject.FindGameObjectWithTag("FixedView").GetComponent<StackObjectCollection>().PopContainerObject().GetChild(1);
+
+            }
         }
-        GetComponent<Microsoft.MixedReality.Toolkit.Utilities.GridObjectCollection>().UpdateCollection();
-        GameObject.FindGameObjectWithTag("FixedView").GetComponent<StackObjectCollection>().PushContainerObject(transform);
     }
 
+    //This calls the PHP scripts which pull the data from SQL and fills the DataList and Code List accordingly, only called by the root
     IEnumerator GetDataFromSQL()
     {
         Debug.Log("Loading Data");
@@ -138,20 +198,18 @@ public class CustomObjectCollection : MonoBehaviour
         //StartCoroutine(GenerateCollection());
     }
 
+    //This fills the root's tree, again only the root does this, the other DataObjects simply copy from this tree
     IEnumerator BuildTree()
     {
+        //Set an arbitrary root node for the tree, this shouldn't be displayed
         dataTree = new TreeObjectCollection<string>("Root");
-        TreeObjectCollection<string> tempRoot = dataTree;
+        //The 2D List contains several rows of Trees organized by their NAICS Code digits
         List<TreeObjectCollection<string>>[] TwoDList = {new List<TreeObjectCollection<string>>(), new List<TreeObjectCollection<string>>(), new List<TreeObjectCollection<string>>(), new List<TreeObjectCollection<string>>() };
-        //Debug.Log("WTF: " + tempRoot.data + " UH: " + tempRoot.children);
         for (int i = 0; i < CodeList.Count; i++)
         {
             //Debug.Log("DataList: " + i + " = " + CodeList[i] + " LENGTH = " + CodeList[i].Length);
             if (CodeList[i].Length == 2)
             {
-                //TreeObjectCollection<string> childToAdd = new TreeObjectCollection<string>(CodeList[i], tempRoot);
-                
-                //tempRoot.AddChildNode(childToAdd);
                 TwoDList[0].Add(new TreeObjectCollection<string>(DataList[i], dataTree));
                 dataTree.children.Add(TwoDList[0][TwoDList[0].Count - 1]);
                 //Debug.Log("Root child: " + dataTree.children[dataTree.children.Count - 1].data);
@@ -171,11 +229,12 @@ public class CustomObjectCollection : MonoBehaviour
             //yield return null;
         }
 
-        Debug.Log("2dCount2 = " + TwoDList[0].Count);
-        Debug.Log("2dCount3 = " + TwoDList[1].Count);
-        Debug.Log("2dCount4 = " + TwoDList[2].Count);
-        Debug.Log("2dCount5 = " + TwoDList[3].Count);
-        //TreeObjectCollection<string> currentParent = new TreeObjectCollection<string>();
+        //Debug.Log("2dCount2 = " + TwoDList[0].Count);
+        //Debug.Log("2dCount3 = " + TwoDList[1].Count);
+        //Debug.Log("2dCount4 = " + TwoDList[2].Count);
+        //Debug.Log("2dCount5 = " + TwoDList[3].Count);
+        
+        //Now that the 2D List is established, start from the bottom row and point the trees to their parents and those parents to them
         for (int i = 3; i > 0; i--)
         {
             for (int j = 0; j < TwoDList[i].Count; j++)
@@ -197,27 +256,26 @@ public class CustomObjectCollection : MonoBehaviour
         yield return null;
     }
 
+    //This instantiates the DataObject's children and fills out their respective lists so they are prepared to spawn their own children
     IEnumerator GenerateCollection()
     {
-        //Debug.Log("Hey");
+        //Only do the first tier of children just beneath this DataObject 
         for (int i = 0; i < dataTree.children.Count; i++)
         {
             GameObject dataObject = Instantiate(dataObjectPrefab, transform);
-            dataObject.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = dataTree.children[i].data;
+            dataObject.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Text>().text = dataTree.children[i].data;
             DataObjectList.Add(dataObject.transform);
             dataObject.transform.GetChild(1).GetComponent<CustomObjectCollection>().SetDataLists(dataTree.children[i]);
-            /*for (int j = 0; j < dataTree.children[i].ToList().Count; j++)
-            {
-                Debug.Log("TreeToList: " + dataTree.children[i].ToList()[j]);
-            }*/
             //Debug.Log("Spawn data object: " + dataObject.transform.GetChild(0).GetChild(0).GetComponent<Text>().text);
             yield return null;
         }
+        //Call the GridObjectCollection's UpdateCollection function to make sure the children are displayed properly 
         GetComponent<Microsoft.MixedReality.Toolkit.Utilities.GridObjectCollection>().UpdateCollection();
         //yield return null;
     }
 
-    public string Md5Sum(string strToEncrypt)
+    //Unused encryption function
+    /*public string Md5Sum(string strToEncrypt)
     {
         System.Text.UTF8Encoding ue = new System.Text.UTF8Encoding();
         byte[] bytes = ue.GetBytes(strToEncrypt);
@@ -235,7 +293,7 @@ public class CustomObjectCollection : MonoBehaviour
         }
 
         return hashString.PadLeft(32, '0');
-    }
+    }*/
 
 
 }

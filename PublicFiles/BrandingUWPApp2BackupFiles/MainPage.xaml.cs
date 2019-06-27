@@ -32,6 +32,7 @@ namespace BrandingUWPApp2
             this.ViewModel = new CompanyCodeViewModel();
             this.ViewTreeModel = new ObservableCollection<TreeObjectCollection<CompanyCode>>();
             this.CompanyCodeTree = new TreeObjectCollection<CompanyCode>();
+            //The path and necessary information to reference the MySQL database, Query the database on app startup
             string SQLPath = "server=66.147.242.194;user=prodigb3_npj;database=prodigb3_npjTest;port=3306;password=ButterscotchRipple!";
             MySqlConnection connection = new MySqlConnection(SQLPath);
             connection.Open();
@@ -44,20 +45,30 @@ namespace BrandingUWPApp2
             }
             reader.Close();
             connection.Close();
+            //Fill out the tree based on the List of CompanyCodes
             ConstructTree();
+            //Call Limit function with empty string to display all NAICS Codes at the start
             ViewModel.LimitDisplayNAICSCode("");
 
         }
-        private TreeObjectCollection<CompanyCode> CompanyCodeTree;
-
+        
+        //ViewModel contains the list of codes that the XAML page can reference
         public CompanyCodeViewModel ViewModel { get; set; }
 
+        //ViewTreeModel is what the XAML page can reference to get the tree structure
         public ObservableCollection<TreeObjectCollection<CompanyCode>> ViewTreeModel { get; set; }
-        
 
+        //CompanyCodeTree is an internal representation of the entire tree structure
+        private TreeObjectCollection<CompanyCode> CompanyCodeTree;
+
+
+        //Fill out the tree structure
         private void ConstructTree()
         {
+            //Arbitrary root for the tree, it is displayed, and can change when user inputs into a text field
             TreeCodeCollection root = new TreeCodeCollection(new CompanyCode("000000", "Root"));
+
+            //This 2D List contains several rows of tree organized by the length of their NAICS code
             List<TreeCodeCollection>[] TwoDList = { new List<TreeCodeCollection>(), new List<TreeCodeCollection>(), new List<TreeCodeCollection>(), new List<TreeCodeCollection>() };
 
             for (int i = 0; i < ViewModel.CompanyCodeList.Count; i++)
@@ -82,6 +93,7 @@ namespace BrandingUWPApp2
                     TwoDList[3].Add(new TreeCodeCollection(ViewModel.CompanyCodeList[i]));
                 }
             }
+            //Starting from the bottom of the 2D List, the 5+ digit codes, point the trees to their parents and their parents to them
             for (int i = 3; i > 0; i--)
             {
                 for (int j = 0; j < TwoDList[i].Count; j++)
@@ -98,13 +110,13 @@ namespace BrandingUWPApp2
                     }
                 }
             }
+            //Add this tree to the ViewTreeModel for display
             ViewTreeModel.Add(root);
+            //Copy it to the CompanyCodeTree for storage
             CompanyCodeTree = root;
-            //ViewTreeModel.Add(new TreeObjectCollection<CompanyCode>(new CompanyCode("00test", "I'm upset.")));
-            //ViewTreeModel.Add(new TreeObjectCollection<CompanyCode>(new CompanyCode("01test", "I'm very upset.")));
-            //ViewTreeModel.DisplayTree.Add(ViewTreeModel.CompanyCodeTree);
         }
 
+        //Limit the codes displayed in the tree function by making the user's input code the new root
         private void LimitTreeView(string codeInput)
         {
             TreeObjectCollection<CompanyCode> root = CompanyCodeTree;
@@ -143,6 +155,7 @@ namespace BrandingUWPApp2
             ViewTreeModel.Add(root);
         }
 
+        //Called when the user starts changing the NAICS Input
         private void NAICSInputChanging(TextBox sender, TextBoxTextChangingEventArgs args)
         {
             if (ignoreNextTextChanged)
@@ -157,11 +170,9 @@ namespace BrandingUWPApp2
                 ViewModel.LimitDisplayNAICSCode(sender.Text);
                 LimitTreeView(sender.Text);
             }
-
-
-
         }
 
+        //Called when the user finishes changing the Description Input
         private void DescriptionInputChanged(object sender, TextChangedEventArgs args)
         {
             if (ignoreNextTextChanged)
@@ -178,6 +189,7 @@ namespace BrandingUWPApp2
         }
     }
 
+    //Custom class that contains an NAICS Code and that Codes Title (called Description)
     public class CompanyCode
     {
         public string NAICSCode { get; set; }
@@ -194,6 +206,7 @@ namespace BrandingUWPApp2
         }
     }
 
+    //Class that contains ObservableCollections corresponding to internal lists that the XAML Page can reference
     public class CompanyCodeViewModel
     {
         private List<CompanyCode> companyCodeList = new List<CompanyCode>();
@@ -264,7 +277,7 @@ namespace BrandingUWPApp2
         
     }
 
-
+    //A wrapper for the Tree class that isn't generic because the XAML Page can't reference a generic as a DataType
     public class TreeCodeCollection: TreeObjectCollection<CompanyCode>
     {
         public TreeCodeCollection()
