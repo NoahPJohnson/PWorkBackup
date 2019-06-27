@@ -28,6 +28,8 @@ public class CustomObjectCollection : MonoBehaviour
     List<Transform> DataObjectList;
     TreeObjectCollection<string> dataTree;
 
+    
+
     void Start()
     {
         
@@ -103,6 +105,7 @@ public class CustomObjectCollection : MonoBehaviour
             dataObject.transform.GetChild(1).GetComponent<CustomObjectCollection>().SetDataLists(dataTree.children[i]);
         }
         GetComponent<Microsoft.MixedReality.Toolkit.Utilities.GridObjectCollection>().UpdateCollection();
+        GameObject.FindGameObjectWithTag("FixedView").GetComponent<StackObjectCollection>().PushContainerObject(transform);
     }
 
     IEnumerator GetDataFromSQL()

@@ -1,0 +1,65 @@
+﻿<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BrandingUWPApp2"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Windows10version1803="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 6)"
+    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
+    xmlns:Custom="using:Microsoft.UI.Xaml.Controls"
+    x:Class="BrandingUWPApp2.MainPage"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid x:Name="CenterGridDisplay" HorizontalAlignment="Center" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition Height="600"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBox Grid.Row="0" Grid.Column="1" x:Name="NAICSCodeInputBox" Width="90" Height="55" Margin="10,20,10,5" Header="Input NAICS" PlaceholderText="******" TextChanging="NAICSInputChanging" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox Grid.Row="0" Grid.Column ="1" x:Name="DescriptionInputBox" Width="160" Height="55" Margin="10,20,10,5" Header="Input Description" PlaceholderText="Description" TextChanged="DescriptionInputChanged" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <Windows10version1803:TreeView Grid.Row="1" Grid.Column="0" x:Name="CodeTreeView" Windows10version1809:ItemsSource="{x:Bind Path=ViewTreeModel}">
+            <Windows10version1809:TreeView.ItemTemplate>
+                <Windows10version1809:DataTemplate x:DataType="local:TreeCodeCollection">
+                    <Windows10version1809:TreeViewItem ItemsSource="{x:Bind Path=observableChildren}" Content="{x:Bind Path=data.NAICSCode}"/>
+                </Windows10version1809:DataTemplate>
+            </Windows10version1809:TreeView.ItemTemplate>
+        </Windows10version1803:TreeView>
+
+        <ListView Grid.Row="1" Grid.Column="1" x:Name="mainPageListView" ItemsSource="{x:Bind Path=ViewModel.CompanyCodeCollection}" Width="650" Margin = "10,0,10,100" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+            <ListView.HeaderTemplate>
+                <DataTemplate>
+                    <Grid Padding="12" Background="{ThemeResource SystemBaseLowColor}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="360"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="NAICS Code"/>
+                        <TextBlock Grid.Column="1" Text="Description"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.HeaderTemplate>
+            <ListView.ItemTemplate>
+                <DataTemplate x:Name="TableDataTemplate" x:DataType="local:CompanyCode">
+                    <Grid Height="48">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="360"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{x:Bind Path=NAICSCode}" />
+                        <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{x:Bind Path=Description}"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <!--<GridView x:Name="CodeTreeApproximation" Grid.Row="1" Grid.Column="0" ItemsSource="{x:Bind Path=ViewTreeModel.DisplayTree}">
+            
+        </GridView>-->
+
+
+    </Grid>
+</Page>
