@@ -43,11 +43,18 @@ public class StackObjectCollection : MonoBehaviour
     //This is the only way to retrieve and remove Active Containers, by referencing the top of the stack and removing it 
     public Transform PopContainerObject()
     {
-        Transform containerToReturn = objectStack[objectStack.Count - 1];
-        objectStack.RemoveAt(objectStack.Count - 1);
-        containerToReturn.GetChild(0).SetPositionAndRotation(containerToReturn.position, containerToReturn.rotation);
-        containerToReturn.GetChild(1).GetComponent<Microsoft.MixedReality.Toolkit.Utilities.GridObjectCollection>().UpdateCollection();
-        return containerToReturn;
+        if (objectStack.Count > 0)
+        {
+            Transform containerToReturn = objectStack[objectStack.Count - 1];
+            objectStack.RemoveAt(objectStack.Count - 1);
+            containerToReturn.GetChild(0).SetPositionAndRotation(containerToReturn.position, containerToReturn.rotation);
+            containerToReturn.GetChild(1).GetComponent<Microsoft.MixedReality.Toolkit.Utilities.GridObjectCollection>().UpdateCollection();
+            return containerToReturn;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     //Calculates offsetX and offsetY and rearranges the Active Containers accordingly as well as updating the current container's collection

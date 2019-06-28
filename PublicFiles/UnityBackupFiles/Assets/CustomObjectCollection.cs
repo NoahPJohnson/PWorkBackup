@@ -27,6 +27,9 @@ public class CustomObjectCollection : MonoBehaviour
     //This is the URL for the PHP script that selects data from a MySQL Database.
     private string selectScriptURL = "http://prodigalcompany.com/npjTest/selectFromDatabase.php";
 
+    //This the character used to seperate columns in the string returned from the SQL query
+    private char splitChar = '|';
+
     //Text to display the result on
     //public Text statusText;
 
@@ -83,7 +86,7 @@ public class CustomObjectCollection : MonoBehaviour
         DataList = DataTreeToSet.ToList();
         for (int i = 0; i < DataList.Count; i++)
         {
-            CodeList.Add(DataList[i].Split('|')[0].Trim());
+            CodeList.Add(DataList[i].Split(splitChar)[0].Trim());
         }
         dataTree = DataTreeToSet;
         
@@ -99,16 +102,24 @@ public class CustomObjectCollection : MonoBehaviour
     public void ActivateAsContainer()
     {
         //Case for DataObject displayed as a child
-        if (activeContainer == false)
+        if (transform.parent.GetChild(0).GetComponent<AreaActivationScript>().GetInActiveArea() == true)
         {
-            //Debug.Log("ACTIVATE");
+            activeContainer = true;
+        }
+        else
+        {
+            activeContainer = false;
+        }
+        if (activeContainer == true)
+        {
+            Debug.Log("ACTIVATE");
             //Make sure this isn't the root and there is indeed a container above this 
             if (transform.parent.parent != null)
             {
                 Transform parentContainer = transform.parent.parent;
                 if (parentContainer.GetComponent<CustomObjectCollection>() != null)
                 {
-                    activeContainer = true;
+                    //activeContainer = true;
                     for (int i = 0; i < parentContainer.childCount; i++)
                     {
                         //Deactivate all of this object's siblings
@@ -124,7 +135,7 @@ public class CustomObjectCollection : MonoBehaviour
             {
                 //Debug.Log("New Children[" + i + "] = " + dataTree.children[i].data);
                 GameObject dataObject = Instantiate(dataObjectPrefab, transform);
-                dataObject.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Text>().text = dataTree.children[i].data;
+                dataObject.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Text>().text = dataTree.children[i].data.Split(splitChar)[0].Trim() + " - " + dataTree.children[i].data.Split(splitChar)[1].Trim();
                 DataObjectList.Add(dataObject.transform);
                 dataObject.transform.GetChild(1).GetComponent<CustomObjectCollection>().SetDataLists(dataTree.children[i]);
             }
@@ -137,9 +148,10 @@ public class CustomObjectCollection : MonoBehaviour
         {
             //Debug.Log("deactivate");
             //Remove and reset all the other parents above this one in the collection of parents
-            Transform currentContainer = GameObject.FindGameObjectWithTag("FixedView").GetComponent<StackObjectCollection>().PopContainerObject().GetChild(1);
+            Transform currentContainer = GameObject.FindGameObjectWithTag("FixedView").GetComponent<StackObjectCollection>().PopContainerObject();//.GetChild(1);
             while (currentContainer != null)
             {
+                currentContainer = currentContainer.GetChild(1);
                 for (int i = 0; i < currentContainer.childCount; i++)
                 {
                     GameObject.Destroy(currentContainer.GetChild(i).gameObject);
@@ -161,7 +173,7 @@ public class CustomObjectCollection : MonoBehaviour
                 {
                     break;
                 }
-                currentContainer = GameObject.FindGameObjectWithTag("FixedView").GetComponent<StackObjectCollection>().PopContainerObject().GetChild(1);
+                currentContainer = GameObject.FindGameObjectWithTag("FixedView").GetComponent<StackObjectCollection>().PopContainerObject();
 
             }
         }
@@ -186,7 +198,7 @@ public class CustomObjectCollection : MonoBehaviour
             for (int i = 0; i < outputArray.Length; i++)
             {
                 DataList.Add(outputArray[i]);
-                CodeList.Add(DataList[i].Split('|')[0].Trim());
+                CodeList.Add(DataList[i].Split(splitChar)[0].Trim());
                 
                 rowCount++;
                 //yield return null;
@@ -229,41 +241,61 @@ public class CustomObjectCollection : MonoBehaviour
             //yield return null;
         }
 
-        //Debug.Log("2dCount2 = " + TwoDList[0].Count);
-        //Debug.Log("2dCount3 = " + TwoDList[1].Count);
-        //Debug.Log("2dCount4 = " + TwoDList[2].Count);
-        //Debug.Log("2dCount5 = " + TwoDList[3].Count);
+        Debug.Log("2dCount2 = " + TwoDList[0].Count);
+        Debug.Log("2dCount3 = " + TwoDList[1].Count);
+        Debug.Log("2dCount4 = " + TwoDList[2].Count);
+        Debug.Log("2dCount5 = " + TwoDList[3].Count);
         
         //Now that the 2D List is established, start from the bottom row and point the trees to their parents and those parents to them
         for (int i = 3; i > 0; i--)
         {
-            for (int j = 0; j < TwoDList[i].Count; j++)
+            int tempCount = TwoDList[i].Count;
+            TreeObjectCollection<string> lastParent = dataTree;
+            int lastParentIndex = 0;
+            for (int j = 0; j < tempCount; j++)
             {
-                for (int k = 0; k < TwoDList[i - 1].Count; k++)
+                if (TwoDList[i][j].data.StartsWith(lastParent.data.Split(splitChar)[0].Trim()))
                 {
-                    if (TwoDList[i][j].data.StartsWith(TwoDList[i-1][k].data.Split('|')[0].Trim()))
-                    {
-                        TwoDList[i][j].parent = TwoDList[i - 1][k];
-                        TwoDList[i][j].parent.children.Add(TwoDList[i][j]);
-                        //Debug.Log("Data = " + TwoDList[i][j].data + " Parent = " + TwoDList[i][j].parent.data);
-                    }
+                    TwoDList[i][j].parent = lastParent;
+                    TwoDList[i][j].parent.children.Add(TwoDList[i][j]);
+
+                    //TwoDList[i].RemoveAt(j);
                     //yield return null;
                 }
+                else
+                {
+                    for (int k = lastParentIndex; k < TwoDList[i - 1].Count; k++)
+                    {
+                        if (TwoDList[i][j].data.StartsWith(TwoDList[i - 1][k].data.Split(splitChar)[0].Trim()))
+                        {
+                            TwoDList[i][j].parent = TwoDList[i - 1][k];
+                            TwoDList[i][j].parent.children.Add(TwoDList[i][j]);
+
+                            lastParent = TwoDList[i][j].parent;
+                            lastParentIndex = k+1;
+                            //TwoDList[i].RemoveAt(j);
+                            //Debug.Log("Data = " + TwoDList[i][j].data + " Parent = " + TwoDList[i][j].parent.data);
+                            yield return null;
+                        }
+                    }
+                }
+                
             }
         }
-        //Debug.Log("All Done.");
+        Debug.Log("All Done.");
         StartCoroutine(GenerateCollection());
-        yield return null;
+        //yield return null;
     }
 
     //This instantiates the DataObject's children and fills out their respective lists so they are prepared to spawn their own children
     IEnumerator GenerateCollection()
     {
+        //Debug.Log("Start GenerateCollection()");
         //Only do the first tier of children just beneath this DataObject 
         for (int i = 0; i < dataTree.children.Count; i++)
         {
             GameObject dataObject = Instantiate(dataObjectPrefab, transform);
-            dataObject.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Text>().text = dataTree.children[i].data;
+            dataObject.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<Text>().text = (dataTree.children[i].data.Split(splitChar)[0].Trim() + " - " + dataTree.children[i].data.Split(splitChar)[1].Trim()); ;
             DataObjectList.Add(dataObject.transform);
             dataObject.transform.GetChild(1).GetComponent<CustomObjectCollection>().SetDataLists(dataTree.children[i]);
             //Debug.Log("Spawn data object: " + dataObject.transform.GetChild(0).GetChild(0).GetComponent<Text>().text);
@@ -273,6 +305,8 @@ public class CustomObjectCollection : MonoBehaviour
         GetComponent<Microsoft.MixedReality.Toolkit.Utilities.GridObjectCollection>().UpdateCollection();
         //yield return null;
     }
+
+
 
     //Unused encryption function
     /*public string Md5Sum(string strToEncrypt)
