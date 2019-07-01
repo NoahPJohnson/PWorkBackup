@@ -13,16 +13,20 @@
 
     <Grid x:Name="CenterGridDisplay" HorizontalAlignment="Center" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
+            <RowDefinition Height="160"/>
             <RowDefinition Height="80"/>
-            <RowDefinition Height="600"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="180"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TextBox Grid.Row="0" Grid.Column="1" x:Name="NAICSCodeInputBox" Width="90" Height="55" Margin="10,20,10,5" Header="Input NAICS" PlaceholderText="******" TextChanging="NAICSInputChanging" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <TextBox Grid.Row="0" Grid.Column ="1" x:Name="DescriptionInputBox" Width="160" Height="55" Margin="10,20,10,5" Header="Input Description" PlaceholderText="Description" TextChanged="DescriptionInputChanged" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-        <Windows10version1803:TreeView Grid.Row="1" Grid.Column="0" x:Name="CodeTreeView" Windows10version1809:ItemsSource="{x:Bind Path=ViewTreeModel}">
+        <TextBox Grid.Row="1" Grid.Column="1" x:Name="NAICSCodeInputBox" Width="90" Height="55" Margin="10,20,10,5" Header="Input NAICS" PlaceholderText="******" TextChanging="NAICSInputChanging" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox Grid.Row="1" Grid.Column ="1" x:Name="DescriptionInputBox" Width="160" Height="55" Margin="10,20,10,5" Header="Input Description" PlaceholderText="Description" TextChanged="TitleInputChanged" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <TextBlock Grid.Row="0" Grid.Column="1" x:Name="CodeLabel" Margin="10,10,10,10" HorizontalAlignment="Left" Width="105" VerticalAlignment="Top" Height="40" Text="{x:Bind ViewModel.highlightedCompanyCode.NAICSCode}" FontSize="30" TextWrapping="Wrap"/>
+        <TextBlock Grid.Row="0" Grid.Column="1" x:Name="TitleLabel" Margin="130,10,10,10" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="40" Text="{x:Bind ViewModel.highlightedCompanyCode.Title}" FontSize="30" FontStyle="Italic" TextWrapping="Wrap"/>
+        <TextBlock Grid.Row="0" Grid.Column="1" x:Name="DescriptionLabel" Margin="10,60,10,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{x:Bind ViewModel.highlightedCompanyCode.Description}" FontSize="16" TextWrapping="Wrap"/>
+        <Windows10version1803:TreeView Grid.Row="2" Grid.Column="0" x:Name="CodeTreeView" Windows10version1809:ItemsSource="{x:Bind Path=ViewTreeModel}" ItemInvoked="TreeItemInvoked">
             <Windows10version1809:TreeView.ItemTemplate>
                 <Windows10version1809:DataTemplate x:DataType="local:TreeCodeCollection">
                     <Windows10version1809:TreeViewItem ItemsSource="{x:Bind Path=observableChildren}" Content="{x:Bind Path=data.NAICSCode}"/>
@@ -30,7 +34,7 @@
             </Windows10version1809:TreeView.ItemTemplate>
         </Windows10version1803:TreeView>
 
-        <ListView Grid.Row="1" Grid.Column="1" x:Name="mainPageListView" ItemsSource="{x:Bind Path=ViewModel.CompanyCodeCollection}" Width="650" Margin = "10,0,10,100" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+        <ListView Grid.Row="2" Grid.Column="1" x:Name="mainPageListView" ItemsSource="{x:Bind Path=ViewModel.CompanyCodeCollection}" Width="650" Margin = "10,0,10,100" HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <ListView.HeaderTemplate>
                 <DataTemplate>
                     <Grid Padding="12" Background="{ThemeResource SystemBaseLowColor}">
@@ -39,7 +43,7 @@
                             <ColumnDefinition Width="360"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="NAICS Code"/>
-                        <TextBlock Grid.Column="1" Text="Description"/>
+                        <TextBlock Grid.Column="1" Text="Title"/>
                     </Grid>
                 </DataTemplate>
             </ListView.HeaderTemplate>
@@ -51,11 +55,12 @@
                             <ColumnDefinition Width="360"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{x:Bind Path=NAICSCode}" />
-                        <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{x:Bind Path=Description}"/>
+                        <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{x:Bind Path=Title}"/>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        
         <!--<GridView x:Name="CodeTreeApproximation" Grid.Row="1" Grid.Column="0" ItemsSource="{x:Bind Path=ViewTreeModel.DisplayTree}">
             
         </GridView>-->

@@ -41,7 +41,7 @@ namespace BrandingUWPApp2
             MySqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                ViewModel.AddCompanyCode(new CompanyCode(reader.GetString(0), reader.GetString(1)));
+                ViewModel.AddCompanyCode(new CompanyCode(reader.GetString(0), reader.GetString(1), reader.GetString(2)));
             }
             reader.Close();
             connection.Close();
@@ -78,7 +78,7 @@ namespace BrandingUWPApp2
                     TwoDList[0].Add(new TreeCodeCollection(ViewModel.CompanyCodeList[i], root));
                     root.children.Add(TwoDList[0][TwoDList[0].Count - 1]);
                     root.observableChildren.Add(TwoDList[0][TwoDList[0].Count - 1]);
-                    Debug.WriteLine("Added Child: " + TwoDList[0][TwoDList[0].Count - 1].data);
+                    Debug.WriteLine("Added Child: " + TwoDList[0][TwoDList[0].Count - 1].data.NAICSCode);
                 }
                 else if (ViewModel.CompanyCodeList[i].NAICSCode.Length == 3)
                 {
@@ -96,16 +96,32 @@ namespace BrandingUWPApp2
             //Starting from the bottom of the 2D List, the 5+ digit codes, point the trees to their parents and their parents to them
             for (int i = 3; i > 0; i--)
             {
+                int tempCount = TwoDList[i].Count;
+                TreeObjectCollection<CompanyCode> lastParent = root;
+                int lastParentIndex = 0;
                 for (int j = 0; j < TwoDList[i].Count; j++)
                 {
-                    for (int k = 0; k < TwoDList[i - 1].Count; k++)
+                    if (TwoDList[i][j].data.NAICSCode.StartsWith(lastParent.data.NAICSCode))
                     {
-                        if (TwoDList[i][j].data.NAICSCode.StartsWith(TwoDList[i - 1][k].data.NAICSCode))
+                        TwoDList[i][j].parent = lastParent;
+                        TwoDList[i][j].parent.children.Add(TwoDList[i][j]);
+                        TwoDList[i][j].parent.observableChildren.Add(TwoDList[i][j]);
+                        //TwoDList[i].RemoveAt(j);
+                        //yield return null;
+                    }
+                    else
+                    {
+                        for (int k = 0; k < TwoDList[i - 1].Count; k++)
                         {
-                            TwoDList[i][j].parent = TwoDList[i - 1][k];
-                            TwoDList[i][j].parent.children.Add(TwoDList[i][j]);
-                            TwoDList[i][j].parent.observableChildren.Add(TwoDList[i][j]);
-                            //Debug.Log("Data = " + TwoDList[i][j].data + " Parent = " + TwoDList[i][j].parent.data);
+                            if (TwoDList[i][j].data.NAICSCode.StartsWith(TwoDList[i - 1][k].data.NAICSCode))
+                            {
+                                TwoDList[i][j].parent = TwoDList[i - 1][k];
+                                TwoDList[i][j].parent.children.Add(TwoDList[i][j]);
+                                TwoDList[i][j].parent.observableChildren.Add(TwoDList[i][j]);
+
+                                lastParent = TwoDList[i][j].parent;
+                                lastParentIndex = k + 1;
+                            }
                         }
                     }
                 }
@@ -153,6 +169,22 @@ namespace BrandingUWPApp2
             }
             ViewTreeModel.Clear();
             ViewTreeModel.Add(root);
+            SetLabels(root.data);
+        }
+
+        private void TreeItemInvoked(TreeView sender, TreeViewItemInvokedEventArgs arguments)
+        {
+            //Debug.WriteLine("Hey, do the thing.");
+            TreeCodeCollection item = arguments.InvokedItem as TreeCodeCollection;
+            if (item.data.NAICSCode == "000000")
+            {
+                ViewModel.LimitDisplayNAICSCode("");
+            }
+            else
+            {
+                ViewModel.LimitDisplayNAICSCode(item.data.NAICSCode);
+            }
+            
         }
 
         //Called when the user starts changing the NAICS Input
@@ -173,7 +205,7 @@ namespace BrandingUWPApp2
         }
 
         //Called when the user finishes changing the Description Input
-        private void DescriptionInputChanged(object sender, TextChangedEventArgs args)
+        private void TitleInputChanged(object sender, TextChangedEventArgs args)
         {
             if (ignoreNextTextChanged)
             {
@@ -184,8 +216,13 @@ namespace BrandingUWPApp2
             // Do the auto complete. 
             else
             {
-                ViewModel.LimitDisplayDescription(DescriptionInputBox.Text);
+                ViewModel.LimitDisplayTitle(DescriptionInputBox.Text);
             }
+        }
+
+        private void SetLabels(CompanyCode inputCompanyCode)
+        {
+            ViewModel.SetHighlightedCompanyCode(inputCompanyCode);
         }
     }
 
@@ -193,15 +230,22 @@ namespace BrandingUWPApp2
     public class CompanyCode
     {
         public string NAICSCode { get; set; }
+        public string Title { get; set; }
         public string Description { get; set; }
         public CompanyCode()
         {
             this.NAICSCode = "******";
             this.Description = "Default Description";
         }
-        public CompanyCode(string newNAICSCode, string newDescription)
+        public CompanyCode(string newNAICSCode, string newTitle)
         {
             this.NAICSCode = newNAICSCode;
+            this.Description = newTitle;
+        }
+        public CompanyCode(string newNAICSCode, string newTitle, string newDescription)
+        {
+            this.NAICSCode = newNAICSCode;
+            this.Title = newTitle;
             this.Description = newDescription;
         }
     }
@@ -215,13 +259,12 @@ namespace BrandingUWPApp2
         private ObservableCollection<CompanyCode> companyCodeCollection = new ObservableCollection<CompanyCode>();
         public ObservableCollection<CompanyCode> CompanyCodeCollection { get { return this.companyCodeCollection; } }
 
-        public CompanyCodeViewModel(/*SQLite.Net.TableQuery<CompanyCode> companyCodeTable*/)
-        {
+        private CompanyCode defaultCompanyCode = new CompanyCode("000000", "NAICS Code Title", "Description");
+        public CompanyCode highlightedCompanyCode;
 
-            /*for (int i = 0; i < companyCodeTable.Count(); i++)
-            {
-                companyCodeList.Add(companyCodeTable.ElementAt<CompanyCode>(i));
-            }*/
+        public CompanyCodeViewModel()
+        {
+            highlightedCompanyCode = defaultCompanyCode;
         }
 
         public void AddCompanyCode(CompanyCode codeToAdd)
@@ -238,6 +281,7 @@ namespace BrandingUWPApp2
                 {
                     companyCodeCollection.Add(companyCodeList.ElementAt<CompanyCode>(i));
                 }
+                highlightedCompanyCode = defaultCompanyCode;
             }
             else
             {
@@ -247,34 +291,47 @@ namespace BrandingUWPApp2
                     {
                         companyCodeCollection.Add(companyCodeList[i]);
                     }
+                    if (companyCodeList[i].NAICSCode.Trim() == NAICSInputValue.Trim())
+                    {
+                        highlightedCompanyCode = companyCodeList[i];
+                    }
                 }
             }
             //companyCodeCollection = SQLConnection.
         }
 
-        public void LimitDisplayDescription(string DescriptionInputValue)
+        public void LimitDisplayTitle(string TitleInputValue)
         {
             companyCodeCollection.Clear();
-            if (DescriptionInputValue == "")
+            if (TitleInputValue == "")
             {
                 for (int i = 0; i < companyCodeList.Count(); i++)
                 {
                     companyCodeCollection.Add(companyCodeList.ElementAt<CompanyCode>(i));
                 }
+                highlightedCompanyCode = defaultCompanyCode;
             }
             else
             {
                 for (int i = 0; i < companyCodeList.Count(); i++)
                 {
-                    if (companyCodeList[i].Description.Contains(DescriptionInputValue))
+                    if (companyCodeList[i].Title.Contains(TitleInputValue))
                     {
                         companyCodeCollection.Add(companyCodeList[i]);
                     }
+                    if (companyCodeList[i].Title == TitleInputValue)
+                    {
+                        highlightedCompanyCode = companyCodeList[i];
+                    }
                 }
+                
             }
         }
 
-        
+        public void SetHighlightedCompanyCode(CompanyCode companyCodeToHighlight)
+        {
+            highlightedCompanyCode = companyCodeToHighlight;
+        }
     }
 
     //A wrapper for the Tree class that isn't generic because the XAML Page can't reference a generic as a DataType
