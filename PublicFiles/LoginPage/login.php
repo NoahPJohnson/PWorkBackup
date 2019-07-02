@@ -2,7 +2,7 @@
 // Initialize the session
 session_start();
  
-// Check if the user is already logged in, if yes then redirect him to welcome page
+// Check if the user is already logged in, if yes then redirect to welcome page
 if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true)
 {
 
@@ -30,6 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     } 
     else
     {
+        //Save value to username variable
         $username = trim($_POST["username"]);
     }
     
@@ -40,6 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     } 
     else
     {
+        //Save value to password variable
         $password = trim($_POST["password"]);
     }
     
@@ -49,6 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         // Prepare a select statement
         $sql = "SELECT id, username, password FROM UserTable WHERE username = ?";
         $statement = mysqli_prepare($link, $sql);
+        //If the preparation operation is successful...
         if ($statement)
         {
             echo "Successfully Prepared Statement.";

@@ -21,11 +21,35 @@
             <ColumnDefinition Width="180"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TextBox Grid.Row="1" Grid.Column="1" x:Name="NAICSCodeInputBox" Width="90" Height="55" Margin="10,20,10,5" Header="Input NAICS" PlaceholderText="******" TextChanging="NAICSInputChanging" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <TextBox Grid.Row="1" Grid.Column ="1" x:Name="DescriptionInputBox" Width="160" Height="55" Margin="10,20,10,5" Header="Input Description" PlaceholderText="Description" TextChanged="TitleInputChanged" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-        <TextBlock Grid.Row="0" Grid.Column="1" x:Name="CodeLabel" Margin="10,10,10,10" HorizontalAlignment="Left" Width="105" VerticalAlignment="Top" Height="40" Text="{x:Bind ViewModel.highlightedCompanyCode.NAICSCode}" FontSize="30" TextWrapping="Wrap"/>
-        <TextBlock Grid.Row="0" Grid.Column="1" x:Name="TitleLabel" Margin="130,10,10,10" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="40" Text="{x:Bind ViewModel.highlightedCompanyCode.Title}" FontSize="30" FontStyle="Italic" TextWrapping="Wrap"/>
-        <TextBlock Grid.Row="0" Grid.Column="1" x:Name="DescriptionLabel" Margin="10,60,10,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{x:Bind ViewModel.highlightedCompanyCode.Description}" FontSize="16" TextWrapping="Wrap"/>
+        <TextBox Grid.Row="1" Grid.Column="1" x:Name="NAICSCodeInputBox" Width="90" Height="55" Margin="12,20,10,5" Header="Input NAICS" PlaceholderText="******" TextChanging="NAICSInputChanging" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox Grid.Row="1" Grid.Column ="1" x:Name="TitleInputBox" Width="190" Height="55" Margin="130,20,10,5" Header="Input Title" PlaceholderText="Title" TextChanging="TitleInputChanging" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <ListView Grid.Row="0" Grid.Column="1" ItemsSource="{x:Bind Path=ViewModel.highlightedCollection}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="local:CompanyCode">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Grid.Row="0" Grid.Column="0" x:Name="CodeLabel" Text="{x:Bind Path=NAICSCode}" FontSize="30" TextWrapping="Wrap"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" x:Name="TitleLabel" Text="{x:Bind Path=Title}" FontSize="30" FontStyle="Italic" TextWrapping="Wrap"/>
+                        <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="650" VerticalAlignment="Stretch">
+                            <RichTextBlock x:Name="DescriptionLabel" FontSize="16" TextIndent="12">
+                                <Paragraph>
+                                    <Run Text="{x:Bind Path=Description}"/>
+                                </Paragraph>
+                            </RichTextBlock>
+
+                        </ScrollViewer>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
         <Windows10version1803:TreeView Grid.Row="2" Grid.Column="0" x:Name="CodeTreeView" Windows10version1809:ItemsSource="{x:Bind Path=ViewTreeModel}" ItemInvoked="TreeItemInvoked">
             <Windows10version1809:TreeView.ItemTemplate>
                 <Windows10version1809:DataTemplate x:DataType="local:TreeCodeCollection">
@@ -39,8 +63,8 @@
                 <DataTemplate>
                     <Grid Padding="12" Background="{ThemeResource SystemBaseLowColor}">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="300"/>
-                            <ColumnDefinition Width="360"/>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" Text="NAICS Code"/>
                         <TextBlock Grid.Column="1" Text="Title"/>

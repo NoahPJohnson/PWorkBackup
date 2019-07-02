@@ -200,12 +200,13 @@ namespace BrandingUWPApp2
             else
             {
                 ViewModel.LimitDisplayNAICSCode(sender.Text);
+                
                 LimitTreeView(sender.Text);
             }
         }
 
         //Called when the user finishes changing the Description Input
-        private void TitleInputChanged(object sender, TextChangedEventArgs args)
+        private void TitleInputChanging(TextBox sender, TextBoxTextChangingEventArgs args)
         {
             if (ignoreNextTextChanged)
             {
@@ -216,7 +217,8 @@ namespace BrandingUWPApp2
             // Do the auto complete. 
             else
             {
-                ViewModel.LimitDisplayTitle(DescriptionInputBox.Text);
+                ViewModel.LimitDisplayTitle(sender.Text);
+                
             }
         }
 
@@ -260,11 +262,15 @@ namespace BrandingUWPApp2
         public ObservableCollection<CompanyCode> CompanyCodeCollection { get { return this.companyCodeCollection; } }
 
         private CompanyCode defaultCompanyCode = new CompanyCode("000000", "NAICS Code Title", "Description");
-        public CompanyCode highlightedCompanyCode;
+        //public CompanyCode highlightedCompanyCode { get; set; }
+
+        public ObservableCollection<CompanyCode> highlightedCollection;
 
         public CompanyCodeViewModel()
         {
-            highlightedCompanyCode = defaultCompanyCode;
+            //highlightedCompanyCode = defaultCompanyCode;
+            highlightedCollection = new ObservableCollection<CompanyCode>();
+            SetHighlightedCompanyCode(defaultCompanyCode);
         }
 
         public void AddCompanyCode(CompanyCode codeToAdd)
@@ -281,7 +287,7 @@ namespace BrandingUWPApp2
                 {
                     companyCodeCollection.Add(companyCodeList.ElementAt<CompanyCode>(i));
                 }
-                highlightedCompanyCode = defaultCompanyCode;
+                SetHighlightedCompanyCode(defaultCompanyCode);
             }
             else
             {
@@ -293,11 +299,13 @@ namespace BrandingUWPApp2
                     }
                     if (companyCodeList[i].NAICSCode.Trim() == NAICSInputValue.Trim())
                     {
-                        highlightedCompanyCode = companyCodeList[i];
+                        SetHighlightedCompanyCode(companyCodeList[i]);
                     }
                 }
             }
+            //highlightedCompanyCode = companyCodeList[1];
             //companyCodeCollection = SQLConnection.
+            Debug.WriteLine("Shit: " + highlightedCollection[0].NAICSCode);
         }
 
         public void LimitDisplayTitle(string TitleInputValue)
@@ -309,7 +317,7 @@ namespace BrandingUWPApp2
                 {
                     companyCodeCollection.Add(companyCodeList.ElementAt<CompanyCode>(i));
                 }
-                highlightedCompanyCode = defaultCompanyCode;
+                SetHighlightedCompanyCode(defaultCompanyCode);
             }
             else
             {
@@ -321,16 +329,20 @@ namespace BrandingUWPApp2
                     }
                     if (companyCodeList[i].Title == TitleInputValue)
                     {
-                        highlightedCompanyCode = companyCodeList[i];
+                        SetHighlightedCompanyCode(companyCodeList[i]);
                     }
                 }
                 
             }
+            
+            //highlightedCompanyCode = companyCodeList[4];
+            Debug.WriteLine("Ass: " + highlightedCollection[0].NAICSCode);
         }
 
         public void SetHighlightedCompanyCode(CompanyCode companyCodeToHighlight)
         {
-            highlightedCompanyCode = companyCodeToHighlight;
+            highlightedCollection.Clear();
+            highlightedCollection.Add(companyCodeToHighlight);
         }
     }
 

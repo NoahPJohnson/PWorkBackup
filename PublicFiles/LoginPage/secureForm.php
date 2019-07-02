@@ -1,4 +1,7 @@
 <?php
+//This is a page for testing a secure upload of data to a database
+
+
 // Initialize the session
 session_start();
  
@@ -98,7 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 // Bind variables to the prepared statement as parameters
                 mysqli_stmt_bind_param($statement, "ssss", $parameter_name, $parameter_lastName, $parameter_pInfoInt, $parameter_pInfoString);
                 
-                // Set parameters
+                // Set parameters to hashed values of the data
                 $parameter_name = password_hash($dataList[1], PASSWORD_DEFAULT);
                 $parameter_lastName = password_hash($dataList[2], PASSWORD_DEFAULT); // Creates a password hash
                 $parameter_pInfoInt = password_hash($dataList[3], PASSWORD_DEFAULT);
