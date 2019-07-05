@@ -1,14 +1,17 @@
 <?php
 // Include config file
 require_once "config.php";
- 
+
+require_once "sendMail.php";
 // Define variables and initialize with empty values
 $username = "";
 $password = "";
 $confirm_password = "";
+$email = "";
 $username_err = "";
 $password_err = "";
 $confirm_password_err = "";
+$email_error = "";
  
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST")
@@ -22,10 +25,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     else
     {
         // Prepare a select statement
-        $sql = "SELECT id FROM UserTable WHERE username = ?";
+        $sql = "SELECT UserID FROM UserTable WHERE username = ?";
         echo "Statement Created.";
-        $statement = mysqli_prepare($link, $sql);
-        if ($statement)
+        
+        if ($statement = mysqli_prepare($link, $sql))
         {
             echo "Statement Prepared.";
             // Bind variables to the prepared statement as parameters
@@ -57,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         }
         else
         {
-            echo "Preparing the statment failed? Statement = " . $stmt;
+            echo "Preparing the statment failed? Statement = " . $statement;
         } 
         // Close statement
         mysqli_stmt_close($statement);
@@ -90,29 +93,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             $confirm_password_err = "Password did not match.";
         }
     }
+
+    // Validate email
+    if(empty(trim($_POST["email"])))
+    {
+        $email_error = "Please enter an email address.";     
+    }
+    else
+    { 
+        $email = filter_var($_POST["email"], FILTER_VALIDATE_EMAIL);
+        if ($email == false)
+        {
+            $email_error = "Email is invalid.";
+        } 
+    }
     
     // Check input errors before inserting in database
-    if(empty($username_err) && empty($password_err) && empty($confirm_password_err))
+    if(empty($username_err) && empty($password_err) && empty($confirm_password_err) && empty($email_error))
     {
         
         // Prepare an insert statement
-        $sql = "INSERT INTO UserTable (admin, username, password) VALUES (0, ?, ?)";
-         
-        if($statement = mysqli_prepare($link, $sql))
+        $sql = "INSERT INTO UserTable (admin, username, password, Email, verificationCode, Acivated) VALUES (0, ?, ?, ?, ?, 0)";
+        
+        
+        if ($statement = mysqli_prepare($link, $sql))
         {
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($statement, "ss", $param_username, $param_password);
+            mysqli_stmt_bind_param($statement, "ssss", $param_username, $param_password, $parameter_email, $parameter_verificationCode);
             
             // Set parameters
             $param_username = $username;
             $param_password = password_hash($password, PASSWORD_DEFAULT); // Creates a password hash
-            
+            $parameter_email = $email;
+            $parameter_verificationCode = bin2hex(random_bytes(50));
             // Attempt to execute the prepared statement
-            if(mysqli_stmt_execute($stmt))
+            if (mysqli_stmt_execute($statement))
             {
 
                 // Redirect to login page
-                header("location: login.php");
+                sendVerificationEmail($parameter_email, $parameter_verificationCode);
+                //header("location: login.php");
             } 
             else
             {
@@ -160,6 +180,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 <input type="password" name="confirm_password" class="form-control" value="<?php echo $confirm_password; ?>">
                 <span class="help-block"><?php echo $confirm_password_err; ?></span>
             </div>
+
+            <div class="form-group <?php echo (!empty($email_error)) ? 'has-error' : ''; ?>">
+                <label>Email</label>
+                <input type="text" name="email" class="form-control" value="<?php echo $email; ?>">
+                <span class="help-block"><?php echo $email_error; ?></span>
+            </div>
+
             <div class="form-group">
                 <input type="submit" class="btn btn-primary" value="Submit">
                 <input type="reset" class="btn btn-default" value="Reset">

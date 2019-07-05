@@ -49,15 +49,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             $rowCount = mysqli_stmt_num_rows($statement);
             // Bind result variables
             mysqli_stmt_bind_result($statement, $username, $name, $lastName, $email, $date, $value);
-            if (mysqli_stmt_fetch($statement))
+            while (mysqli_stmt_fetch($statement))
             {
                 //start a new session
                 session_start();
                 
                 // Store data in session variables
 
-                for ($i = 0; $i < $rowCount; $i += 1)
-                {
                     $row["username"] = $username;
                     $row["name"] = $name;
                     $row["lastName"] = $lastName;
@@ -66,12 +64,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                     $row["value"] = "$ " . $value;
                     
                     $table[] = $row;
-                }
-                $_SESSION["Table"] = $table;
-                for ($i = 0; $i < $rowCount; $i += 1)
-                {
-                    echo "Row: " . $i . " = " . $table[$i]["username"] . ", " . $table[$i]["date"] . ", " . $table[$i]["value"];
-                }
+                
+            }
+            $_SESSION["Table"] = $table;
+            for ($i = 0; $i < $rowCount; $i += 1)
+            {
+                echo "Row: " . $i . " = ". $table[$i]["username"] . ", " . $table[$i]["name"] . ", " . $table[$i]["date"] . ", " . $table[$i]["value"];
+                //echo $table[$i];
             }
         } 
         else

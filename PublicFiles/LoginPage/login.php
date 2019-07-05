@@ -71,21 +71,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 if (mysqli_stmt_num_rows($statement) == 1)
                 {                    
                     // Bind result variables
-                    mysqli_stmt_bind_result($statement, $id, $username, $hashed_password);
+                    mysqli_stmt_bind_result($statement, $id, $username, $hashed_password, $activated);
                     if (mysqli_stmt_fetch($statement))
                     {
                         if (password_verify($password, $hashed_password))
                         {
-                            // Password is correct, so start a new session
-                            session_start();
+                            if ($activated == true)
+                            {
+                                // Password is correct, so start a new session
+                                session_start();
                             
-                            // Store data in session variables
-                            $_SESSION["loggedin"] = true;
-                            $_SESSION["id"] = $id;
-                            $_SESSION["username"] = $username;                            
+                                // Store data in session variables
+                                $_SESSION["loggedin"] = true;
+                                $_SESSION["id"] = $id;
+                                $_SESSION["username"] = $username;                            
                             
-                            // Redirect user to welcome page
-                            header("location: welcome.php");
+                                // Redirect user to welcome page
+                                header("location: welcome.php");
+                            }
+                            else
+                            {
+                                echo "Please verifiy account by clicking link in email.";
+                            }
                         } 
                         else
                         {
