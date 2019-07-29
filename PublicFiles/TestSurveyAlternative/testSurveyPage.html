@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Survey Page</title>
+    
+    <!-- Bootstrap -->
+    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css' integrity='sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu' crossorigin='anonymous'>
+    <style>
+
+
+    /*.BenefitsCollection {
+        height: 800px;
+    }*/
+
+    .BenefitRow {
+        margin: auto;
+        padding: 10px 0;
+        height: 45%;
+    }
+
+    .Benefit {
+
+        border: 1px solid blue;
+        margin: 10px;
+        padding: 5px;
+        height: 300px;
+        min-width: 220px;
+    }
+
+    .BenefitTitle {
+        text-align: center;
+        height: 10%;
+    }
+
+    .BenefitImage {
+        padding: 10px 0;
+        margin: 5px 0;
+        object-fit: contain;
+        max-width: 45%;
+    }
+    </style>
+
+</head>
+<body>
+    <header>Survey: Question</header>
+    <div class='Survey Page'>
+        <div class='SurveyQuestion'>Question</div>
+        <div class='BenefitsCollection container'>
+            <div class='BenefitRow row'>
+                <button id='BB1'class='Benefit col-md-5 h-50' type='submit'>
+                    <div class='row'>
+                        <div id='BL1'class='BenefitTitle'>Benefit 1</div>
+                    </div>
+                    <div id='BC1' class='row'>
+                        <img id='BI1' class='BenefitImage col-md-6' src='./Assets/Pizza.png'></img>
+                        <div id='BT1' class='BenefitText col-md-6'>Text1</div>
+                        
+                    </div>
+                </button>
+                <button id='BB2' class='Benefit col-md-5 h-50' type='submit'>
+                    <div class='row'>
+                        <div id='BL2' class='BenefitTitle'>Benefit 2</div>
+                    </div>
+                    <div id='BC2' class='row'>
+                        <img id='BI2' class='BenefitImage col-md-6' src='./Assets/StoreLogo.png'></img>
+                        <div id='BT2' class='BenefitText col-md-6'>Text2</div>
+                        
+                    </div>
+                </button>
+            </div>
+            <div class='BenefitRow row'>
+                <button id='BB3' class='Benefit col-md-5 h-50' type='submit'>
+                    <div class='row'>
+                        <div id='BL3' class='BenefitTitle'>Benefit 3</div>
+                    </div>
+                    <div id='BC3' class='row'>    
+                        <img id='BI3' class='BenefitImage col-md-6' src='./Assets/StoreLogo.png'></img>
+                        <div id='BT3' class='BenefitText col-md-6'>Text3</div>
+                        
+                    </div>
+                </button>
+                <button id='BB4' class='Benefit col-md-5 h-50' type='submit'>
+                    <div class='row'>
+                        <div id='BL4' class='BenefitTitle'>Benefit 4</div>
+                    </div>
+                    <div id='BC4' class='row'>
+                        <img id='BI4' class='BenefitImage col-md-6' src='./Assets/StoreLogo.png'></img>
+                        <div id='BT4' class='BenefitText col-md-6'>Text4</div>
+
+                    </div>
+                </button>
+            </div>
+        </div>
+        <script>
+        
+                var indexArray = [0,1,2,3];
+                var indexOptionList = [0,1,2,3];
+                
+                var tempIndexList = [indexOptionList];
+                for (var i = 0; i < 4; i++)
+                {
+                    var randomInt = Math.floor(Math.random()*(4-i));
+                    indexArray[i] = tempIndexList[i][randomInt];
+                    tempIndexList[i].splice(randomInt, 1);
+                    tempIndexList.push(tempIndexList[i]);
+                    
+                }
+                for (var i = 0; i < 4; i++)
+                {
+                    var currentParent = document.getElementById('BB'.concat(i+1));
+                    currentParent.appendChild(document.getElementById('BC'.concat(indexArray[i]+1)).cloneNode(true));
+                }
+                for (var i = 0; i < 4; i++)
+                {
+                    var currentParent = document.getElementById('BB'.concat(i+1));
+                    currentParent.removeChild(currentParent.childNodes[3]);
+                }
+        </script>
+    </div>
+    <footer>Page: #</footer>
+</body>
+</html>

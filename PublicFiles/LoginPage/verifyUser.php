@@ -43,7 +43,7 @@ if (isset($_GET['verificationCode']))
 
     if ($statement)
     {
-        mysqli_stmt_bind_param($statement, "s", $parameter_ID)
+        mysqli_stmt_bind_param($statement, "s", $parameter_ID);
         
         $parameter_ID = $_SESSION['id'];
         if (mysqli_stmt_execute($statement))

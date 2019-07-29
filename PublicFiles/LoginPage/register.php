@@ -111,15 +111,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     // Check input errors before inserting in database
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err) && empty($email_error))
     {
-        
+        echo "No errors: Proceed.";
         // Prepare an insert statement
-        $sql = "INSERT INTO UserTable (admin, username, password, Email, verificationCode, Acivated) VALUES (0, ?, ?, ?, ?, 0)";
+        $sql = "INSERT INTO UserTable (admin, username, password, Email, verificationCode, Activated) VALUES (0, ?, ?, ?, ?, 0)";
         
         
-        if ($statement = mysqli_prepare($link, $sql))
+        if ($statement2 = mysqli_prepare($link, $sql))
         {
+            echo "Next statement prepared.";
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($statement, "ssss", $param_username, $param_password, $parameter_email, $parameter_verificationCode);
+            mysqli_stmt_bind_param($statement2, "ssss", $param_username, $param_password, $parameter_email, $parameter_verificationCode);
             
             // Set parameters
             $param_username = $username;
@@ -127,11 +128,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             $parameter_email = $email;
             $parameter_verificationCode = bin2hex(random_bytes(50));
             // Attempt to execute the prepared statement
-            if (mysqli_stmt_execute($statement))
+            if (mysqli_stmt_execute($statement2))
             {
-
+                echo "Next statement executed, send Email.";
                 // Redirect to login page
-                sendVerificationEmail($parameter_email, $parameter_verificationCode);
+                echo "Pass: " . $param_password;
+                //sendVerificationEmail($parameter_email, $parameter_verificationCode);
                 //header("location: login.php");
             } 
             else
@@ -139,9 +141,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 echo "Something went wrong. Please try again later.";
             }
         }
+        else
+        {
+            echo "Statement not prepared. :[ statement = " . $statement2;
+        }
          
         // Close statement
-        mysqli_stmt_close($statement);
+        mysqli_stmt_close($statement2);
     }
     
     // Close connection

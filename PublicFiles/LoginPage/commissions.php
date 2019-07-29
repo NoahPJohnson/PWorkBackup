@@ -1,118 +1,133 @@
 <?php
 
 session_start();
- 
+
+global $wpdb;
+
+// Include config file
+$root = realpath($_SERVER["DOCUMENT_ROOT"]);
+$rootURL = "https://prodigalcompany.com/TLCinsurance";
+
+require_once "$root/TLCinsurance/wp-config.php";
+
+
 // Check if the user is logged in, if not then redirect to login page
-/*if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true)
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true)
 {
-    header("location: login.php");
+    //header("location: login.php");
+    echo "<script>document.location = '/TLCinsurance/login/';</script>";  
     exit;
-}*/
+}
 
  
 // Include config file
-require_once "config.php";
+//require_once "config.php";
  
 // Define variables and initialize with empty values
+$userID = "";
 $username = "";
 $name = "";
 $lastName = "";
 $email = "";
+$carrier = "";
 $date = "";
+$toDate = "";
 $value = "";
+$receipt = "";
 
-$row = array("username" => $username, "name" => $name, "lastName" => $lastName, "email" => $email, "date" => $date, "value" => $value);
+$row = array("userID" => $userID, "username" => $username, "name" => $name, "lastName" => $lastName, "email" => $email, "carrier" => $carrier, "date" => $date, "toDate" => $toDate, "value" => $value, "receipt" => $receipt);
 $table = array();
 
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
-    // Prepare a select statement
-    $sql = "SELECT UserTable.username, UserTable.Name, UserTable.LastName, UserTable.Email, CommissionTable.Date, CommissionTable.Value FROM CommissionTable INNER JOIN UserTable ON CommissionTable.UserID = UserTable.UserID WHERE CommissionTable.UserID = ?";
-    $statement = mysqli_prepare($link, $sql);
-    //If the preparation operation is successful...
-    if ($statement)
-    {
-        echo "Successfully Prepared Statement.";
-        // Bind variables to the prepared statement as parameters
-        mysqli_stmt_bind_param($statement, "s", $parameter_ID);
-        
-        // Set parameters
-        $parameter_ID = 1;//$_SESSION["id"];
-            
-        // Attempt to execute the prepared statement
-        if (mysqli_stmt_execute($statement))
-        {
-            // Store result
-            mysqli_stmt_store_result($statement);       
-            
-            $rowCount = mysqli_stmt_num_rows($statement);
-            // Bind result variables
-            mysqli_stmt_bind_result($statement, $username, $name, $lastName, $email, $date, $value);
-            while (mysqli_stmt_fetch($statement))
-            {
-                //start a new session
-                session_start();
-                
-                // Store data in session variables
+    session_start();
+ 
+    // Unset all of the session variables
+    $_SESSION = array();
+ 
+    // Destroy the session.
+    session_destroy();
+ 
+    // Redirect to login page
+    echo "<script>document.location = '/TLCinsurance/login/';</script>";  
+    exit;
 
-                    $row["username"] = $username;
-                    $row["name"] = $name;
-                    $row["lastName"] = $lastName;
-                    $row["email"] = $email;
-                    $row["date"] = $date;                           
-                    $row["value"] = "$ " . $value;
-                    
-                    $table[] = $row;
-                
-            }
-            $_SESSION["Table"] = $table;
-            for ($i = 0; $i < $rowCount; $i += 1)
-            {
-                echo "Row: " . $i . " = ". $table[$i]["username"] . ", " . $table[$i]["name"] . ", " . $table[$i]["date"] . ", " . $table[$i]["value"];
-                //echo $table[$i];
-            }
-        } 
-        else
-        {
-            echo "Something went wrong. Please try again later.";
-        }
-    }
-    else
-    {
-        echo "Prepare failed: (" . $mysqli->errno . ") " . $mysqli->error;
-    }
-        
-        // Close statement
-    mysqli_stmt_close($statement);
-    
-    // Close connection
-    mysqli_close($link);
 }
+    // Prepare a select statement
+    //$sql = "SELECT 08a_UserLoginTable.username, 08a_UserLoginTable.Name, 08a_UserLoginTable.LastName, 08a_UserLoginTable.Email, 08a_CommissionTable.Date, 08a_CommissionTable.Value FROM 08a_CommissionTable INNER JOIN 08a_UserLoginTable ON 08a_CommissionTable.UserID = 08a_UserLoginTable.UserID WHERE 08a_CommissionTable.UserID = ?";
+    $sqlQuery = "SELECT 08a_UserLoginTable.UserID, 08a_UserLoginTable.Username, 08a_UserLoginTable.Name, 08a_UserLoginTable.LastName, 08a_UserLoginTable.Email, 08a_CommissionTable.Carrier, 08a_CommissionTable.Date, 08a_CommissionTable.ToDate, 08a_CommissionTable.Value, 08a_CommissionTable.Receipt FROM 08a_CommissionTable INNER JOIN 08a_UserLoginTable ON 08a_CommissionTable.UserID = 08a_UserLoginTable.UserID WHERE 08a_CommissionTable.UserID = %d";
+    //$statement = mysqli_prepare($link, $sql); 
+    $results = $wpdb->get_results($wpdb->prepare($sqlQuery, $_SESSION["id"]));
+    //$results = $wpdb->get_row($wpdb->prepare($sql, $username), ARRAY_A);
+    //echo var_dump($results);
+    foreach ($results as $resultRow)
+    {
+        $row["userID"] = $resultRow->UserID;
+        $row["username"] = $resultRow->Username;
+        $row["name"] = $resultRow->Name;
+        $row["lastName"] = $resultRow->LastName;
+        $row["email"] = $resultRow->Email;
+        $row["carrier"] = $resultRow->Carrier;
+        $row["date"] = $resultRow->Date;
+        $row["toDate"] = $resultRow->ToDate;
+        $row["value"] = "$ " . $resultRow->Value;
+        $row["receipt"] = "<a href=" . $rootURL . $resultRow->Receipt . " download>Download</a>";
+        $table[] = $row;
+        //echo "result row added to table.";
+    }
+    $_SESSION["Table"] = $table;
+    echo "<table class='CommissionTableDisplay>'
+              <tr>
+                  <th>UserID</th><th>Username</th><th>First Name</th><th>Last Name</th><th>Email</th><th>Carrier</th><th>Dates</th><th>Receipt</th>
+              </tr>";
+
+    for ($i = 0; $i < count($table); $i += 1)
+    {
+        echo "<tr>
+                  <td>" . $table[$i]["userID"] . "</td> <td>" . $table[$i]["username"] . "</td> <td>" . $table[$i]["name"] . "</td> <td>" . $table[$i]["lastName"] 
+                  . "</td> <td>" . $table[$i]["email"] . "</td> <td>" . $table[$i]["carrier"] . "</td> <td>"
+                  . date("y",strtotime($table[$i]["date"])) . "." . date("m",strtotime($table[$i]["date"])) . "." . date("d",strtotime($table[$i]["date"]))
+                  . " \ " . date("y",strtotime($table[$i]["toDate"])) . "." . date("m",strtotime($table[$i]["toDate"])) . "." . date("d",strtotime($table[$i]["toDate"]))
+                  . "</td> <td>" . $table[$i]["receipt"] . "</td>
+              </tr>";
+        //echo "Row: " . $i . " = ". $table[$i]["username"] . ", " . $table[$i]["name"] . ", " . $table[$i]["date"] . ", " . $table[$i]["value"];
+        //echo $table[$i];
+    }
+    echo "</table>";
+//}
+
+
+/*<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Commissions</title>
+</head>
+<body>
+    <div>
+        <h2>Commissions</h2>
+        <p>Commissions: </p>
+        <form action="<?php echo htmlspecialchars($_SERVER[""]); ?>" method="post">
+            <div>
+                <input type="submit" value="GET Commissions">
+            </div>
+            <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
+        </form>
+    </div>    
+</body>
+</html>*/
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-    <style type="text/css">
-        body{ font: 14px sans-serif; }
-        .wrapper{ width: 350px; padding: 20px; }
-    </style>
-</head>
 <body>
-    <div class="wrapper">
-        <h2>Commissions</h2>
-        <p>Commissions: </p>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <div class="form-group">
-                <input type="submit" class="btn btn-primary" value="GET Commissions">
-            </div>
-            <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
-        </form>
-    </div>    
+<form action="<?php echo htmlspecialchars($_SERVER[""]); ?>" method="post">
+    <div>
+        <input type="submit" value="Log Out">
+    </div>
+</form>
+   
 </body>
 </html>

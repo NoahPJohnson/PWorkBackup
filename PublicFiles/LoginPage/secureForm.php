@@ -16,11 +16,11 @@ if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true)
 require_once "config.php";
  
 // Define variables and initialize with empty values
-$dataList = array["id" => 000000, "name" => "", "lastName" => "", "pInfoInt" => 000000, "pInfoString" => ""];
+$dataList = array("id" => 000000, "name" => "", "lastName" => "", "pInfoInt" => 000000, "pInfoString" => "");
 
-$errorList = array["idError" => "", "nameError" => "", "lastNameError" => "", "pInfoIntError" => "", "pInfoStringError" => ""];
+$errorList = array("idError" => "", "nameError" => "", "lastNameError" => "", "pInfoIntError" => "", "pInfoStringError" => "");
 
-$requiredList = array[false, true, true, false, true];
+$requiredList = array(false, true, true, false, true);
 // Processing form data when form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
@@ -81,6 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                     $dataList[3] = trim($_POST["pInfoInt"]);
                     $dataList[4] = trim($_POST["pInfoString"]);
                 }
+            }
             else
             {
                 echo "Oops! Something went wrong. Please try again later.";
@@ -127,7 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     }
     // Close connection
     mysqli_close($link);
-}
+
 ?>
  
 <!DOCTYPE html>

@@ -4,66 +4,66 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit1011b02bb6e820cc2217fa78cc9877eb
+class ComposerStaticInit4ae35016bac43801a4676fe2fff1efb6
 {
     public static $files = array (
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
-        '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
-        'def43f6c87e4f8dfd0c9e1b1bab14fe8' => __DIR__ . '/..' . '/symfony/polyfill-iconv/bootstrap.php',
-        'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
-        '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
+        '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
+        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
+        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
+        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
     );
 
     public static $prefixLengthsPsr4 = array (
-        'S' => 
+        'P' => 
         array (
-            'Symfony\\Polyfill\\Php72\\' => 23,
-            'Symfony\\Polyfill\\Mbstring\\' => 26,
-            'Symfony\\Polyfill\\Intl\\Idn\\' => 26,
-            'Symfony\\Polyfill\\Iconv\\' => 23,
+            'Psr\\Http\\Message\\' => 17,
+            'PHPMailer\\PHPMailer\\' => 20,
         ),
-        'E' => 
+        'L' => 
         array (
-            'Egulias\\EmailValidator\\' => 23,
+            'League\\OAuth2\\Client\\' => 21,
         ),
-        'D' => 
+        'G' => 
         array (
-            'Doctrine\\Common\\Lexer\\' => 22,
+            'GuzzleHttp\\Psr7\\' => 16,
+            'GuzzleHttp\\Promise\\' => 19,
+            'GuzzleHttp\\' => 11,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Symfony\\Polyfill\\Php72\\' => 
+        'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-php72',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
-        'Symfony\\Polyfill\\Mbstring\\' => 
+        'PHPMailer\\PHPMailer\\' => 
         array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
-        'Symfony\\Polyfill\\Intl\\Idn\\' => 
+        'League\\OAuth2\\Client\\' => 
         array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-intl-idn',
+            0 => __DIR__ . '/..' . '/league/oauth2-client/src',
+            1 => __DIR__ . '/..' . '/league/oauth2-google/src',
         ),
-        'Symfony\\Polyfill\\Iconv\\' => 
+        'GuzzleHttp\\Psr7\\' => 
         array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-iconv',
+            0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
         ),
-        'Egulias\\EmailValidator\\' => 
+        'GuzzleHttp\\Promise\\' => 
         array (
-            0 => __DIR__ . '/..' . '/egulias/email-validator/EmailValidator',
+            0 => __DIR__ . '/..' . '/guzzlehttp/promises/src',
         ),
-        'Doctrine\\Common\\Lexer\\' => 
+        'GuzzleHttp\\' => 
         array (
-            0 => __DIR__ . '/..' . '/doctrine/lexer/lib/Doctrine/Common/Lexer',
+            0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit1011b02bb6e820cc2217fa78cc9877eb::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit1011b02bb6e820cc2217fa78cc9877eb::$prefixDirsPsr4;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit4ae35016bac43801a4676fe2fff1efb6::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit4ae35016bac43801a4676fe2fff1efb6::$prefixDirsPsr4;
 
         }, null, ClassLoader::class);
     }
