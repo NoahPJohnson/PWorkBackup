@@ -28,6 +28,7 @@ namespace TestSurveyApp
         /// </summary>
         /// 
         public static BenefitCollection SurveyBenefitCollection;
+        public static int[] PageNumbers;
 
         public App()
         {
@@ -35,6 +36,7 @@ namespace TestSurveyApp
             this.Suspending += OnSuspending;
 
             SurveyBenefitCollection = new BenefitCollection();
+            PageNumbers = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 };
         }
 
         /// <summary>

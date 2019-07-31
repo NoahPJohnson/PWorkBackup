@@ -27,7 +27,7 @@
                         <ColumnDefinition Width="190"/>
                     </Grid.ColumnDefinitions>
                     <TextBox x:Name="Benefit1TitleBox"  Grid.Row="0" Grid.ColumnSpan="2" PlaceholderText="Benefit Title" Text="{x:Bind Path=surveyPage.CurrentBenefitCollection[0].BenefitLabel}" TextChanging="BenefitTextBox_TextChanging" TextAlignment="Center" FontSize="24"/>
-                    <Image x:Name="Benefit1ImageDisplay" Grid.Row="1" Grid.Column="0" Source="{x:Bind Path=surveyPage.CurrentBenefitCollection[0].BenefitImage}" Stretch="Uniform"/>
+                    <Image x:Name="Benefit1ImageDisplay" Grid.Row="1" Grid.Column="0" Stretch="Uniform"/>
                     <TextBox x:Name="Benefit1TextBox" Grid.Row="1" Grid.Column="1" PlaceholderText="Benefit Text" Text="{x:Bind Path=surveyPage.CurrentBenefitCollection[0].BenefitText}" TextChanging="BenefitTextBox_TextChanging" FontSize="14" TextWrapping="Wrap"/>
                 </Grid>
             </GridViewItem>
@@ -42,7 +42,7 @@
                         <ColumnDefinition Width="190"/>
                     </Grid.ColumnDefinitions>
                     <TextBox x:Name="Benefit2TitleBox"  Grid.Row="0" Grid.ColumnSpan="2" PlaceholderText="Benefit Title" Text="{x:Bind Path=surveyPage.CurrentBenefitCollection[1].BenefitLabel}" TextChanging="BenefitTextBox_TextChanging" TextAlignment="Center" FontSize="24"/>
-                    <Image x:Name="Benefit2ImageDisplay" Grid.Row="1" Grid.Column="0" Source="{x:Bind Path=surveyPage.CurrentBenefitCollection[1].BenefitImage}" Stretch="Uniform"/>
+                    <Image x:Name="Benefit2ImageDisplay" Grid.Row="1" Grid.Column="0" Stretch="Uniform"/>
                     <TextBox x:Name="Benefit2TextBox" Grid.Row="1" Grid.Column="1" PlaceholderText="Benefit Text" Text="{x:Bind Path=surveyPage.CurrentBenefitCollection[1].BenefitText}" TextChanging="BenefitTextBox_TextChanging" FontSize="14" TextWrapping="Wrap"/>
                 </Grid>
             </GridViewItem>
@@ -57,7 +57,7 @@
                         <ColumnDefinition Width="190"/>
                     </Grid.ColumnDefinitions>
                     <TextBox x:Name="Benefit3TitleBox"  Grid.Row="0" Grid.ColumnSpan="2" PlaceholderText="Benefit Title" Text="{x:Bind Path=surveyPage.CurrentBenefitCollection[2].BenefitLabel}" TextChanging="BenefitTextBox_TextChanging" TextAlignment="Center" FontSize="24"/>
-                    <Image x:Name="Benefit3ImageDisplay" Grid.Row="1" Grid.Column="0" Source="{x:Bind Path=surveyPage.CurrentBenefitCollection[2].BenefitImage}" Stretch="Uniform"/>
+                    <Image x:Name="Benefit3ImageDisplay" Grid.Row="1" Grid.Column="0" Stretch="Uniform"/>
                     <TextBox x:Name="Benefit3TextBox" Grid.Row="1" Grid.Column="1" PlaceholderText="Benefit Text" Text="{x:Bind Path=surveyPage.CurrentBenefitCollection[2].BenefitText}" TextChanging="BenefitTextBox_TextChanging" FontSize="14" TextWrapping="Wrap"/>
                 </Grid>
             </GridViewItem>
@@ -72,7 +72,7 @@
                         <ColumnDefinition Width="190"/>
                     </Grid.ColumnDefinitions>
                     <TextBox x:Name="Benefit4TitleBox"  Grid.Row="0" Grid.ColumnSpan="2" PlaceholderText="Benefit Title" Text="{x:Bind Path=surveyPage.CurrentBenefitCollection[3].BenefitLabel}" TextChanging="BenefitTextBox_TextChanging" TextAlignment="Center" FontSize="24"/>
-                    <Image x:Name="Benefit4ImageDisplay" Grid.Row="1" Grid.Column="0" Source="{x:Bind Path=surveyPage.CurrentBenefitCollection[3].BenefitImage}" Stretch="Uniform"/>
+                    <Image x:Name="Benefit4ImageDisplay" Grid.Row="1" Grid.Column="0" Stretch="Uniform"/>
                     <TextBox x:Name="Benefit4TextBox" Grid.Row="1" Grid.Column="1" PlaceholderText="Benefit Text" Text="{x:Bind Path=surveyPage.CurrentBenefitCollection[3].BenefitText}" TextChanging="BenefitTextBox_TextChanging" FontSize="14" TextWrapping="Wrap"/>
                 </Grid>
             </GridViewItem>

@@ -58,10 +58,10 @@ namespace TestSurveyApp
                     surveyPage.Image_Drop(sender, items);
                 }
             }
-            Benefit1ImageDisplay.Source = surveyPage.CurrentBenefitCollection[0].BenefitImage;
-            Benefit2ImageDisplay.Source = surveyPage.CurrentBenefitCollection[1].BenefitImage;
-            Benefit3ImageDisplay.Source = surveyPage.CurrentBenefitCollection[2].BenefitImage;
-            Benefit4ImageDisplay.Source = surveyPage.CurrentBenefitCollection[3].BenefitImage;
+            Benefit1ImageDisplay.Source = new BitmapImage(surveyPage.CurrentBenefitCollection[0].BenefitImage);
+            Benefit2ImageDisplay.Source = new BitmapImage(surveyPage.CurrentBenefitCollection[1].BenefitImage);
+            Benefit3ImageDisplay.Source = new BitmapImage(surveyPage.CurrentBenefitCollection[2].BenefitImage);
+            Benefit4ImageDisplay.Source = new BitmapImage(surveyPage.CurrentBenefitCollection[3].BenefitImage);
         }
 
         public void Image_Loaded(object sender, RoutedEventArgs e)
@@ -107,6 +107,18 @@ namespace TestSurveyApp
                         break;
                     case "Page4":
                         CurrentPageFrame.Navigate(typeof(SurveyPages.SurveyPage4));
+                        break;
+                    case "Page5":
+                        CurrentPageFrame.Navigate(typeof(SurveyPages.SurveyPage5));
+                        break;
+                    case "Page6":
+                        CurrentPageFrame.Navigate(typeof(SurveyPages.SurveyPage6));
+                        break;
+                    case "Page7":
+                        CurrentPageFrame.Navigate(typeof(SurveyPages.SurveyPage7));
+                        break;
+                    case "Page8":
+                        CurrentPageFrame.Navigate(typeof(SurveyPages.SurveyPage8));
                         break;
                 }
             }

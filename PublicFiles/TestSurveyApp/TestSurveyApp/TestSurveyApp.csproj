@@ -137,6 +137,18 @@
     <Compile Include="SurveyPages\SurveyPage4.xaml.cs">
       <DependentUpon>SurveyPage4.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SurveyPages\SurveyPage5.xaml.cs">
+      <DependentUpon>SurveyPage5.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SurveyPages\SurveyPage6.xaml.cs">
+      <DependentUpon>SurveyPage6.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SurveyPages\SurveyPage7.xaml.cs">
+      <DependentUpon>SurveyPage7.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SurveyPages\SurveyPage8.xaml.cs">
+      <DependentUpon>SurveyPage8.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -181,13 +193,31 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SurveyPages\SurveyPage5.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SurveyPages\SurveyPage6.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SurveyPages\SurveyPage7.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SurveyPages\SurveyPage8.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.8</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Surveys\" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

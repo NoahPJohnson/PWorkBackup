@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace TestSurveyApp
 {
@@ -19,6 +21,7 @@ namespace TestSurveyApp
         public ObservableCollection<Benefit> CurrentBenefitCollection { get; set; }
         public Windows.Storage.StorageFolder storageFolder { get; set; }
         Windows.Storage.Pickers.FileSavePicker filePicker;
+        Windows.Storage.Pickers.FolderPicker folderPicker;
 
         string rootURL = "https://prodigalcompany.com/npjTest/SurveyStuff";
 
@@ -29,17 +32,17 @@ namespace TestSurveyApp
 
         public string surveyTemplateString;
 
+        public string surveyName;
+
         int pageNumber;
+
+        StorageFolder surveyFolder;
 
         public SurveyPage(int newPageNumber)
         {
             pageNumber = newPageNumber;
-            //this.InitializeComponent();
-            //FinalBenefitList = new ObservableCollection<ObservableCollection<Benefit>>();
-            //CurrentBenefitCollection = new ObservableCollection<Benefit>();
-            //surveyPagesArray = new Page[] { new SurveyPages.SurveyPage1(), new SurveyPages.SurveyPage2(), new SurveyPages.SurveyPage3(), new SurveyPages.SurveyPage4() };
-            //SurveyBenefitCollection = new BenefitCollection();
-            //pageNumber = 0;
+
+            surveyFolder = null;
 
             CurrentBenefitCollection = App.SurveyBenefitCollection.FinalBenefitList[pageNumber];
 
@@ -188,8 +191,11 @@ namespace TestSurveyApp
             indexArray = new int[] { 0, 1, 2, 3 };
             //BenefitTextStrings = new string[]{ "Text1", "Text2", "Text3", "Text4" };
             //BenefitImgSrcStrings = new string[] { "./Assets/StoreLogo.png", "./Assets/StoreLogo.png", "./Assets/StoreLogo.png", "./Assets/StoreLogo.png" };
-            filePicker = new Windows.Storage.Pickers.FileSavePicker(); //Windows.Storage.ApplicationData.Current.LocalFolder;
 
+            surveyName = "testSurveyFolder";
+
+            filePicker = new Windows.Storage.Pickers.FileSavePicker(); //Windows.Storage.ApplicationData.Current.LocalFolder;
+            folderPicker = new Windows.Storage.Pickers.FolderPicker();
         }
 
         public void Image_DragOver(object sender, Windows.UI.Xaml.DragEventArgs e)
@@ -211,25 +217,25 @@ namespace TestSurveyApp
                     Windows.UI.Xaml.Controls.GridViewItem senderItem = sender as Windows.UI.Xaml.Controls.GridViewItem;
                     if (senderItem.Name == "Benefit1")
                     {
-                        CurrentBenefitCollection[0].BenefitImage = bitmapImage;
+                        CurrentBenefitCollection[0].BenefitImage = bitmapImage.UriSource;
                         //Benefit1ImageDisplay.Source = CurrentBenefitCollection[0].BenefitImage;
                     }
                     else if (senderItem.Name == "Benefit2")
                     {
-                        CurrentBenefitCollection[1].BenefitImage = bitmapImage;
+                        CurrentBenefitCollection[1].BenefitImage = bitmapImage.UriSource;
                         //Benefit2ImageDisplay.Source = CurrentBenefitCollection[1].BenefitImage;
                     }
                     else if (senderItem.Name == "Benefit3")
                     {
-                        CurrentBenefitCollection[2].BenefitImage = bitmapImage;
+                        CurrentBenefitCollection[2].BenefitImage = bitmapImage.UriSource;
                         //Benefit3ImageDisplay.Source = CurrentBenefitCollection[2].BenefitImage;
                     }
                     else if (senderItem.Name == "Benefit4")
                     {
-                        CurrentBenefitCollection[3].BenefitImage = bitmapImage;
+                        CurrentBenefitCollection[3].BenefitImage = bitmapImage.UriSource;
                         //Benefit4ImageDisplay.Source = CurrentBenefitCollection[3].BenefitImage;
                     }
-                    Debug.WriteLine("Image is now: " + CurrentBenefitCollection[0].BenefitImage.UriSource);
+                    //Debug.WriteLine("Image is now: " + CurrentBenefitCollection[0].BenefitImage.UriSource);
                     //Image.Source = bitmapImage;
                     App.SurveyBenefitCollection.FinalBenefitList[pageNumber] = CurrentBenefitCollection;
         }
@@ -239,7 +245,7 @@ namespace TestSurveyApp
             Windows.UI.Xaml.Controls.Image img = sender as Windows.UI.Xaml.Controls.Image;
             if (img != null)
             {
-                img.Source = CurrentBenefitCollection[0].BenefitImage;
+                img.Source = new BitmapImage(CurrentBenefitCollection[0].BenefitImage);
             }
             Debug.WriteLine("Load");
         }
@@ -290,45 +296,93 @@ namespace TestSurveyApp
 
             //ShuffleIndexes();
 
-            Debug.WriteLine("Hey: " + CurrentBenefitCollection[indexArray[0]].BenefitImage.UriSource);
+            //Debug.WriteLine("Hey: " + CurrentBenefitCollection[indexArray[0]].BenefitImage);
 
             surveyTemplateString = staticTemplateArray[0]
                 + CurrentBenefitCollection[0].BenefitLabel + staticTemplateArray[1]
-                + rootURL + CurrentBenefitCollection[indexArray[0]].BenefitImage.UriSource.OriginalString.Substring(10) + staticTemplateArray[2]
+                + rootURL + CurrentBenefitCollection[indexArray[0]].BenefitImage.OriginalString.Substring(10) + staticTemplateArray[2]
                 + CurrentBenefitCollection[indexArray[0]].BenefitText + staticTemplateArray[3]
                 + CurrentBenefitCollection[1].BenefitLabel + staticTemplateArray[4]
-                + rootURL + CurrentBenefitCollection[indexArray[1]].BenefitImage.UriSource.OriginalString.Substring(10) + staticTemplateArray[5]
+                + rootURL + CurrentBenefitCollection[indexArray[1]].BenefitImage.OriginalString.Substring(10) + staticTemplateArray[5]
                 + CurrentBenefitCollection[indexArray[1]].BenefitText + staticTemplateArray[6]
                 + CurrentBenefitCollection[2].BenefitLabel + staticTemplateArray[7]
-                + rootURL + CurrentBenefitCollection[indexArray[2]].BenefitImage.UriSource.OriginalString.Substring(10) + staticTemplateArray[8]
+                + rootURL + CurrentBenefitCollection[indexArray[2]].BenefitImage.OriginalString.Substring(10) + staticTemplateArray[8]
                 + CurrentBenefitCollection[indexArray[2]].BenefitText + staticTemplateArray[9]
                 + CurrentBenefitCollection[3].BenefitLabel + staticTemplateArray[10]
-                + rootURL + CurrentBenefitCollection[indexArray[3]].BenefitImage.UriSource.OriginalString.Substring(10) + staticTemplateArray[11]
+                + rootURL + CurrentBenefitCollection[indexArray[3]].BenefitImage.OriginalString.Substring(10) + staticTemplateArray[11]
                 + CurrentBenefitCollection[indexArray[3]].BenefitText + staticTemplateArray[12]
                 + pageNumber + staticTemplateArray[13];
 
             //StorageFile tempImageFile = await storageFolder.CreateFileAsync("tempImageFile.png");
             //await UploadOpAsync(CurrentBenefitCollection[3].BenefitImage.UriSource, tempImageFile);
 
-            filePicker.FileTypeChoices.Add("HTML", new List<string>() { ".html" });
-            Windows.Storage.StorageFile sampleFile = await filePicker.PickSaveFileAsync();
-            if (sampleFile != null)
+
+
+            
+            //Windows.Storage.StorageFolder filesFolder = ApplicationData.Current.LocalFolder;//.GetFolderAsync("TestSurveyApp/Surveys");//await folderPicker.PickSingleFolderAsync();
+
+
+            //folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
+            //folderPicker.FileTypeFilter.Add("*");
+
+            /*Windows.Storage.StorageFolder filesFolder = await folderPicker.PickSingleFolderAsync();
+            if (filesFolder.TryGetItemAsync(surveyName) != null)
             {
-                var stream = await sampleFile.OpenAsync(Windows.Storage.FileAccessMode.ReadWrite);
-
-                using (var outputStream = stream.GetOutputStreamAt(0))
-                {
-                    using (var dataWriter = new Windows.Storage.Streams.DataWriter(outputStream))
-                    {
-                        //Debug.WriteLine("Should Write Stuff.");
-
-                        dataWriter.WriteString(surveyTemplateString);
-                        await dataWriter.StoreAsync();
-                        await outputStream.FlushAsync();
-                    }
-                }
-                stream.Dispose();
+                surveyFolder = await filesFolder.CreateFolderAsync(surveyName);
             }
+            else
+            {
+                surveyFolder = await filesFolder.GetFolderAsync(surveyName);
+            }*/
+            /*if (surveyFolder != null)
+            {
+                surveyName = surveyFolder.Name;//await filesFolder.CreateFolderAsync(surveyName);
+            }*/
+            //if (surveyFolder != null)
+            //{
+                //for (int i = 0; i < 8; i++)
+                //{ 
+            var stream2 = new MemoryStream();
+            var serializer = new DataContractJsonSerializer(typeof(ObservableCollection<ObservableCollection<Benefit>>));
+            serializer.WriteObject(stream2, App.SurveyBenefitCollection.FinalBenefitList);
+            filePicker.FileTypeChoices.Add("JSON", new List<string>() { ".json" });
+            Windows.Storage.StorageFile surveyFile = await filePicker.PickSaveFileAsync();
+            stream2.Position = 0;
+            var streamReader = new StreamReader(stream2);
+            //dataWriter.WriteString(streamReader.ReadToEnd());
+            //Debug.WriteLine(streamReader.ReadToEnd());
+            //var pageFile = await surveyFolder.CreateFileAsync(surveyName + "Page" + ".html");
+            var stream = await surveyFile.OpenAsync(FileAccessMode.ReadWrite);
+
+            using (var outputStream = stream.GetOutputStreamAt(0))
+            {
+                using (var dataWriter = new Windows.Storage.Streams.DataWriter(outputStream))
+                {
+                    //Debug.WriteLine("Should Write Stuff.");
+                    /*string pageTemplateString = staticTemplateArray[0]
+        + App.SurveyBenefitCollection.FinalBenefitList[i][0].BenefitLabel + staticTemplateArray[1]
+        + rootURL + App.SurveyBenefitCollection.FinalBenefitList[i][indexArray[0]].BenefitImage.UriSource.OriginalString.Substring(10) + staticTemplateArray[2]
+        + App.SurveyBenefitCollection.FinalBenefitList[i][indexArray[0]].BenefitText + staticTemplateArray[3]
+        + App.SurveyBenefitCollection.FinalBenefitList[i][1].BenefitLabel + staticTemplateArray[4]
+        + rootURL + App.SurveyBenefitCollection.FinalBenefitList[i][indexArray[1]].BenefitImage.UriSource.OriginalString.Substring(10) + staticTemplateArray[5]
+        + App.SurveyBenefitCollection.FinalBenefitList[i][indexArray[1]].BenefitText + staticTemplateArray[6]
+        + App.SurveyBenefitCollection.FinalBenefitList[i][2].BenefitLabel + staticTemplateArray[7]
+        + rootURL + App.SurveyBenefitCollection.FinalBenefitList[i][indexArray[2]].BenefitImage.UriSource.OriginalString.Substring(10) + staticTemplateArray[8]
+        + App.SurveyBenefitCollection.FinalBenefitList[i][indexArray[2]].BenefitText + staticTemplateArray[9]
+        + App.SurveyBenefitCollection.FinalBenefitList[i][3].BenefitLabel + staticTemplateArray[10]
+        + rootURL + App.SurveyBenefitCollection.FinalBenefitList[i][indexArray[3]].BenefitImage.UriSource.OriginalString.Substring(10) + staticTemplateArray[11]
+        + App.SurveyBenefitCollection.FinalBenefitList[i][indexArray[3]].BenefitText + staticTemplateArray[12]
+        + App.PageNumbers[i] + staticTemplateArray[13];*/
+                    //dataWriter.WriteString(pageTemplateString);
+                    dataWriter.WriteString(streamReader.ReadToEnd());
+                    await dataWriter.StoreAsync();
+                    await outputStream.FlushAsync();
+                }
+            }
+            stream.Dispose();
+            //}
+
+            //}
 
         }
 

@@ -36,7 +36,7 @@
                                 <ColumnDefinition Width="190"/>
                             </Grid.ColumnDefinitions>
                             <TextBox x:ConnectionId='19' x:Name="Benefit1TitleBox"  Grid.Row="0" Grid.ColumnSpan="2" PlaceholderText="Benefit Title"                                                                                                                     TextAlignment="Center" FontSize="24"/>
-                            <Image x:ConnectionId='20' x:Name="Benefit1ImageDisplay" Grid.Row="1" Grid.Column="0"                                                                            Stretch="Uniform"/>
+                            <Image x:ConnectionId='20' x:Name="Benefit1ImageDisplay" Grid.Row="1" Grid.Column="0"  Stretch="Uniform"/>
                             <TextBox x:ConnectionId='21' x:Name="Benefit1TextBox" Grid.Row="1" Grid.Column="1" PlaceholderText="Benefit Text"                                                                                                                    FontSize="14" TextWrapping="Wrap"/>
                         </Grid>
                     </GridViewItem>
@@ -51,7 +51,7 @@
                                 <ColumnDefinition Width="190"/>
                             </Grid.ColumnDefinitions>
                             <TextBox x:ConnectionId='16' x:Name="Benefit2TitleBox"  Grid.Row="0" Grid.ColumnSpan="2" PlaceholderText="Benefit Title"                                                                                                                     TextAlignment="Center" FontSize="24"/>
-                            <Image x:ConnectionId='17' x:Name="Benefit2ImageDisplay" Grid.Row="1" Grid.Column="0"                                                                            Stretch="Uniform"/>
+                            <Image x:ConnectionId='17' x:Name="Benefit2ImageDisplay" Grid.Row="1" Grid.Column="0" Stretch="Uniform"/>
                             <TextBox x:ConnectionId='18' x:Name="Benefit2TextBox" Grid.Row="1" Grid.Column="1" PlaceholderText="Benefit Text"                                                                                                                    FontSize="14" TextWrapping="Wrap"/>
                         </Grid>
                     </GridViewItem>
@@ -66,7 +66,7 @@
                                 <ColumnDefinition Width="190"/>
                             </Grid.ColumnDefinitions>
                             <TextBox x:ConnectionId='13' x:Name="Benefit3TitleBox"  Grid.Row="0" Grid.ColumnSpan="2" PlaceholderText="Benefit Title"                                                                                                                     TextAlignment="Center" FontSize="24"/>
-                            <Image x:ConnectionId='14' x:Name="Benefit3ImageDisplay" Grid.Row="1" Grid.Column="0"                                                                            Stretch="Uniform"/>
+                            <Image x:ConnectionId='14' x:Name="Benefit3ImageDisplay" Grid.Row="1" Grid.Column="0" Stretch="Uniform"/>
                             <TextBox x:ConnectionId='15' x:Name="Benefit3TextBox" Grid.Row="1" Grid.Column="1" PlaceholderText="Benefit Text"                                                                                                                    FontSize="14" TextWrapping="Wrap"/>
                         </Grid>
                     </GridViewItem>
@@ -81,7 +81,7 @@
                                 <ColumnDefinition Width="190"/>
                             </Grid.ColumnDefinitions>
                             <TextBox x:ConnectionId='10' x:Name="Benefit4TitleBox"  Grid.Row="0" Grid.ColumnSpan="2" PlaceholderText="Benefit Title"                                                                                                                     TextAlignment="Center" FontSize="24"/>
-                            <Image x:ConnectionId='11' x:Name="Benefit4ImageDisplay" Grid.Row="1" Grid.Column="0"                                                                            Stretch="Uniform"/>
+                            <Image x:ConnectionId='11' x:Name="Benefit4ImageDisplay" Grid.Row="1" Grid.Column="0" Stretch="Uniform"/>
                             <TextBox x:ConnectionId='12' x:Name="Benefit4TextBox" Grid.Row="1" Grid.Column="1" PlaceholderText="Benefit Text"                                                                                                                    FontSize="14" TextWrapping="Wrap"/>
                         </Grid>
                     </GridViewItem>

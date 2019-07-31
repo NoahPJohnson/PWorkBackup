@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -51,10 +52,10 @@ namespace TestSurveyApp.SurveyPages
                     surveyPage.Image_Drop(sender, items);
                 }
             }
-            Benefit1ImageDisplay.Source = surveyPage.CurrentBenefitCollection[0].BenefitImage;
-            Benefit2ImageDisplay.Source = surveyPage.CurrentBenefitCollection[1].BenefitImage;
-            Benefit3ImageDisplay.Source = surveyPage.CurrentBenefitCollection[2].BenefitImage;
-            Benefit4ImageDisplay.Source = surveyPage.CurrentBenefitCollection[3].BenefitImage;
+            Benefit1ImageDisplay.Source = new BitmapImage(surveyPage.CurrentBenefitCollection[0].BenefitImage);
+            Benefit2ImageDisplay.Source = new BitmapImage(surveyPage.CurrentBenefitCollection[1].BenefitImage);
+            Benefit3ImageDisplay.Source = new BitmapImage(surveyPage.CurrentBenefitCollection[2].BenefitImage);
+            Benefit4ImageDisplay.Source = new BitmapImage(surveyPage.CurrentBenefitCollection[3].BenefitImage);
         }
 
         public void Image_Loaded(object sender, RoutedEventArgs e)

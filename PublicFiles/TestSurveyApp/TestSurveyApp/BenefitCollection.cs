@@ -21,6 +21,22 @@ namespace TestSurveyApp
                 for (int j = 0; j < 4; j++)
                 {
                     FinalBenefitList[i].Add(new Benefit("Benefit: " + j));
+                    if (j == 0)
+                    {
+                        FinalBenefitList[i][FinalBenefitList[i].Count - 1].BenefitIndex = (i + 1) + "-a";
+                    }
+                    else if (j == 1)
+                    {
+                        FinalBenefitList[i][FinalBenefitList[i].Count - 1].BenefitIndex = (i + 1) + "-b";
+                    }
+                    else if (j == 2)
+                    {
+                        FinalBenefitList[i][FinalBenefitList[i].Count - 1].BenefitIndex = (i + 1) + "-c";
+                    }
+                    else if (j == 3)
+                    {
+                        FinalBenefitList[i][FinalBenefitList[i].Count - 1].BenefitIndex = (i + 1) + "-d";
+                    }
                 }
             }
         }
@@ -30,41 +46,42 @@ namespace TestSurveyApp
     {
 
         public string BenefitText { get; set; }
-        public BitmapImage BenefitImage { get; set; }
+        public Uri BenefitImage { get; set; }
         public string BenefitLabel { get; set; }
+        public string BenefitIndex { get; set; }
 
         public Benefit()
         {
             BenefitText = "BenefitText";
-            BenefitImage = new BitmapImage();
+            BenefitImage = new Uri("");
             BenefitLabel = "Benefit Title";
         }
 
         public Benefit(string newBenefitText)
         {
             BenefitText = newBenefitText;
-            BenefitImage = new BitmapImage(new Uri("ms-appx:///Assets/Pizza.png"));
+            BenefitImage = new Uri("ms-appx:///Assets/Pizza.png");
             BenefitLabel = "Benefit Title";
         }
 
-        public Benefit(string newBenefitText, BitmapImage newImage)
+        public Benefit(string newBenefitText, Uri newImageUri)
         {
             BenefitText = newBenefitText;
-            BenefitImage = newImage;
+            BenefitImage = newImageUri;
             BenefitLabel = "Benefit Title";
         }
 
         public Benefit(string newBenefitText, string newBenefitLabel)
         {
             BenefitText = newBenefitText;
-            BenefitImage = new BitmapImage(new Uri("ms-appx:///Assets/Pizza.png"));
+            BenefitImage = new Uri("ms-appx:///Assets/Pizza.png");
             BenefitLabel = newBenefitLabel;
         }
 
-        public Benefit(string newBenefitText, BitmapImage newImage, string newBenefitLabel)
+        public Benefit(string newBenefitText, Uri newImageUri, string newBenefitLabel)
         {
             BenefitText = newBenefitText;
-            BenefitImage = newImage;
+            BenefitImage = newImageUri;
             BenefitLabel = newBenefitLabel;
         }
     }
