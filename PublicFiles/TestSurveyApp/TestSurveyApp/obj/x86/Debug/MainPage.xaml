@@ -14,9 +14,17 @@
             <RowDefinition Height="100"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-
-        <Button x:ConnectionId='2' Grid.Row="0" Grid.Column="1" x:Name="SaveButton" Content="Save" HorizontalAlignment="Left"  VerticalAlignment="Stretch"  Width="150"                    />
-        <Frame x:ConnectionId='3' Grid.Row="1" x:Name="CurrentPageFrame" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="160"/>
+            </Grid.ColumnDefinitions>
+            <Button x:ConnectionId='21' Grid.Row="0" Grid.Column="0" x:Name="SaveButton" Content="Save" HorizontalAlignment="Center"  VerticalAlignment="Stretch"  Width="150"                    />
+            <Button x:ConnectionId='22' Grid.Row="0" Grid.Column="1" x:Name="PublishButton" Content="Publish" HorizontalAlignment="Center"  VerticalAlignment="Stretch"  Width="150"                        />
+        </Grid>
+        <Frame x:ConnectionId='2' Grid.Row="1" x:Name="CurrentPageFrame" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="60"/>
@@ -24,65 +32,65 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" HorizontalAlignment="Center" Width="800" Text="Please Choose only a Single Response" TextAlignment="Center" FontSize="36"/>
-                <GridView x:ConnectionId='5' x:Name="BenefitsDisplay" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="820">
-                    <GridViewItem x:ConnectionId='6' x:Name="Benefit1" AllowDrop="True"                                            >
+                <GridView x:ConnectionId='4' x:Name="BenefitsDisplay" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="820">
+                    <GridViewItem x:ConnectionId='5' x:Name="Benefit1" AllowDrop="True"                                            >
                         <Grid Width="380" Height="320" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,10" >
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="48"/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="190"/>
                                 <ColumnDefinition Width="190"/>
                             </Grid.ColumnDefinitions>
-                            <TextBox x:ConnectionId='19' x:Name="Benefit1TitleBox"  Grid.Row="0" Grid.ColumnSpan="2" PlaceholderText="Benefit Title"                                                                                                                     TextAlignment="Center" FontSize="24"/>
-                            <Image x:ConnectionId='20' x:Name="Benefit1ImageDisplay" Grid.Row="1" Grid.Column="0"  Stretch="Uniform"/>
-                            <TextBox x:ConnectionId='21' x:Name="Benefit1TextBox" Grid.Row="1" Grid.Column="1" PlaceholderText="Benefit Text"                                                                                                                    FontSize="14" TextWrapping="Wrap"/>
+                            <TextBox x:ConnectionId='18' x:Name="Benefit1TitleBox"  Grid.Row="0" Grid.ColumnSpan="2" PlaceholderText="Benefit Title"                                                                                                                     TextAlignment="Center" FontSize="24"/>
+                            <Image x:ConnectionId='19' x:Name="Benefit1ImageDisplay" Grid.Row="1" Grid.Column="0"                                                                          Stretch="Uniform"/>
+                            <TextBox x:ConnectionId='20' x:Name="Benefit1TextBox" Grid.Row="1" Grid.Column="1" PlaceholderText="Benefit Text"                                                                                                                    FontSize="14" TextWrapping="Wrap"/>
                         </Grid>
                     </GridViewItem>
-                    <GridViewItem x:ConnectionId='7' x:Name="Benefit2" AllowDrop="True"                                            >
+                    <GridViewItem x:ConnectionId='6' x:Name="Benefit2" AllowDrop="True"                                            >
                         <Grid Width="380" Height="320" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,10" >
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="48"/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="190"/>
                                 <ColumnDefinition Width="190"/>
                             </Grid.ColumnDefinitions>
-                            <TextBox x:ConnectionId='16' x:Name="Benefit2TitleBox"  Grid.Row="0" Grid.ColumnSpan="2" PlaceholderText="Benefit Title"                                                                                                                     TextAlignment="Center" FontSize="24"/>
-                            <Image x:ConnectionId='17' x:Name="Benefit2ImageDisplay" Grid.Row="1" Grid.Column="0" Stretch="Uniform"/>
-                            <TextBox x:ConnectionId='18' x:Name="Benefit2TextBox" Grid.Row="1" Grid.Column="1" PlaceholderText="Benefit Text"                                                                                                                    FontSize="14" TextWrapping="Wrap"/>
+                            <TextBox x:ConnectionId='15' x:Name="Benefit2TitleBox"  Grid.Row="0" Grid.ColumnSpan="2" PlaceholderText="Benefit Title"                                                                                                                     TextAlignment="Center" FontSize="24"/>
+                            <Image x:ConnectionId='16' x:Name="Benefit2ImageDisplay" Grid.Row="1" Grid.Column="0"                                                                          Stretch="Uniform"/>
+                            <TextBox x:ConnectionId='17' x:Name="Benefit2TextBox" Grid.Row="1" Grid.Column="1" PlaceholderText="Benefit Text"                                                                                                                    FontSize="14" TextWrapping="Wrap"/>
                         </Grid>
                     </GridViewItem>
-                    <GridViewItem x:ConnectionId='8' x:Name="Benefit3" AllowDrop="True"                                            >
+                    <GridViewItem x:ConnectionId='7' x:Name="Benefit3" AllowDrop="True"                                            >
                         <Grid Width="380" Height="320" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,10">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="48"/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="190"/>
                                 <ColumnDefinition Width="190"/>
                             </Grid.ColumnDefinitions>
-                            <TextBox x:ConnectionId='13' x:Name="Benefit3TitleBox"  Grid.Row="0" Grid.ColumnSpan="2" PlaceholderText="Benefit Title"                                                                                                                     TextAlignment="Center" FontSize="24"/>
-                            <Image x:ConnectionId='14' x:Name="Benefit3ImageDisplay" Grid.Row="1" Grid.Column="0" Stretch="Uniform"/>
-                            <TextBox x:ConnectionId='15' x:Name="Benefit3TextBox" Grid.Row="1" Grid.Column="1" PlaceholderText="Benefit Text"                                                                                                                    FontSize="14" TextWrapping="Wrap"/>
+                            <TextBox x:ConnectionId='12' x:Name="Benefit3TitleBox"  Grid.Row="0" Grid.ColumnSpan="2" PlaceholderText="Benefit Title"                                                                                                                     TextAlignment="Center" FontSize="24"/>
+                            <Image x:ConnectionId='13' x:Name="Benefit3ImageDisplay" Grid.Row="1" Grid.Column="0"                                                                          Stretch="Uniform"/>
+                            <TextBox x:ConnectionId='14' x:Name="Benefit3TextBox" Grid.Row="1" Grid.Column="1" PlaceholderText="Benefit Text"                                                                                                                    FontSize="14" TextWrapping="Wrap"/>
                         </Grid>
                     </GridViewItem>
-                    <GridViewItem x:ConnectionId='9' x:Name="Benefit4" AllowDrop="True"                                            >
+                    <GridViewItem x:ConnectionId='8' x:Name="Benefit4" AllowDrop="True"                                            >
                         <Grid Width="380" Height="320" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,10">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="48"/>
                                 <RowDefinition/>
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="190"/>
                                 <ColumnDefinition Width="190"/>
                             </Grid.ColumnDefinitions>
-                            <TextBox x:ConnectionId='10' x:Name="Benefit4TitleBox"  Grid.Row="0" Grid.ColumnSpan="2" PlaceholderText="Benefit Title"                                                                                                                     TextAlignment="Center" FontSize="24"/>
-                            <Image x:ConnectionId='11' x:Name="Benefit4ImageDisplay" Grid.Row="1" Grid.Column="0" Stretch="Uniform"/>
-                            <TextBox x:ConnectionId='12' x:Name="Benefit4TextBox" Grid.Row="1" Grid.Column="1" PlaceholderText="Benefit Text"                                                                                                                    FontSize="14" TextWrapping="Wrap"/>
+                            <TextBox x:ConnectionId='9' x:Name="Benefit4TitleBox"  Grid.Row="0" Grid.ColumnSpan="2" PlaceholderText="Benefit Title"                                                                                                                     TextAlignment="Center" FontSize="24"/>
+                            <Image x:ConnectionId='10' x:Name="Benefit4ImageDisplay" Grid.Row="1" Grid.Column="0"                                                                          Stretch="Uniform"/>
+                            <TextBox x:ConnectionId='11' x:Name="Benefit4TextBox" Grid.Row="1" Grid.Column="1" PlaceholderText="Benefit Text"                                                                                                                    FontSize="14" TextWrapping="Wrap"/>
                         </Grid>
                     </GridViewItem>
                 </GridView>
@@ -90,7 +98,7 @@
 
             </Grid>
         </Frame>
-        <Windows10FallCreatorsUpdate:NavigationView x:ConnectionId='4' Grid.Row="1"  Grid.Column="0" x:Name="PageNavigationView" Windows10version1809:PaneDisplayMode="LeftCompact"                                                                                   >
+        <Windows10FallCreatorsUpdate:NavigationView x:ConnectionId='3' Grid.Row="1"  Grid.Column="0" x:Name="PageNavigationView" Windows10version1809:PaneDisplayMode="LeftCompact"                                                                                   >
             <NavigationView.MenuItems>
                 <NavigationViewItem Icon="Page" Content="SurveyTitlePage" Tag="TitlePage"/>
                 <NavigationViewItem Icon="Page" Content="SurveyPage1" Tag="Page1"/>

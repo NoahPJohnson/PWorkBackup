@@ -20,7 +20,7 @@ namespace TestSurveyApp
                 FinalBenefitList.Add(new ObservableCollection<Benefit>());
                 for (int j = 0; j < 4; j++)
                 {
-                    FinalBenefitList[i].Add(new Benefit("Benefit: " + j));
+                    FinalBenefitList[i].Add(new Benefit());
                     if (j == 0)
                     {
                         FinalBenefitList[i][FinalBenefitList[i].Count - 1].BenefitIndex = (i + 1) + "-a";
@@ -52,9 +52,9 @@ namespace TestSurveyApp
 
         public Benefit()
         {
-            BenefitText = "BenefitText";
-            BenefitImage = new Uri("");
-            BenefitLabel = "Benefit Title";
+            BenefitText = "";
+            BenefitImage = new Uri("ms-appx:///Assets/Pizza.png");
+            BenefitLabel = "";
         }
 
         public Benefit(string newBenefitText)
@@ -83,6 +83,11 @@ namespace TestSurveyApp
             BenefitText = newBenefitText;
             BenefitImage = newImageUri;
             BenefitLabel = newBenefitLabel;
+        }
+
+        public BitmapImage GetImage()
+        {
+            return new BitmapImage(BenefitImage);
         }
     }
 }

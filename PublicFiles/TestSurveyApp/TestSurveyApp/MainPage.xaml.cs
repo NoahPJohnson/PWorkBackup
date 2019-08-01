@@ -80,6 +80,11 @@ namespace TestSurveyApp
 
         }
 
+        public void UploadToServer(object sender, RoutedEventArgs e)
+        {
+            surveyPage.UploadToServer(sender, e);
+        }
+
         public async System.Threading.Tasks.Task UploadOpAsync(Uri uriInput, StorageFile file)
         {
             await surveyPage.UploadOpAsync(uriInput, file);
