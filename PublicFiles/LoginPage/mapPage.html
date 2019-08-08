@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>loadmapasyncHTML</title>
+        <style type='text/css'>body{margin:0;padding:0;overflow:hidden;font-family:'Segoe UI',Helvetica,Arial,Sans-Serif}</style>
+        <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+        <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=AlnP8Gprw2ihtVO-xJlsiQtvA7arzBhVZG3rlXriLN8vkmpZjDPT8yTClRogT9IT'></script>
+        <script type='text/javascript'>
+                var map;
+                var infobox;
+                function loadMapScenario() {
+                    map = new Microsoft.Maps.Map(document.getElementById('myMap'), {});
+                }
+        </script>
+                <div id='printoutPanel'></div>
+        
+                <div id='myMap' style='width: 100vw; height: 100vh;'></div>
+                <script type='text/javascript'>
+                    function loadMapScenario() {
+                        var map = new Microsoft.Maps.Map(document.getElementById('myMap'), {
+                            /* No need to set credentials if already passed in URL */
+                            //center: new Microsoft.Maps.Location(51.50632, -0.12714),
+                            //mapTypeId: Microsoft.Maps.MapTypeId.aerial,
+                            
+                            zoom: 10 
+                            });
+        
+                        //Create an infobox at the center of the map but don't show it.
+                        infobox = new Microsoft.Maps.Infobox(map.getCenter(), {
+                            visible: false
+                        });
+        
+                        //Assign the infobox to a map instance.
+                        infobox.setMap(map);
+                        
+
+                        
+
+                        //Create random locations in the map bounds.
+                        var randomLocations = Microsoft.Maps.TestDataGenerator.getLocations(5, map.getBounds());
+                
+                        for (var i = 0; i < randomLocations.length; i++) {
+                            var pin = new Microsoft.Maps.Pushpin(randomLocations[i]);
+        
+                            //Store some metadata with the pushpin.
+                            pin.metadata = {
+                                title: 'Pin ' + i,
+                                description: 'Discription for pin' + i
+                            };
+        
+                            //Add a click event handler to the pushpin.
+                            Microsoft.Maps.Events.addHandler(pin, 'click', pushpinClicked);
+        
+                            //Add pushpin to the map.
+                            map.entities.push(pin);
+                        }
+                        
+                    }
+                    function pushpinClicked(e) {
+                    //Make sure the infobox has metadata to display.
+                    if (e.target.metadata) {
+                        //Set the infobox options with the metadata of the pushpin.
+                        infobox.setOptions({
+                            location: e.target.getLocation(),
+                            title: e.target.metadata.title,
+                            description: e.target.metadata.description,
+                            visible: true
+                        });
+                }
+            }
+        </script>
+        <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=AlnP8Gprw2ihtVO-xJlsiQtvA7arzBhVZG3rlXriLN8vkmpZjDPT8yTClRogT9IT&callback=loadMapScenario' async defer></script>
+        <meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+        <style type='text/css'>body{margin:0;padding:0;overflow:hidden;font-family:'Segoe UI',Helvetica,Arial,Sans-Serif}</style>
+    </head>
+    <body onload='loadMapScenario();'>
+
+    </body>
+</html>

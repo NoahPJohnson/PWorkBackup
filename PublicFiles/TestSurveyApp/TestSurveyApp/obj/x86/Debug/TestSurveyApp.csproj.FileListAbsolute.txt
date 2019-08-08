@@ -258,3 +258,8 @@ C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\obj\x86\Debug\SurveyPages
 C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\obj\x86\Debug\SurveyPages\SurveyPage6.xbf
 C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\obj\x86\Debug\SurveyPages\SurveyPage7.xbf
 C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\obj\x86\Debug\SurveyPages\SurveyPage8.xbf
+C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\obj\x86\Debug\SurveyPages\TitlePage.g.i.cs
+C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\obj\x86\Debug\SurveyPages\TitlePage.g.cs
+C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\obj\x86\Debug\SurveyPages\TitlePage.xaml
+C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\obj\x86\Debug\SurveyPages\TitlePage.xbf
+C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x86\Debug\SurveyPages\TitlePage.xbf

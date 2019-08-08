@@ -4,12 +4,17 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Security.Cryptography.Certificates;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.Web.Http;
 
 namespace TestSurveyApp
 {
@@ -21,6 +26,7 @@ namespace TestSurveyApp
         public ObservableCollection<Benefit> CurrentBenefitCollection { get; set; }
         public Windows.Storage.StorageFolder storageFolder { get; set; }
         Windows.Storage.Pickers.FileSavePicker filePicker;
+        Windows.Storage.Pickers.FileOpenPicker fileOpenPicker;
         Windows.Storage.Pickers.FolderPicker folderPicker;
 
         string rootURL = "https://prodigalcompany.com/npjTest/SurveyStuff";
@@ -36,13 +42,14 @@ namespace TestSurveyApp
 
         int pageNumber;
 
-        StorageFolder surveyFolder;
+       
 
         public SurveyPage(int newPageNumber)
         {
+            
+
             pageNumber = newPageNumber;
 
-            surveyFolder = null;
 
             CurrentBenefitCollection = App.SurveyBenefitCollection.FinalBenefitList[pageNumber];
 
@@ -195,7 +202,10 @@ namespace TestSurveyApp
             surveyName = "testSurveyFolder";
 
             filePicker = new Windows.Storage.Pickers.FileSavePicker(); //Windows.Storage.ApplicationData.Current.LocalFolder;
+            fileOpenPicker = new Windows.Storage.Pickers.FileOpenPicker();
             folderPicker = new Windows.Storage.Pickers.FolderPicker();
+
+            filePicker.FileTypeChoices.Add("JSON", new List<string>() { ".json" });
         }
 
         public void Image_DragOver(object sender, Windows.UI.Xaml.DragEventArgs e)
@@ -205,10 +215,11 @@ namespace TestSurveyApp
             Debug.WriteLine("Dragging.");
         }
 
-        public void Image_Drop(object sender, IReadOnlyList<IStorageItem> items)
+        public async void Image_Drop(object sender, IReadOnlyList<IStorageItem> items)
         {
 
                     StorageFile storageFile = items[0] as StorageFile;
+            await storageFile.CopyAsync(App.surveyFolder, storageFile.Name, NameCollisionOption.ReplaceExisting);
                     Windows.UI.Xaml.Media.Imaging.BitmapImage bitmapImage = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/" + storageFile.Name));
                     //await bitmapImage.SetSourceAsync(await storageFile.OpenAsync(FileAccessMode.Read));
                     //await UploadOpAsync(bitmapImage.UriSource, storageFile);
@@ -345,7 +356,8 @@ namespace TestSurveyApp
             var stream2 = new MemoryStream();
             var serializer = new DataContractJsonSerializer(typeof(ObservableCollection<ObservableCollection<Benefit>>));
             serializer.WriteObject(stream2, App.SurveyBenefitCollection.FinalBenefitList);
-            filePicker.FileTypeChoices.Add("JSON", new List<string>() { ".json" });
+            
+            
             Windows.Storage.StorageFile surveyFile = await filePicker.PickSaveFileAsync();
             stream2.Position = 0;
             var streamReader = new StreamReader(stream2);
@@ -384,6 +396,253 @@ namespace TestSurveyApp
 
             //}
 
+        }
+
+        public async void UploadToServer(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            //surveyFolder = await folderPicker.PickSingleFolderAsync();
+            //Upload json
+            //await TryPostJsonAsync();
+            //await PutFileOnServer();
+            //await Upload_FileAsync();
+            //await GetTest();
+            //Upload 32 images
+            //Create table
+            //Get/Display shareable link
+
+
+        }
+
+
+        public async Task GetTest()
+        {
+            //Create an HTTP client object
+            Windows.Web.Http.HttpClient httpClient = new Windows.Web.Http.HttpClient();
+
+            //Add a user-agent header to the GET request. 
+            var headers = httpClient.DefaultRequestHeaders;
+
+            //The safe way to add a header value is to use the TryParseAdd method and verify the return value is true,
+            //especially if the header value is coming from user input.
+            string header = "ie";
+            if (!headers.UserAgent.TryParseAdd(header))
+            {
+                throw new Exception("Invalid header value: " + header);
+            }
+
+            header = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0)";
+            if (!headers.UserAgent.TryParseAdd(header))
+            {
+                throw new Exception("Invalid header value: " + header);
+            }
+
+            Uri requestUri = new Uri("https://prodigalcompany.com/npjTest/SurveyStuff/testSurveyFile.json");
+
+            //Send the GET request asynchronously and retrieve the response as a string.
+            Windows.Web.Http.HttpResponseMessage httpResponse = new Windows.Web.Http.HttpResponseMessage();
+            string httpResponseBody = "";
+
+            try
+            {
+                //Send the GET request
+                httpResponse = await httpClient.GetAsync(requestUri);
+                httpResponse.EnsureSuccessStatusCode();
+                httpResponseBody = await httpResponse.Content.ReadAsStringAsync();
+                Debug.WriteLine("Output: " + httpResponseBody);
+            }
+            catch (Exception ex)
+            {
+                httpResponseBody = "Error: " + ex.HResult.ToString("X") + " Message: " + ex.Message;
+            }
+        }
+
+        
+        public async Task Upload_FileAsync()
+        {
+            //init_apartment();
+
+            /*Windows.Storage.Streams.IBuffer buffer =
+                Windows.Security.Cryptography.CryptographicBuffer.ConvertStringToBinary(
+                    "A sentence of text to encode into binary to serve as sample data.",
+                    Windows.Security.Cryptography.BinaryStringEncoding.Utf8
+                );
+            Windows.Web.Http.HttpBufferContent binaryContent = new HttpBufferContent(buffer);*/
+            // You can use the 'image/jpeg' content type to represent any binary data;
+            // it's not necessarily an image file.
+            fileOpenPicker.FileTypeFilter.Add(".json");
+            IStorageFile jsonFile = await fileOpenPicker.PickSingleFileAsync();
+            IRandomAccessStream stream = await jsonFile.OpenAsync(FileAccessMode.Read);
+            Windows.Web.Http.HttpStreamContent jsonContent = new HttpStreamContent(stream);
+
+            jsonContent.Headers.Append("Content-Type", "application/json");
+
+            Windows.Web.Http.Headers.HttpContentDispositionHeaderValue disposition = new Windows.Web.Http.Headers.HttpContentDispositionHeaderValue(/*"form-data"*/"render");
+            jsonContent.Headers.ContentDisposition = disposition;
+            // The 'name' directive contains the name of the form field representing the data.
+            disposition.Name ="fileForUpload";
+            // Here, the 'filename' directive is used to indicate to the server a file name
+            // to use to save the uploaded data.
+            disposition.FileName = "testSurveyFile.json";
+
+            Windows.Web.Http.HttpMultipartFormDataContent postContent = new HttpMultipartFormDataContent();
+            postContent.Add(jsonContent); // Add the binary data content as a part of the form data content.
+
+            // Send the POST request asynchronously, and retrieve the response as a string.
+            Windows.Web.Http.HttpResponseMessage httpResponseMessage;
+            string httpResponseBody;
+
+            try
+            {
+                /*Uri requestUri = new Uri("https://prodigalcompany.com/npjTest/SurveyStuff");
+
+                Windows.Web.Http.Filters.HttpBaseProtocolFilter clientFilter = new Windows.Web.Http.Filters.HttpBaseProtocolFilter();
+                clientFilter.AllowAutoRedirect = false;
+
+                Windows.Web.Http.HttpClient httpClient = new Windows.Web.Http.HttpClient(clientFilter);
+                httpResponseMessage = await httpClient.PutAsync(requestUri, postContent);
+
+                requestUri = httpResponseMessage.Headers.Location;
+                httpResponseMessage = await httpClient.PutAsync(requestUri, postContent);*/
+
+
+                // Send the POST request.
+
+                Uri requestUri = new Uri("https://prodigalcompany.com/npjTest/SurveyStuff/testSurveyFile.json");
+
+                Windows.Security.Cryptography.Certificates.CertificateQuery certQuery = new Windows.Security.Cryptography.Certificates.CertificateQuery();
+                certQuery.FriendlyName = "Test Certificate";    // This is the friendly name of the certificate that was just installed.
+                IReadOnlyList<Windows.Security.Cryptography.Certificates.Certificate> certificates = await Windows.Security.Cryptography.Certificates.CertificateStores.FindAllAsync(certQuery);
+                // TODO here you can display the certificates in the UI to make the User select.
+
+                Debug.WriteLine("Cert? = " + certificates.Count);
+
+                Windows.Web.Http.Filters.HttpBaseProtocolFilter filter = new Windows.Web.Http.Filters.HttpBaseProtocolFilter();
+                filter.ServerCredential = new Windows.Security.Credentials.PasswordCredential(
+                    "prodigalcompany.com",
+                    "npjAccess@prodigalcompany.com",
+                    "Pr0digal1!");
+                filter.AllowAutoRedirect = false;
+                //filter.ClientCertificate = certificates[0];
+
+                Windows.Web.Http.HttpClient httpClient = new Windows.Web.Http.HttpClient(filter);
+                httpResponseMessage = await httpClient.PutAsync(requestUri, postContent);
+                httpResponseMessage.EnsureSuccessStatusCode();
+                
+                httpResponseBody = await httpResponseMessage.Content.ReadAsStringAsync();
+                Debug.WriteLine(httpResponseBody);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            
+        }
+
+
+        private async Task TryPostJsonAsync()
+        {
+            try
+            {
+                // Construct the HttpClient and Uri. This endpoint is for test purposes only.
+                //var myFilter = new Windows.Web.Http.Filters.HttpBaseProtocolFilter();
+                //myFilter.AllowUI = false;
+
+                //Windows.Web.Http.Filters.HttpBaseProtocolFilter filter = new Windows.Web.Http.Filters.HttpBaseProtocolFilter();
+                //Windows.Storage.StorageFolder storageFolder = KnownFolders.DocumentsLibrary;
+                fileOpenPicker.FileTypeFilter.Add(".json");
+                /*fileOpenPicker.FileTypeFilter.Add(".txt");
+                Windows.Storage.StorageFile credentialsFile = await fileOpenPicker.PickSingleFileAsync();
+                string text = await Windows.Storage.FileIO.ReadTextAsync(credentialsFile);
+                string username = text.Split(',')[0];
+                string password = text.Split(',')[1];
+                string domain = text.Split(',')[2];*/
+
+                HttpClientHandler handler = new HttpClientHandler();
+                handler.Credentials = new NetworkCredential("", "", "");
+
+                System.Net.Http.HttpClient httpClient = new System.Net.Http.HttpClient(handler);
+
+                httpClient.DefaultRequestHeaders.Clear();
+                httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                Uri uri = new Uri("https://prodigalcompany.com/npjTest/SurveyStuff/testSurveyFile.json");
+
+                // Construct the JSON to post.
+                //fileOpenPicker.FileTypeChoices.Add("JSON", new List<string>() { ".json" });
+                
+                IStorageFile jsonFile = await fileOpenPicker.PickSingleFileAsync();
+                IRandomAccessStream stream = await jsonFile.OpenAsync(FileAccessMode.Read);
+                System.Net.Http.MultipartFormDataContent postContent = new MultipartFormDataContent();
+                
+                if (stream != null)
+                {
+                    using (var dataReader = new Windows.Storage.Streams.DataReader(stream))
+                    {
+                        uint numBytesLoaded = await dataReader.LoadAsync((uint)stream.Size);
+                        string jsonText = dataReader.ReadString(numBytesLoaded);
+
+                        System.Net.Http.StringContent streamContent = new System.Net.Http.StringContent(jsonText);
+                        streamContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+                        postContent.Add(streamContent);
+                        System.Net.Http.HttpResponseMessage httpResponseMessage = await httpClient.PostAsync(
+                        "https://prodigalcompany.com/npjTest/SurveyStuff/testSurveyFile.json",
+                        postContent);
+                        // Make sure the post succeeded, and write out the response.
+                        httpResponseMessage.EnsureSuccessStatusCode();
+                        var httpResponseBody = await httpResponseMessage.Content.ReadAsStringAsync();
+                        Debug.WriteLine(httpResponseBody);
+                    }
+                }
+                else
+                {
+                    Debug.WriteLine("stream is NULL.");
+                }
+                
+                //HttpStringContent content = await jsonFile.OpenReadAsync();
+                // Post the JSON and wait for a response.
+                
+            }
+            catch (Exception ex)
+            {
+                // Write out any exceptions.
+                Debug.WriteLine(ex);
+            }
+        }
+
+        public async Task PutFileOnServer()
+        {
+            Uri requestUri = new Uri("https://prodigalcompany.com/npjTest/SurveyStuff/testSurveyFile.json");
+
+            Windows.Web.Http.Filters.HttpBaseProtocolFilter filter = new Windows.Web.Http.Filters.HttpBaseProtocolFilter();
+            filter.AllowUI = false;
+
+            // Set credentials that will be sent to the server.
+            filter.ServerCredential =
+                new Windows.Security.Credentials.PasswordCredential(
+                    "https://prodigalcompany.com/npjTest/SurveyStuff/testSurveyFile.json",
+                    "npjAccess@prodigalcompany.com",
+                    "Pr0digal1!");
+
+
+            //string content = @"{ deviceId:'newdevice'}";
+            fileOpenPicker.FileTypeFilter.Add(".json");
+            fileOpenPicker.FileTypeFilter.Add(".txt");
+            IStorageFile jsonFile = await fileOpenPicker.PickSingleFileAsync();
+            IRandomAccessStream stream = await jsonFile.OpenAsync(FileAccessMode.Read);
+
+            //Windows.Web.Http.HttpStringContent requestBody = new HttpStringContent(content, Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
+            Windows.Web.Http.HttpStreamContent requestContent = new HttpStreamContent(stream);
+
+            Windows.Web.Http.HttpRequestMessage message = new Windows.Web.Http.HttpRequestMessage();
+            message.RequestUri = requestUri;
+            message.Method = Windows.Web.Http.HttpMethod.Put;
+            message.Content = requestContent;
+
+            Windows.Web.Http.HttpClient client = new Windows.Web.Http.HttpClient(filter);
+
+            Windows.Web.Http.HttpResponseMessage response = await client.SendRequestAsync(message);
+
+            
+            Debug.WriteLine(response);
         }
 
         public async System.Threading.Tasks.Task UploadOpAsync(Uri uriInput, StorageFile file)

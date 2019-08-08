@@ -7,6 +7,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -27,6 +28,9 @@ namespace TestSurveyApp
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
         /// 
+
+        public static StorageFolder surveyFolder;
+
         public static BenefitCollection SurveyBenefitCollection;
         public static int[] PageNumbers;
 
