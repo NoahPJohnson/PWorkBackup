@@ -2,30 +2,12 @@
 
 //require_once "surveyConfig.php";
 
-//header("location: surveyFinalPage.php");
-
-
-$jsonData = file_get_contents('testSurveyFile.json');
-$pageArray = json_decode($jsonData);/* array(
-            0 => array(0 => new Benefit(), 1 => new Benefit(), 2 => new Benefit(), 3 => new Benefit()),
-            1 => array(0 => new Benefit(), 1 => new Benefit(), 2 => new Benefit(), 3 => new Benefit()),
-            2 => array(0 => new Benefit(), 1 => new Benefit(), 2 => new Benefit(), 3 => new Benefit()),
-            3 => array(0 => new Benefit(), 1 => new Benefit(), 2 => new Benefit(), 3 => new Benefit()),
-            4 => array(0 => new Benefit(), 1 => new Benefit(), 2 => new Benefit(), 3 => new Benefit()),
-            5 => array(0 => new Benefit(), 1 => new Benefit(), 2 => new Benefit(), 3 => new Benefit()),
-            6 => array(0 => new Benefit(), 1 => new Benefit(), 2 => new Benefit(), 3 => new Benefit()),
-            7 => array(0 => new Benefit(), 1 => new Benefit(), 2 => new Benefit(), 3 => new Benefit()),
-);*/
-//var_dump($pageArray);
-//$pageNumber = 0;
-//$_SESSION["pageNumber"] = 0;
+$jsonData = file_get_contents('newTestSurveyFile.json');
+$pageArray = json_decode($jsonData);
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
     session_start();
-    //$_SESSION["pageNumber"] = 0;
     $_SESSION["pageNumber"] += 1;
-    //$_SESSION["surveyStarted"] = true;
-    //$_SESSION["finalBenefitArray"] = array();
     $pageNumber = $_SESSION["pageNumber"];
     if ($_POST['BenefitButton'] == '1')
     {
@@ -50,12 +32,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     $finalBenefitArray = $_SESSION["finalBenefitArray"];
     if ($pageNumber >= 8)
     {
-        //var_dump($finalBenefitArray);
-        //$finalBenefitArray = array();
-        //$pageNumber = 0;
-        //$_SESSION["finalBenefitArray"] = array();
-        //$_SESSION["pageNumber"] = 0;
-        //session_start();
         if (isset($_SESSION["finalBenefitArray"]))
         {
             header("location: surveyFinalPage.php");
@@ -68,9 +44,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
 if (!isset($_SESSION["pageNumber"]) || $_SESSION["pageNumber"] == 0)
 {
-    $finalBenefitArray = array(/*0 => new Benefit(), 1 => new Benefit(), 2 => new Benefit(), 3 => new Benefit(), 4 => new Benefit(), 5 => new Benefit(), 6 => new Benefit(), 7 => new Benefit()*/);
+    $finalBenefitArray = array();
     $pageNumber = 0;
-    echo "S: " . $_SESSION["pageNumber"];
+    //echo "S: " . $_SESSION["pageNumber"];
 }
 
 class Benefit
@@ -86,37 +62,7 @@ class Benefit
             $this->BenefitImage = "./Assets";
             $this->BenefitLabel = "Benefit Title";
             $this->BenefitIndex = "";
-            //echo $BenefitText;
-            //$BeneiftScore = 0;
         }
-
-        /*function __construct($newBenefitText)
-        {
-            $BenefitText = $newBenefitText;
-            $BenefitImage = new BitmapImage(new Uri("ms-appx:///Assets/Pizza.png"));
-            $BenefitLabel = "Benefit Title";
-        }
-
-        function __construct($newBenefitText, $newImage)
-        {
-            $BenefitText = $newBenefitText;
-            $BenefitImage = $newImage;
-            $BenefitLabel = "Benefit Title";
-        }
-
-        function __construct($newBenefitText, $newBenefitLabel)
-        {
-            $BenefitText = $newBenefitText;
-            $BenefitImage = new BitmapImage(new Uri("ms-appx:///Assets/Pizza.png"));
-            $BenefitLabel = $newBenefitLabel;
-        }
-
-        function __construct($newBenefitText, $newImage, $newBenefitLabel)
-        {
-            $BenefitText = newBenefitText;
-            $BenefitImage = newImage;
-            $BenefitLabel = newBenefitLabel;
-        }*/
     }
 
 ?>
@@ -134,10 +80,6 @@ class Benefit
     <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css' integrity='sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu' crossorigin='anonymous'>
     <style>
 
-
-    /*.BenefitsCollection {
-        height: 800px;
-    }*/
 
     .BenefitRow {
         margin: auto;

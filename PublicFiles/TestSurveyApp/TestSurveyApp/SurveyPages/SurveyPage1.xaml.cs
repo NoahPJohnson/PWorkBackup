@@ -49,9 +49,10 @@ namespace TestSurveyApp.SurveyPages
                 var items = await e.DataView.GetStorageItemsAsync();
                 if (items.Count > 0)
                 {
-                    surveyPage.Image_Drop(sender, items);
+                    await surveyPage.Image_Drop(sender, items);
                 }
             }
+            Debug.WriteLine("New URI = " + surveyPage.CurrentBenefitCollection[0].BenefitImage);
             Benefit1ImageDisplay.Source = new BitmapImage(surveyPage.CurrentBenefitCollection[0].BenefitImage);
             Benefit2ImageDisplay.Source = new BitmapImage(surveyPage.CurrentBenefitCollection[1].BenefitImage);
             Benefit3ImageDisplay.Source = new BitmapImage(surveyPage.CurrentBenefitCollection[2].BenefitImage);

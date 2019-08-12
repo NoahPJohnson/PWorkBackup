@@ -40,7 +40,6 @@ namespace TestSurveyApp
         Windows.Storage.Pickers.FolderPicker folderPicker;
 
 
-
         public MainPage()
         {
             this.InitializeComponent();
@@ -51,28 +50,43 @@ namespace TestSurveyApp
         
         public async void CreateSurveyFolder(object sender, RoutedEventArgs e)
         {
-            folderPicker.FileTypeFilter.Add("*");
+            App.surveyFolder = await DownloadsFolder.CreateFolderAsync(SurveyNameInput.Text, CreationCollisionOption.FailIfExists); //ApplicationData.Current.LocalFolder.CreateFolderAsync(SurveyNameInput.Text, CreationCollisionOption.FailIfExists);
+            App.surveyFile = await App.surveyFolder.CreateFileAsync(SurveyNameInput.Text + ".json", CreationCollisionOption.ReplaceExisting);
+            /*folderPicker.FileTypeFilter.Add("*");
             folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
-            App.surveyFolder = await folderPicker.PickSingleFolderAsync();
+            App.surveyFolder = await folderPicker.PickSingleFolderAsync();*/
+            if (App.surveyFolder != null)
+            {
+                CurrentPageFrame.Navigate(typeof(SurveyPages.TitlePage));
+            }
         }
 
         public async void OpenSurveyFile(object sender, RoutedEventArgs e)
         {
-            /*folderPicker.FileTypeFilter.Add("*");
-            folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
-            App.surveyFolder = await folderPicker.PickSingleFolderAsync();*/
+            folderPicker.FileTypeFilter.Add("*");
+            folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Downloads;
+            App.surveyFolder = await folderPicker.PickSingleFolderAsync();
             
-            fileOpenPicker.FileTypeFilter.Add(".json");
-            IStorageFile jsonFile = await fileOpenPicker.PickSingleFileAsync();
-            var stream = System.IO.WindowsRuntimeStreamExtensions.AsStreamForRead(await jsonFile.OpenAsync(FileAccessMode.Read));
-            App.surveyFolder = await StorageFolder.GetFolderFromPathAsync(jsonFile.Path.Remove(jsonFile.Path.Length - jsonFile.Name.Length));
+
+
+            /*fileOpenPicker.FileTypeFilter.Add(".json");
+            fileOpenPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Downloads;
+            StorageFile jsonFile = await fileOpenPicker.PickSingleFileAsync();*/
+            App.surveyFile = await App.surveyFolder.GetFileAsync(App.surveyFolder.Name + ".json");
+            //App.surveyFolder = await jsonFile.GetParentAsync();
+            if (App.surveyFolder == null)
+            {
+                Debug.WriteLine("Survey Folder is null");
+            }
+            var stream = System.IO.WindowsRuntimeStreamExtensions.AsStreamForRead(await App.surveyFile.OpenAsync(FileAccessMode.Read));
+            //App.surveyFolder = await StorageFolder.GetFolderFromPathAsync(jsonFile.Path.Remove(jsonFile.Path.Length - jsonFile.Name.Length));
 
 
             if (stream != null)
             {
                 DataContractJsonSerializer deserializer = new DataContractJsonSerializer(typeof(ObservableCollection<ObservableCollection<Benefit>>));
                 App.SurveyBenefitCollection.FinalBenefitList = deserializer.ReadObject(stream) as ObservableCollection<ObservableCollection<Benefit>>;
-
+                
                 CurrentPageFrame.Navigate(typeof(SurveyPages.TitlePage));
             }
             else

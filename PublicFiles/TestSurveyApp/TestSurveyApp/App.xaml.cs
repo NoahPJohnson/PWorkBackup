@@ -30,6 +30,7 @@ namespace TestSurveyApp
         /// 
 
         public static StorageFolder surveyFolder;
+        public static StorageFile surveyFile;
 
         public static BenefitCollection SurveyBenefitCollection;
         public static int[] PageNumbers;
@@ -41,6 +42,7 @@ namespace TestSurveyApp
 
             SurveyBenefitCollection = new BenefitCollection();
             PageNumbers = new int[] { 0, 1, 2, 3, 4, 5, 6, 7 };
+            surveyFile = null;
         }
 
         /// <summary>

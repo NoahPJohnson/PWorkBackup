@@ -23,7 +23,25 @@
                     <ColumnDefinition Width="160"/>
                     <ColumnDefinition Width="160"/>
                 </Grid.ColumnDefinitions>
-                <Button x:ConnectionId='3' Grid.Row="0" Grid.Column="0" x:Name="NewButton" Content="New" HorizontalAlignment="Center"  VerticalAlignment="Stretch"  Width="150"                            />
+                <Button x:ConnectionId='3' Grid.Row="0" Grid.Column="0" x:Name="NewButton" Content="New" HorizontalAlignment="Center"  VerticalAlignment="Stretch"  Width="150">
+                    <Button.Flyout>
+                        <Flyout>
+                            <Flyout.FlyoutPresenterStyle>
+                                <Style TargetType="FlyoutPresenter">
+                                    <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled"/>
+                                    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+                                    <Setter Property="IsTabStop" Value="True"/>
+                                    <Setter Property="TabNavigation" Value="Cycle"/>
+                                </Style>
+                            </Flyout.FlyoutPresenterStyle>
+                            <StackPanel>
+                                <TextBlock TextWrapping="Wrap" Text="Enter Survey Name."/>
+                                <TextBox x:ConnectionId='5' x:Name="SurveyNameInput"/>
+                                <Button x:ConnectionId='6' x:Name="CreateButton" Content="Create"                           />
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
                 <Button x:ConnectionId='4' Grid.Row="0" Grid.Column="1" x:Name="OpenButton" Content="Open" HorizontalAlignment="Center"  VerticalAlignment="Stretch"  Width="150"                        />
             </Grid>
 

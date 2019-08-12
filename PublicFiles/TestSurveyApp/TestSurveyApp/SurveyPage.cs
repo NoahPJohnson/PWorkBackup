@@ -9,7 +9,9 @@ using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Graphics.Imaging;
 using Windows.Security.Cryptography.Certificates;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -53,7 +55,78 @@ namespace TestSurveyApp
 
             CurrentBenefitCollection = App.SurveyBenefitCollection.FinalBenefitList[pageNumber];
 
-            staticTemplateArray = new string[] { @"<!DOCTYPE html>
+            staticTemplateArray = new string[]
+            {
+                @"<?php
+
+//require_once ""surveyConfig.php"";
+
+$jsonData = file_get_contents(",  @");
+$pageArray = json_decode($jsonData);
+if ($_SERVER[""REQUEST_METHOD""] == ""POST"")
+{
+    session_start();
+    $_SESSION[""pageNumber""] += 1;
+    $pageNumber = $_SESSION[""pageNumber""];
+    if ($_POST['BenefitButton'] == '1')
+    {
+        $_SESSION[""finalBenefitArray""][] = $pageArray[$pageNumber-1][0];
+        
+    }
+    else if ($_POST['BenefitButton'] == '2')
+    {
+        $_SESSION[""finalBenefitArray""][] = $pageArray[$pageNumber-1][1];
+        
+    }
+    else if ($_POST['BenefitButton'] == '3')
+    {
+        $_SESSION[""finalBenefitArray""][] = $pageArray[$pageNumber-1][2];
+        
+    }
+    else if ($_POST['BenefitButton'] == '4')
+    {
+        $_SESSION[""finalBenefitArray""][] = $pageArray[$pageNumber-1][3];
+        
+    }
+    $finalBenefitArray = $_SESSION[""finalBenefitArray""];
+    if ($pageNumber >= 8)
+    {
+        if (isset($_SESSION[""finalBenefitArray""]))
+        {
+            header(""location: surveyFinalPage.php"");
+
+            exit();
+        }
+    }
+}
+
+
+if (!isset($_SESSION[""pageNumber""]) || $_SESSION[""pageNumber""] == 0)
+{
+    $finalBenefitArray = array();
+    $pageNumber = 0;
+    //echo ""S: "" . $_SESSION[""pageNumber""];
+}
+
+class Benefit
+{
+        public $BenefitText;
+        public $BenefitImage;
+        public $BenefitLabel;
+        public $BeneiftIndex;
+
+        function __construct()
+        {
+            $this->BenefitText = ""BenefitText"";
+            $this->BenefitImage = ""./Assets"";
+            $this->BenefitLabel = ""Benefit Title"";
+            $this->BenefitIndex = """";
+        }
+    }
+
+?>
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset='utf-8'>
@@ -66,10 +139,6 @@ namespace TestSurveyApp
     <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css' integrity='sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu' crossorigin='anonymous'>
     <style>
 
-
-    /*.BenefitsCollection {
-        height: 800px;
-    }*/
 
     .BenefitRow {
         margin: auto;
@@ -101,52 +170,52 @@ namespace TestSurveyApp
     <header>Survey: Question</header>
     <div class='Survey Page'>
         <div class='SurveyQuestion'>Question</div>
-        <div class='BenefitsCollection container'>
+        <form class='BenefitsCollection container' action='<?php echo htmlspecialchars($_SERVER[""PHP_SELF""]); ?>' method='post'>
             <div class='BenefitRow row'>
-                <button id='BB1'class='Benefit col-md-5' type='submit'>
-                    <div class='row'>
-                        <div id='BL1'class='BenefitTitle'>", @"</div>
+                <button id='BB1' name='BenefitButton' value='1' class='Benefit col-md-5' type='submit'>
+                    <div id='BL1' class='row'>
+                        <div class='BenefitTitle'><?php echo $pageArray[$pageNumber][0]->BenefitLabel ?></div>
                     </div>
                     <div id='BC1' class='row'>
-                        <img id='BI1' class='BenefitImage col-md-6' src='", @"'></img>
-                        <div id='BT1' class='BenefitText col-md-6'>", @"</div>
+                        <img id='BI1' class='BenefitImage col-md-6' src='<?php echo $pageArray[$pageNumber][0]->BenefitImage ?>'></img>
+                        <div id='BT1' class='BenefitText col-md-6'><?php echo $pageArray[$pageNumber][0]->BenefitText ?></div>
                         
                     </div>
                 </button>
-                <button id='BB2' class='Benefit col-md-5' type='submit'>
-                    <div class='row'>
-                        <div id='BL2' class='BenefitTitle'>", @"</div>
+                <button id='BB2' name='BenefitButton' value='2' class='Benefit col-md-5' type='submit'>
+                    <div id='BL2' class='row'>
+                        <div class='BenefitTitle'><?php echo $pageArray[$pageNumber][1]->BenefitLabel ?></div>
                     </div>
                     <div id='BC2' class='row'>
-                        <img id='BI2' class='BenefitImage col-md-6' src='", @"'></img>
-                        <div id='BT2' class='BenefitText col-md-6'>", @"</div>
+                        <img id='BI2' class='BenefitImage col-md-6' src='<?php echo $pageArray[$pageNumber][1]->BenefitImage ?>'></img>
+                        <div id='BT2' class='BenefitText col-md-6'><?php echo $pageArray[$pageNumber][1]->BenefitText ?></div>
                         
                     </div>
                 </button>
             </div>
             <div class='BenefitRow row'>
-                <button id='BB3' class='Benefit col-md-5' type='submit'>
-                    <div class='row'>
-                        <div id='BL3' class='BenefitTitle'>", @"</div>
+                <button id='BB3' name='BenefitButton' value='3' class='Benefit col-md-5' type='submit'>
+                    <div id='BL3' class='row'>
+                        <div class='BenefitTitle'><?php echo $pageArray[$pageNumber][2]->BenefitLabel ?></div>
                     </div>
                     <div id='BC3' class='row'>
                         
-                        <img id='BI3' class='BenefitImage col-md-6' src='", @"'></img>
-                        <div id='BT3' class='BenefitText col-md-6'>", @"</div>
+                        <img id='BI3' class='BenefitImage col-md-6' src='<?php echo $pageArray[$pageNumber][2]->BenefitImage ?>'></img>
+                        <div id='BT3' class='BenefitText col-md-6'><?php echo $pageArray[$pageNumber][2]->BenefitText ?></div>
                         
                     </div>
                 </button>
-                <button id='BB4' class='Benefit col-md-5' type='submit'>
-                    <div class='row'>
-                        <div id='BL4' class='BenefitTitle'>", @"</div>
+                <button  id='BB4' name='BenefitButton' value='4' class='Benefit col-md-5' type='submit'>
+                    <div id='BL4' class='row'>
+                        <div class='BenefitTitle'><?php echo $pageArray[$pageNumber][3]->BenefitLabel ?></div>
                     </div>
                     <div id='BC4' class='row'>
-                        <img id='BI4' class='BenefitImage col-md-6' src='", @"'></img>
-                        <div id='BT4' class='BenefitText col-md-6'>", @"</div>
+                        <img id='BI4' class='BenefitImage col-md-6' src='<?php echo $pageArray[$pageNumber][3]->BenefitImage ?>'></img>
+                        <div id='BT4' class='BenefitText col-md-6'><?php echo $pageArray[$pageNumber][3]->BenefitText ?></div>
                     </div>
                 </button>
             </div>
-        </div>
+        </form>
         <script>
         
                 var indexArray = [0,1,2,3];
@@ -164,22 +233,27 @@ namespace TestSurveyApp
                 for (var i = 0; i < 4; i++)
                 {
                     var currentParent = document.getElementById('BB'.concat(i+1));
+                    currentParent.appendChild(document.getElementById('BL'.concat(indexArray[i]+1)).cloneNode(true));
                     currentParent.appendChild(document.getElementById('BC'.concat(indexArray[i]+1)).cloneNode(true));
-        }
-                for (var i = 0; i< 4; i++)
+                }
+                for (var i = 0; i < 4; i++)
                 {
                     var currentParent = document.getElementById('BB'.concat(i + 1));
-        currentParent.removeChild(currentParent.childNodes[3]);
+                    currentParent.removeChild(currentParent.firstChild);
+                    currentParent.removeChild(currentParent.firstChild);
+                    currentParent.removeChild(currentParent.firstChild);
+                    currentParent.removeChild(currentParent.firstChild);
                 }
         </script>
     </div>
-    <footer>Page:", @"</footer>
+    <footer>Page: <?php echo $pageNumber?></footer>
 </body>
 </html>"
-        };
+            };
+
             //dynamicTemplateArray = new string[] {  };
 
-            surveyTemplateString = staticTemplateArray[0]
+            /*surveyTemplateString = staticTemplateArray[0]
                 + CurrentBenefitCollection[0].BenefitLabel + staticTemplateArray[1]
                 + CurrentBenefitCollection[0].BenefitImage + staticTemplateArray[2]
                 + CurrentBenefitCollection[0].BenefitText + staticTemplateArray[3]
@@ -192,7 +266,7 @@ namespace TestSurveyApp
                 + CurrentBenefitCollection[3].BenefitLabel + staticTemplateArray[10]
                 + CurrentBenefitCollection[3].BenefitImage + staticTemplateArray[11]
                 + CurrentBenefitCollection[3].BenefitText + staticTemplateArray[12]
-                + (pageNumber + 1) + staticTemplateArray[13];
+                + (pageNumber + 1) + staticTemplateArray[13];*/
 
 
             indexArray = new int[] { 0, 1, 2, 3 };
@@ -215,40 +289,45 @@ namespace TestSurveyApp
             Debug.WriteLine("Dragging.");
         }
 
-        public async void Image_Drop(object sender, IReadOnlyList<IStorageItem> items)
+        public async Task Image_Drop(object sender, IReadOnlyList<IStorageItem> items)
         {
 
-                    StorageFile storageFile = items[0] as StorageFile;
-            await storageFile.CopyAsync(App.surveyFolder, storageFile.Name, NameCollisionOption.ReplaceExisting);
-                    Windows.UI.Xaml.Media.Imaging.BitmapImage bitmapImage = new Windows.UI.Xaml.Media.Imaging.BitmapImage(new Uri("ms-appx:///Assets/" + storageFile.Name));
-                    //await bitmapImage.SetSourceAsync(await storageFile.OpenAsync(FileAccessMode.Read));
-                    //await UploadOpAsync(bitmapImage.UriSource, storageFile);
-                    // Set the image on the main page to the dropped image
-                    //Debug.WriteLine("image uri = " + new Uri("ms-appx:///Assets/" + storageFile.Name));
-                    Windows.UI.Xaml.Controls.GridViewItem senderItem = sender as Windows.UI.Xaml.Controls.GridViewItem;
-                    if (senderItem.Name == "Benefit1")
-                    {
-                        CurrentBenefitCollection[0].BenefitImage = bitmapImage.UriSource;
-                        //Benefit1ImageDisplay.Source = CurrentBenefitCollection[0].BenefitImage;
-                    }
-                    else if (senderItem.Name == "Benefit2")
-                    {
-                        CurrentBenefitCollection[1].BenefitImage = bitmapImage.UriSource;
-                        //Benefit2ImageDisplay.Source = CurrentBenefitCollection[1].BenefitImage;
-                    }
-                    else if (senderItem.Name == "Benefit3")
-                    {
-                        CurrentBenefitCollection[2].BenefitImage = bitmapImage.UriSource;
-                        //Benefit3ImageDisplay.Source = CurrentBenefitCollection[2].BenefitImage;
-                    }
-                    else if (senderItem.Name == "Benefit4")
-                    {
-                        CurrentBenefitCollection[3].BenefitImage = bitmapImage.UriSource;
-                        //Benefit4ImageDisplay.Source = CurrentBenefitCollection[3].BenefitImage;
-                    }
-                    //Debug.WriteLine("Image is now: " + CurrentBenefitCollection[0].BenefitImage.UriSource);
-                    //Image.Source = bitmapImage;
-                    App.SurveyBenefitCollection.FinalBenefitList[pageNumber] = CurrentBenefitCollection;
+            StorageFile storageFile = items[0] as StorageFile;
+            StorageFolder assets = await Package.Current.InstalledLocation.GetFolderAsync("Assets");
+
+            //StorageFile localImageFile = await storageFile.CopyAsync(assets, storageFile.Name, NameCollisionOption.ReplaceExisting);
+            BitmapImage bitmapImage;
+            //string name = localImageFile.Name; 
+            using (IRandomAccessStream stream = await storageFile.OpenAsync(FileAccessMode.Read))
+            {
+                bitmapImage = new BitmapImage();
+                await bitmapImage.SetSourceAsync(stream);
+                
+                bitmapImage.UriSource = new Uri("ms-appx:///Assets/"+storageFile.Name);
+                Debug.WriteLine("bitmapImage uri source = " + bitmapImage.UriSource);
+            }
+            
+            Windows.UI.Xaml.Controls.GridViewItem senderItem = sender as Windows.UI.Xaml.Controls.GridViewItem;
+            if (senderItem.Name == "Benefit1")
+            {
+                CurrentBenefitCollection[0].BenefitImage = bitmapImage.UriSource;
+            }
+            else if (senderItem.Name == "Benefit2")
+            {
+                CurrentBenefitCollection[1].BenefitImage = bitmapImage.UriSource;
+            }
+            else if (senderItem.Name == "Benefit3")
+            {
+                CurrentBenefitCollection[2].BenefitImage = bitmapImage.UriSource;
+            }
+            else if (senderItem.Name == "Benefit4")
+            {
+                CurrentBenefitCollection[3].BenefitImage = bitmapImage.UriSource;
+
+            }
+            //Debug.WriteLine("Image is now: " + CurrentBenefitCollection[0].BenefitImage.UriSource);
+            StorageFile localImageFile = await storageFile.CopyAsync(assets, storageFile.Name, NameCollisionOption.ReplaceExisting);
+            App.SurveyBenefitCollection.FinalBenefitList[pageNumber] = CurrentBenefitCollection;
         }
 
         public void Image_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -309,7 +388,7 @@ namespace TestSurveyApp
 
             //Debug.WriteLine("Hey: " + CurrentBenefitCollection[indexArray[0]].BenefitImage);
 
-            surveyTemplateString = staticTemplateArray[0]
+            /*surveyTemplateString = staticTemplateArray[0]
                 + CurrentBenefitCollection[0].BenefitLabel + staticTemplateArray[1]
                 + rootURL + CurrentBenefitCollection[indexArray[0]].BenefitImage.OriginalString.Substring(10) + staticTemplateArray[2]
                 + CurrentBenefitCollection[indexArray[0]].BenefitText + staticTemplateArray[3]
@@ -322,7 +401,7 @@ namespace TestSurveyApp
                 + CurrentBenefitCollection[3].BenefitLabel + staticTemplateArray[10]
                 + rootURL + CurrentBenefitCollection[indexArray[3]].BenefitImage.OriginalString.Substring(10) + staticTemplateArray[11]
                 + CurrentBenefitCollection[indexArray[3]].BenefitText + staticTemplateArray[12]
-                + pageNumber + staticTemplateArray[13];
+                + pageNumber + staticTemplateArray[13];*/
 
             //StorageFile tempImageFile = await storageFolder.CreateFileAsync("tempImageFile.png");
             //await UploadOpAsync(CurrentBenefitCollection[3].BenefitImage.UriSource, tempImageFile);
@@ -356,45 +435,51 @@ namespace TestSurveyApp
             var stream2 = new MemoryStream();
             var serializer = new DataContractJsonSerializer(typeof(ObservableCollection<ObservableCollection<Benefit>>));
             serializer.WriteObject(stream2, App.SurveyBenefitCollection.FinalBenefitList);
-            
-            
+
+            filePicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Downloads;
             Windows.Storage.StorageFile surveyFile = await filePicker.PickSaveFileAsync();
+            App.surveyFile = surveyFile;
             stream2.Position = 0;
             var streamReader = new StreamReader(stream2);
             //dataWriter.WriteString(streamReader.ReadToEnd());
             //Debug.WriteLine(streamReader.ReadToEnd());
             //var pageFile = await surveyFolder.CreateFileAsync(surveyName + "Page" + ".html");
             var stream = await surveyFile.OpenAsync(FileAccessMode.ReadWrite);
+            
+            using (var outputStream = stream.GetOutputStreamAt(0))
+            {
+                
+                using (var dataWriter = new Windows.Storage.Streams.DataWriter(outputStream))
+                {
+                   
+                    //Debug.WriteLine("Should Write Stuff.");
+                    string pageTemplateString = staticTemplateArray[0] + App.surveyFile.Name + staticTemplateArray[1];
+        
+                    //dataWriter.WriteString(pageTemplateString);
+                    dataWriter.WriteString(streamReader.ReadToEnd());
 
+                    stream.Size = await dataWriter.StoreAsync();
+                    await outputStream.FlushAsync();
+                }
+            }
+            stream.Dispose();
+
+            StorageFile surveyLogic = await App.surveyFolder.CreateFileAsync("surveyLogic.php", CreationCollisionOption.ReplaceExisting);
+            stream = await surveyLogic.OpenAsync(FileAccessMode.ReadWrite);
             using (var outputStream = stream.GetOutputStreamAt(0))
             {
                 using (var dataWriter = new Windows.Storage.Streams.DataWriter(outputStream))
                 {
                     //Debug.WriteLine("Should Write Stuff.");
-                    /*string pageTemplateString = staticTemplateArray[0]
-        + App.SurveyBenefitCollection.FinalBenefitList[i][0].BenefitLabel + staticTemplateArray[1]
-        + rootURL + App.SurveyBenefitCollection.FinalBenefitList[i][indexArray[0]].BenefitImage.UriSource.OriginalString.Substring(10) + staticTemplateArray[2]
-        + App.SurveyBenefitCollection.FinalBenefitList[i][indexArray[0]].BenefitText + staticTemplateArray[3]
-        + App.SurveyBenefitCollection.FinalBenefitList[i][1].BenefitLabel + staticTemplateArray[4]
-        + rootURL + App.SurveyBenefitCollection.FinalBenefitList[i][indexArray[1]].BenefitImage.UriSource.OriginalString.Substring(10) + staticTemplateArray[5]
-        + App.SurveyBenefitCollection.FinalBenefitList[i][indexArray[1]].BenefitText + staticTemplateArray[6]
-        + App.SurveyBenefitCollection.FinalBenefitList[i][2].BenefitLabel + staticTemplateArray[7]
-        + rootURL + App.SurveyBenefitCollection.FinalBenefitList[i][indexArray[2]].BenefitImage.UriSource.OriginalString.Substring(10) + staticTemplateArray[8]
-        + App.SurveyBenefitCollection.FinalBenefitList[i][indexArray[2]].BenefitText + staticTemplateArray[9]
-        + App.SurveyBenefitCollection.FinalBenefitList[i][3].BenefitLabel + staticTemplateArray[10]
-        + rootURL + App.SurveyBenefitCollection.FinalBenefitList[i][indexArray[3]].BenefitImage.UriSource.OriginalString.Substring(10) + staticTemplateArray[11]
-        + App.SurveyBenefitCollection.FinalBenefitList[i][indexArray[3]].BenefitText + staticTemplateArray[12]
-        + App.PageNumbers[i] + staticTemplateArray[13];*/
-                    //dataWriter.WriteString(pageTemplateString);
-                    dataWriter.WriteString(streamReader.ReadToEnd());
+                    string pageTemplateString = staticTemplateArray[0] + App.surveyFile.Name + staticTemplateArray[1];
+
+                    dataWriter.WriteString(pageTemplateString);
+
                     await dataWriter.StoreAsync();
                     await outputStream.FlushAsync();
                 }
             }
             stream.Dispose();
-            //}
-
-            //}
 
         }
 
