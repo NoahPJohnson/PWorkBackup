@@ -418,6 +418,12 @@
     <AppxPackagedFile Include="C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x86\Debug\MainPage.xbf">
       <PackagePath>MainPage.xbf</PackagePath>
     </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x86\Debug\SurveyPages\EssayQuestionPage.xbf">
+      <PackagePath>SurveyPages\EssayQuestionPage.xbf</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x86\Debug\SurveyPages\FinalBenefitPage.xbf">
+      <PackagePath>SurveyPages\FinalBenefitPage.xbf</PackagePath>
+    </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x86\Debug\SurveyPages\SurveyPage1.xbf">
       <PackagePath>SurveyPages\SurveyPage1.xbf</PackagePath>
     </AppxPackagedFile>

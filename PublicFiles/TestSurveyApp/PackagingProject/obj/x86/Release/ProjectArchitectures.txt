@@ -1,0 +1,2 @@
+C:\Users\Noah\source\repos\TestSurveyApp\PackagingProject\PackagingProject.wapproj;x86
+C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\TestSurveyApp.csproj;x86

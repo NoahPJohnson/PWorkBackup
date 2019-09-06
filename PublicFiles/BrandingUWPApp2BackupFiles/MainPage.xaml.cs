@@ -33,7 +33,7 @@ namespace BrandingUWPApp2
             this.ViewTreeModel = new ObservableCollection<TreeObjectCollection<CompanyCode>>();
             this.CompanyCodeTree = new TreeObjectCollection<CompanyCode>();
             //The path and necessary information to reference the MySQL database, Query the database on app startup
-            string SQLPath = "server=66.147.242.194;user=prodigb3_npj;database=prodigb3_npjTest;port=3306;password=ButterscotchRipple!";
+            string SQLPath = "server=localhost;user=prodigb3_npj;database=prodigb3_npjTest;password=Z&N@Pr0digal";
             MySqlConnection connection = new MySqlConnection(SQLPath);
             connection.Open();
             string query = "SELECT * FROM NAICSCodeTable;";
@@ -153,12 +153,16 @@ namespace BrandingUWPApp2
                         }
                         else
                         {
+                            //Debug.WriteLine("codeInput: " + codeInput + " = " + root.children[i].data.NAICSCode);
+                            //Debug.WriteLine("It has " + root.children[i].observableChildren.Count + " children.");
+
                             root = root.children[i];
                             break;
                         }
                     }
                     if (root == oldRoot)
                     {
+                        //Debug.WriteLine("Root == oldRoot.");
                         break;
                     }
                     else
@@ -167,9 +171,13 @@ namespace BrandingUWPApp2
                     }
                 }
             }
+
+            TreeCodeCollection rootToAdd = (TreeCodeCollection)root;
             ViewTreeModel.Clear();
-            ViewTreeModel.Add(root);
-            SetLabels(root.data);
+            ViewTreeModel.Add(rootToAdd);
+            
+            //Debug.WriteLine("The children in the view model: " + ViewTreeModel[0].observableChildren.Count);
+            SetLabels(rootToAdd.data);
         }
 
         private void TreeItemInvoked(TreeView sender, TreeViewItemInvokedEventArgs arguments)
@@ -305,7 +313,6 @@ namespace BrandingUWPApp2
             }
             //highlightedCompanyCode = companyCodeList[1];
             //companyCodeCollection = SQLConnection.
-            Debug.WriteLine("Shit: " + highlightedCollection[0].NAICSCode);
         }
 
         public void LimitDisplayTitle(string TitleInputValue)
@@ -336,7 +343,6 @@ namespace BrandingUWPApp2
             }
             
             //highlightedCompanyCode = companyCodeList[4];
-            Debug.WriteLine("Ass: " + highlightedCollection[0].NAICSCode);
         }
 
         public void SetHighlightedCompanyCode(CompanyCode companyCodeToHighlight)

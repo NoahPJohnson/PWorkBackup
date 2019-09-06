@@ -1,0 +1,38 @@
+{
+    "authenticationResultCode":"ValidCredentials",
+    "brandLogoUri":"http:\/\/dev.virtualearth.net\/Branding\/logo_powered_by.png",
+    "copyright":"Copyright © 2019 Microsoft and its suppliers. All rights reserved. This API cannot be accessed and the content and any results may not be used, reproduced or transmitted in any manner without express written permission from Microsoft Corporation.",
+    "resourceSets":
+        [{
+        "estimatedTotal":1,
+        "resources":
+            [
+                {
+                "__type":"Location:http:\/\/schemas.microsoft.com\/search\/local\/ws\/rest\/v1",
+                "bbox":[47.635692282429325,-122.13579916900622,47.643417717570678,-122.12051283099379],
+                "name":"1 Microsoft Way, Redmond, WA 98052",
+                "point":{"type":"Point","coordinates":[47.639555,-122.128156]},
+                "address":
+                    {
+                    "addressLine":"1 Microsoft Way",
+                    "adminDistrict":"WA",
+                    "adminDistrict2":"King County",
+                    "countryRegion":"United States",
+                    "formattedAddress":"1 Microsoft Way, Redmond, WA 98052",
+                    "locality":"Redmond","postalCode":"98052"
+                    },
+                "confidence":"High",
+                "entityType":"Address",
+                "geocodePoints":
+                    [
+                        {"type":"Point","coordinates":[47.639555,-122.128156],"calculationMethod":"Rooftop","usageTypes":["Display"]},
+                        {"type":"Point","coordinates":[47.639629999999,-122.129959999999],"calculationMethod":"Rooftop","usageTypes":["Route"]}
+                    ],
+                "matchCodes":["Good"]
+                }
+            ]
+        }],
+    "statusCode":200,
+    "statusDescription":"OK",
+    "traceId":"80554d2bef5840b49495089af7530250|BN000021D5|7.7.0.0|Ref A: E9E1BE10F64E484E870DB815319F4DD4 Ref B: BN3EDGE0405 Ref C: 2019-08-30T13:26:21Z"
+    }

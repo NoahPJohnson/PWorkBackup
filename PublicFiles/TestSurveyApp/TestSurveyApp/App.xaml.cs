@@ -30,6 +30,7 @@ namespace TestSurveyApp
         /// 
 
         public static StorageFolder surveyFolder;
+        public static StorageFolder assetsFolder;
         public static StorageFile surveyFile;
 
         public static BenefitCollection SurveyBenefitCollection;

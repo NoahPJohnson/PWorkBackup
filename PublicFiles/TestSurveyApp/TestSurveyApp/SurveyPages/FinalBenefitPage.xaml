@@ -1,0 +1,143 @@
+﻿<Page
+    x:Class="TestSurveyApp.SurveyPages.FinalBenefitPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:TestSurveyApp.SurveyPages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="720"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" HorizontalAlignment="Center" Width="800" Text="Please Choose only a Single Response" TextAlignment="Center" FontSize="36"/>
+        <GridView x:Name="BenefitsDisplay" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="1180">
+            <GridViewItem x:Name="Benefit1">
+                <Grid Width="270" Height="320" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,10" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="38"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="150"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="Benefit1TitleBox"  Grid.Row="0" Grid.ColumnSpan="2" Text="{x:Bind Path=randomBenefitList[0].BenefitLabel}" TextAlignment="Center" FontSize="20"/>
+                    <Image x:Name="Benefit1ImageDisplay" Grid.Row="1" Grid.Column="0" Source="{x:Bind Path=randomBenefitList[0].GetImage()}" Stretch="Uniform"/>
+                    <TextBlock x:Name="Benefit1TextBox" Grid.Row="1" Grid.Column="1" Text="{x:Bind Path=randomBenefitList[0].BenefitText}" FontSize="12" TextWrapping="Wrap"/>
+                </Grid>
+            </GridViewItem>
+            <GridViewItem x:Name="Benefit2">
+                <Grid Width="270" Height="320" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,10" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="38"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="150"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="Benefit2TitleBox"  Grid.Row="0" Grid.ColumnSpan="2" Text="{x:Bind Path=randomBenefitList[1].BenefitLabel}" TextAlignment="Center" FontSize="20"/>
+                    <Image x:Name="Benefit2ImageDisplay" Grid.Row="1" Grid.Column="0" Source="{x:Bind Path=randomBenefitList[1].GetImage()}" Stretch="Uniform"/>
+                    <TextBlock x:Name="Benefit2TextBox" Grid.Row="1" Grid.Column="1" Text="{x:Bind Path=randomBenefitList[1].BenefitText}" FontSize="12" TextWrapping="Wrap"/>
+                </Grid>
+            </GridViewItem>
+            <GridViewItem x:Name="Benefit3">
+                <Grid Width="270" Height="320" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="38"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="150"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="Benefit3TitleBox"  Grid.Row="0" Grid.ColumnSpan="2" Text="{x:Bind Path=randomBenefitList[2].BenefitLabel}" TextAlignment="Center" FontSize="20"/>
+                    <Image x:Name="Benefit3ImageDisplay" Grid.Row="1" Grid.Column="0" Source="{x:Bind Path=randomBenefitList[2].GetImage()}" Stretch="Uniform"/>
+                    <TextBlock x:Name="Benefit3TextBox" Grid.Row="1" Grid.Column="1" Text="{x:Bind Path=randomBenefitList[2].BenefitText}" FontSize="12" TextWrapping="Wrap"/>
+                </Grid>
+            </GridViewItem>
+            <GridViewItem x:Name="Benefit4">
+                <Grid Width="270" Height="320" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="38"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="150"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="Benefit4TitleBox"  Grid.Row="0" Grid.ColumnSpan="2"  Text="{x:Bind Path=randomBenefitList[3].BenefitLabel}" TextAlignment="Center" FontSize="20"/>
+                    <Image x:Name="Benefit4ImageDisplay" Grid.Row="1" Grid.Column="0" Source="{x:Bind Path=randomBenefitList[3].GetImage()}" Stretch="Uniform"/>
+                    <TextBlock x:Name="Benefit4TextBox" Grid.Row="1" Grid.Column="1" Text="{x:Bind Path=randomBenefitList[3].BenefitText}" FontSize="12" TextWrapping="Wrap"/>
+                </Grid>
+            </GridViewItem>
+            <GridViewItem x:Name="Benefit5">
+                <Grid Width="270" Height="320" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,10" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="38"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="150"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="Benefit5TitleBox"  Grid.Row="0" Grid.ColumnSpan="2" Text="{x:Bind Path=randomBenefitList[4].BenefitLabel}" TextAlignment="Center" FontSize="20"/>
+                    <Image x:Name="Benefit5ImageDisplay" Grid.Row="1" Grid.Column="0" Source="{x:Bind Path=randomBenefitList[4].GetImage()}" Stretch="Uniform"/>
+                    <TextBlock x:Name="Benefit5TextBox" Grid.Row="1" Grid.Column="1" Text="{x:Bind Path=randomBenefitList[4].BenefitText}" FontSize="12" TextWrapping="Wrap"/>
+                </Grid>
+            </GridViewItem>
+            <GridViewItem x:Name="Benefit6">
+                <Grid Width="270" Height="320" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,10" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="38"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="150"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="Benefit6TitleBox"  Grid.Row="0" Grid.ColumnSpan="2" Text="{x:Bind Path=randomBenefitList[5].BenefitLabel}" TextAlignment="Center" FontSize="20"/>
+                    <Image x:Name="Benefit6ImageDisplay" Grid.Row="1" Grid.Column="0" Source="{x:Bind Path=randomBenefitList[5].GetImage()}" Stretch="Uniform"/>
+                    <TextBlock x:Name="Benefit6TextBox" Grid.Row="1" Grid.Column="1" Text="{x:Bind Path=randomBenefitList[5].BenefitText}" FontSize="12" TextWrapping="Wrap"/>
+                </Grid>
+            </GridViewItem>
+            <GridViewItem x:Name="Benefit7">
+                <Grid Width="270" Height="320" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="38"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="150"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="Benefit7TitleBox"  Grid.Row="0" Grid.ColumnSpan="2" Text="{x:Bind Path=randomBenefitList[6].BenefitLabel}" TextAlignment="Center" FontSize="20"/>
+                    <Image x:Name="Benefit7ImageDisplay" Grid.Row="1" Grid.Column="0" Source="{x:Bind Path=randomBenefitList[6].GetImage()}" Stretch="Uniform"/>
+                    <TextBlock x:Name="Benefit7TextBox" Grid.Row="1" Grid.Column="1" Text="{x:Bind Path=randomBenefitList[6].BenefitText}" FontSize="12" TextWrapping="Wrap"/>
+                </Grid>
+            </GridViewItem>
+            <GridViewItem x:Name="Benefit8">
+                <Grid Width="270" Height="320" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,10,10,10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="38"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition Width="150"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="Benefit8TitleBox"  Grid.Row="0" Grid.ColumnSpan="2" Text="{x:Bind Path=randomBenefitList[7].BenefitLabel}" TextAlignment="Center" FontSize="20"/>
+                    <Image x:Name="Benefit8ImageDisplay" Grid.Row="1" Grid.Column="0" Source="{x:Bind Path=randomBenefitList[7].GetImage()}" Stretch="Uniform"/>
+                    <TextBlock x:Name="Benefit8TextBox" Grid.Row="1" Grid.Column="1" Text="{x:Bind Path=randomBenefitList[7].BenefitText}" FontSize="12" TextWrapping="Wrap"/>
+                </Grid>
+            </GridViewItem>
+        </GridView>
+        <TextBlock Grid.Row="2" HorizontalAlignment="Center" Width="800" Text="Page: 9" TextAlignment="Center" FontSize="32"/>
+
+    </Grid>
+</Page>

@@ -60,6 +60,11 @@ namespace TestSurveyApp.SurveyPages
 
         }
 
+        public void UploadToServer(object sender, RoutedEventArgs e)
+        {
+            surveyPage.UploadToServer(sender, e);
+        }
+
         public async System.Threading.Tasks.Task UploadOpAsync(Uri uriInput, StorageFile file)
         {
             await surveyPage.UploadOpAsync(uriInput, file);
@@ -98,6 +103,13 @@ namespace TestSurveyApp.SurveyPages
                     case "Page8":
                         CurrentPageFrame.Navigate(typeof(SurveyPages.SurveyPage8));
                         break;
+                    case "FinalBenefitPage":
+                        CurrentPageFrame.Navigate(typeof(SurveyPages.FinalBenefitPage));
+                        break;
+                    case "EssayQuestionPage":
+                        CurrentPageFrame.Navigate(typeof(SurveyPages.EssayQuestionPage));
+                        break;
+
                 }
             }
         }

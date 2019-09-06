@@ -19,10 +19,10 @@
     <DeployOptionalPackages>false</DeployOptionalPackages>
     <WindowsSdkPath>C:\Program Files %28x86%29\Windows Kits\10\</WindowsSdkPath>
     <LayoutDir>C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x86\Debug\AppX</LayoutDir>
-    <RegisteredManifestChecksum>764F6FBE4A73B1A485AA7E702168683FD25DD25C5C71B5100BC19EA084D3F11E</RegisteredManifestChecksum>
-    <RegisteredPackageMoniker>29f037af-cbb0-42c9-b446-86f13a234c55_1.0.0.0_x86__a9dt1xg0zcfhe</RegisteredPackageMoniker>
-    <RegisteredUserModeAppID>29f037af-cbb0-42c9-b446-86f13a234c55_a9dt1xg0zcfhe!App</RegisteredUserModeAppID>
-    <RegisteredPackageID>29f037af-cbb0-42c9-b446-86f13a234c55</RegisteredPackageID>
+    <RegisteredManifestChecksum>BC6AD06228148E4EADDEB2A7A4347CFB4C6D07BF4D5F6C429A2D1BC8C3A9520E</RegisteredManifestChecksum>
+    <RegisteredPackageMoniker>SurveyBuilder_1.0.0.0_x86__a9dt1xg0zcfhe</RegisteredPackageMoniker>
+    <RegisteredUserModeAppID>SurveyBuilder_a9dt1xg0zcfhe!App</RegisteredUserModeAppID>
+    <RegisteredPackageID>SurveyBuilder</RegisteredPackageID>
     <RegisteredPackagePublisher>CN=Noah</RegisteredPackagePublisher>
     <RegisteredVersion>1.0.0.0</RegisteredVersion>
   </PropertyGroup>
@@ -30,13 +30,13 @@
     <AppXManifest Include="C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
-      <Modified>2019-08-12T20:34:22.305</Modified>
+      <Modified>2019-09-03T14:06:22.896</Modified>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x86\Debug\TestSurveyApp.exe">
       <PackagePath>entrypoint\TestSurveyApp.exe</PackagePath>
-      <Modified>2019-08-12T20:34:21.280</Modified>
+      <Modified>2019-09-03T14:06:16.733</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Microsoft SDKs\UWPNuGetPackages\microsoft.csharp\4.0.1\lib\netcore50\Microsoft.CSharp.dll">
       <PackagePath>Microsoft.CSharp.dll</PackagePath>
@@ -546,51 +546,59 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x86\Debug\TestSurveyApp.xr.xml">
       <PackagePath>TestSurveyApp.xr.xml</PackagePath>
-      <Modified>2019-08-09T13:58:35.532</Modified>
+      <Modified>2019-08-16T20:15:20.983</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x86\Debug\App.xbf">
       <PackagePath>App.xbf</PackagePath>
-      <Modified>2019-08-12T20:34:20.857</Modified>
+      <Modified>2019-09-03T14:06:16.087</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x86\Debug\MainPage.xbf">
       <PackagePath>MainPage.xbf</PackagePath>
-      <Modified>2019-08-12T20:34:20.857</Modified>
+      <Modified>2019-09-03T14:06:16.088</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x86\Debug\SurveyPages\EssayQuestionPage.xbf">
+      <PackagePath>SurveyPages\EssayQuestionPage.xbf</PackagePath>
+      <Modified>2019-09-03T14:06:16.089</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x86\Debug\SurveyPages\FinalBenefitPage.xbf">
+      <PackagePath>SurveyPages\FinalBenefitPage.xbf</PackagePath>
+      <Modified>2019-09-03T14:06:16.014</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x86\Debug\SurveyPages\SurveyPage1.xbf">
       <PackagePath>SurveyPages\SurveyPage1.xbf</PackagePath>
-      <Modified>2019-08-12T20:34:20.858</Modified>
+      <Modified>2019-09-03T14:06:16.091</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x86\Debug\SurveyPages\SurveyPage2.xbf">
       <PackagePath>SurveyPages\SurveyPage2.xbf</PackagePath>
-      <Modified>2019-08-12T20:34:20.858</Modified>
+      <Modified>2019-09-03T14:06:16.092</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x86\Debug\SurveyPages\SurveyPage3.xbf">
       <PackagePath>SurveyPages\SurveyPage3.xbf</PackagePath>
-      <Modified>2019-08-12T20:34:20.859</Modified>
+      <Modified>2019-09-03T14:06:16.093</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x86\Debug\SurveyPages\SurveyPage4.xbf">
       <PackagePath>SurveyPages\SurveyPage4.xbf</PackagePath>
-      <Modified>2019-08-12T20:34:20.859</Modified>
+      <Modified>2019-09-03T14:06:16.094</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x86\Debug\SurveyPages\SurveyPage5.xbf">
       <PackagePath>SurveyPages\SurveyPage5.xbf</PackagePath>
-      <Modified>2019-08-12T20:34:20.859</Modified>
+      <Modified>2019-09-03T14:06:16.095</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x86\Debug\SurveyPages\SurveyPage6.xbf">
       <PackagePath>SurveyPages\SurveyPage6.xbf</PackagePath>
-      <Modified>2019-08-12T20:34:20.860</Modified>
+      <Modified>2019-09-03T14:06:16.096</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x86\Debug\SurveyPages\SurveyPage7.xbf">
       <PackagePath>SurveyPages\SurveyPage7.xbf</PackagePath>
-      <Modified>2019-08-12T20:34:20.860</Modified>
+      <Modified>2019-09-03T14:06:16.097</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x86\Debug\SurveyPages\SurveyPage8.xbf">
       <PackagePath>SurveyPages\SurveyPage8.xbf</PackagePath>
-      <Modified>2019-08-12T20:34:20.861</Modified>
+      <Modified>2019-09-03T14:06:16.098</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x86\Debug\SurveyPages\TitlePage.xbf">
       <PackagePath>SurveyPages\TitlePage.xbf</PackagePath>
-      <Modified>2019-08-12T20:34:20.861</Modified>
+      <Modified>2019-09-03T14:06:16.099</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.17763.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
@@ -598,11 +606,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
-      <Modified>2019-08-08T18:32:55.403</Modified>
+      <Modified>2019-09-03T14:06:20.490</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x86\Debug\Core\TestSurveyApp.exe">
       <PackagePath>TestSurveyApp.exe</PackagePath>
-      <Modified>2019-08-12T20:34:22.287</Modified>
+      <Modified>2019-09-03T14:06:22.868</Modified>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>

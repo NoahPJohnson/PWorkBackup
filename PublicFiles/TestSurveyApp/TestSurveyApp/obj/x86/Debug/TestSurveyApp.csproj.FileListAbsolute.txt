@@ -263,3 +263,13 @@ C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\obj\x86\Debug\SurveyPages
 C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\obj\x86\Debug\SurveyPages\TitlePage.xaml
 C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\obj\x86\Debug\SurveyPages\TitlePage.xbf
 C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x86\Debug\SurveyPages\TitlePage.xbf
+C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x86\Debug\SurveyPages\EssayQuestionPage.xbf
+C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x86\Debug\SurveyPages\FinalBenefitPage.xbf
+C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\obj\x86\Debug\SurveyPages\EssayQuestionPage.g.i.cs
+C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\obj\x86\Debug\SurveyPages\EssayQuestionPage.g.cs
+C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\obj\x86\Debug\SurveyPages\FinalBenefitPage.g.i.cs
+C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\obj\x86\Debug\SurveyPages\FinalBenefitPage.g.cs
+C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\obj\x86\Debug\SurveyPages\EssayQuestionPage.xaml
+C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\obj\x86\Debug\SurveyPages\FinalBenefitPage.xaml
+C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\obj\x86\Debug\SurveyPages\EssayQuestionPage.xbf
+C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\obj\x86\Debug\SurveyPages\FinalBenefitPage.xbf

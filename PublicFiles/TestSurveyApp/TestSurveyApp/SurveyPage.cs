@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -14,6 +15,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Graphics.Imaging;
 using Windows.Security.Cryptography.Certificates;
 using Windows.Storage;
+using Windows.Storage.AccessCache;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.Web.Http;
@@ -61,44 +63,45 @@ namespace TestSurveyApp
 
 //require_once ""surveyConfig.php"";
 
-$jsonData = file_get_contents(",  @");
+$jsonData = file_get_contents('",  @"');
 $pageArray = json_decode($jsonData);
 if ($_SERVER[""REQUEST_METHOD""] == ""POST"")
 {
     session_start();
+
     $_SESSION[""pageNumber""] += 1;
     $pageNumber = $_SESSION[""pageNumber""];
-    if ($_POST['BenefitButton'] == '1')
+            if ($_POST['BenefitButton'][2] == 'a')
     {
-        $_SESSION[""finalBenefitArray""][] = $pageArray[$pageNumber-1][0];
-        
-    }
-    else if ($_POST['BenefitButton'] == '2')
-    {
-        $_SESSION[""finalBenefitArray""][] = $pageArray[$pageNumber-1][1];
-        
-    }
-    else if ($_POST['BenefitButton'] == '3')
-    {
-        $_SESSION[""finalBenefitArray""][] = $pageArray[$pageNumber-1][2];
-        
-    }
-    else if ($_POST['BenefitButton'] == '4')
-    {
-        $_SESSION[""finalBenefitArray""][] = $pageArray[$pageNumber-1][3];
-        
-    }
-    $finalBenefitArray = $_SESSION[""finalBenefitArray""];
-    if ($pageNumber >= 8)
-    {
-        if (isset($_SESSION[""finalBenefitArray""]))
-        {
-            header(""location: surveyFinalPage.php"");
+        $_SESSION[""finalBenefitArray""][] = $pageArray[$pageNumber - 1][0];
 
-            exit();
+            }
+    else if ($_POST['BenefitButton'][2] == 'b')
+    {
+        $_SESSION[""finalBenefitArray""][] = $pageArray[$pageNumber - 1][1];
+
+            }
+    else if ($_POST['BenefitButton'][2] == 'c')
+    {
+        $_SESSION[""finalBenefitArray""][] = $pageArray[$pageNumber - 1][2];
+
+            }
+    else if ($_POST['BenefitButton'][2] == 'd')
+    {
+        $_SESSION[""finalBenefitArray""][] = $pageArray[$pageNumber - 1][3];
+
+            }
+    $finalBenefitArray = $_SESSION[""finalBenefitArray""];
+            if ($pageNumber >= 8)
+    {
+                if (isset($_SESSION[""finalBenefitArray""]))
+                {
+                    header(""location: surveyFinalPage.php"");
+
+                    exit();
+                }
+            }
         }
-    }
-}
 
 
 if (!isset($_SESSION[""pageNumber""]) || $_SESSION[""pageNumber""] == 0)
@@ -108,8 +111,8 @@ if (!isset($_SESSION[""pageNumber""]) || $_SESSION[""pageNumber""] == 0)
     //echo ""S: "" . $_SESSION[""pageNumber""];
 }
 
-class Benefit
-{
+    class Benefit
+    {
         public $BenefitText;
         public $BenefitImage;
         public $BenefitLabel;
@@ -129,21 +132,21 @@ class Benefit
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta charset = 'utf-8' >
+    < meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name = 'viewport' content='width=device-width, initial-scale=1'>
+    <!-- The above 3 meta tags * must* come first in the head; any other head content must come * after* these tags -->
     <title>Survey Page</title>
     
     <!-- Bootstrap -->
-    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css' integrity='sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu' crossorigin='anonymous'>
-    <style>
+    <link rel = 'stylesheet' href= 'https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css' integrity= 'sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu' crossorigin= 'anonymous' >
+    < style >
 
 
     .BenefitRow {
-        margin: auto;
-        padding: 10px 0;
-        height: 45%;
+    margin: auto;
+    padding: 10px 0;
+    height: 45 %;
     }
 
     .Benefit {
@@ -172,81 +175,89 @@ class Benefit
         <div class='SurveyQuestion'>Question</div>
         <form class='BenefitsCollection container' action='<?php echo htmlspecialchars($_SERVER[""PHP_SELF""]); ?>' method='post'>
             <div class='BenefitRow row'>
-                <button id='BB1' name='BenefitButton' value='1' class='Benefit col-md-5' type='submit'>
-                    <div id='BL1' class='row'>
-                        <div class='BenefitTitle'><?php echo $pageArray[$pageNumber][0]->BenefitLabel ?></div>
-                    </div>
-                    <div id='BC1' class='row'>
-                        <img id='BI1' class='BenefitImage col-md-6' src='<?php echo $pageArray[$pageNumber][0]->BenefitImage ?>'></img>
-                        <div id='BT1' class='BenefitText col-md-6'><?php echo $pageArray[$pageNumber][0]->BenefitText ?></div>
+                <div id = 'B1' >
+                    < button id='BB1' name='BenefitButton' value='<?php echo $pageArray[$pageNumber][0]->BenefitIndex ?>' class='Benefit col-md-5' type='submit'>
+                        <div id = 'BL1' class='row'>
+                            <div class='BenefitTitle'><? php echo $pageArray[$pageNumber][0]->BenefitLabel?></div>
+                        </div>
+                        <div id = 'BC1' class='row'>
+                            <img id = 'BI1' class='BenefitImage col-md-6' src='<?php echo substr($pageArray[$pageNumber][0]->BenefitImage, 11)  ?>'></img>
+                            <div id = 'BT1' class='BenefitText col-md-6'><? php echo $pageArray[$pageNumber][0]->BenefitText?></div>
                         
-                    </div>
-                </button>
-                <button id='BB2' name='BenefitButton' value='2' class='Benefit col-md-5' type='submit'>
-                    <div id='BL2' class='row'>
-                        <div class='BenefitTitle'><?php echo $pageArray[$pageNumber][1]->BenefitLabel ?></div>
-                    </div>
-                    <div id='BC2' class='row'>
-                        <img id='BI2' class='BenefitImage col-md-6' src='<?php echo $pageArray[$pageNumber][1]->BenefitImage ?>'></img>
-                        <div id='BT2' class='BenefitText col-md-6'><?php echo $pageArray[$pageNumber][1]->BenefitText ?></div>
+                        </div>
+                    </button>
+                </div>
+                <div id = 'B2' >
+                    < button id='BB2' name='BenefitButton' value='<?php echo $pageArray[$pageNumber][1]->BenefitIndex ?>' class='Benefit col-md-5' type='submit'>
+                        <div id = 'BL2' class='row'>
+                            <div class='BenefitTitle'><? php echo $pageArray[$pageNumber][1]->BenefitLabel?></div>
+                        </div>
+                        <div id = 'BC2' class='row'>
+                            <img id = 'BI2' class='BenefitImage col-md-6' src='<?php echo substr($pageArray[$pageNumber][1]->BenefitImage, 11)  ?>'></img>
+                            <div id = 'BT2' class='BenefitText col-md-6'><? php echo $pageArray[$pageNumber][1]->BenefitText?></div>
                         
-                    </div>
-                </button>
+                        </div>
+                    </button>
+                </div>
             </div>
             <div class='BenefitRow row'>
-                <button id='BB3' name='BenefitButton' value='3' class='Benefit col-md-5' type='submit'>
-                    <div id='BL3' class='row'>
-                        <div class='BenefitTitle'><?php echo $pageArray[$pageNumber][2]->BenefitLabel ?></div>
-                    </div>
-                    <div id='BC3' class='row'>
+                <div id = 'B3' >
+                    < button id='BB3' name='BenefitButton' value='<?php echo $pageArray[$pageNumber][2]->BenefitIndex ?>' class='Benefit col-md-5' type='submit'>
+                        <div id = 'BL3' class='row'>
+                            <div class='BenefitTitle'><? php echo $pageArray[$pageNumber][2]->BenefitLabel?></div>
+                        </div>
+                        <div id = 'BC3' class='row'>
                         
-                        <img id='BI3' class='BenefitImage col-md-6' src='<?php echo $pageArray[$pageNumber][2]->BenefitImage ?>'></img>
-                        <div id='BT3' class='BenefitText col-md-6'><?php echo $pageArray[$pageNumber][2]->BenefitText ?></div>
+                            <img id = 'BI3' class='BenefitImage col-md-6' src='<?php echo substr($pageArray[$pageNumber][2]->BenefitImage, 11)  ?>'></img>
+                            <div id = 'BT3' class='BenefitText col-md-6'><? php echo $pageArray[$pageNumber][2]->BenefitText?></div>
                         
-                    </div>
-                </button>
-                <button  id='BB4' name='BenefitButton' value='4' class='Benefit col-md-5' type='submit'>
-                    <div id='BL4' class='row'>
-                        <div class='BenefitTitle'><?php echo $pageArray[$pageNumber][3]->BenefitLabel ?></div>
-                    </div>
-                    <div id='BC4' class='row'>
-                        <img id='BI4' class='BenefitImage col-md-6' src='<?php echo $pageArray[$pageNumber][3]->BenefitImage ?>'></img>
-                        <div id='BT4' class='BenefitText col-md-6'><?php echo $pageArray[$pageNumber][3]->BenefitText ?></div>
-                    </div>
-                </button>
+                        </div>
+                    </button>
+                </div>
+                <div id = 'B4' >
+                    < button  id='BB4' name='BenefitButton' value='<?php echo $pageArray[$pageNumber][3]->BenefitIndex ?>' class='Benefit col-md-5' type='submit'>
+                        <div id = 'BL4' class='row'>
+                            <div class='BenefitTitle'><? php echo $pageArray[$pageNumber][3]->BenefitLabel?></div>
+                        </div>
+                        <div id = 'BC4' class='row'>
+                            <img id = 'BI4' class='BenefitImage col-md-6' src='<?php echo substr($pageArray[$pageNumber][3]->BenefitImage, 11) ?>'></img>
+                            <div id = 'BT4' class='BenefitText col-md-6'><? php echo $pageArray[$pageNumber][3]->BenefitText?></div>
+                        </div>
+                    </button>
+                </div>
             </div>
         </form>
         <script>
         
-                var indexArray = [0,1,2,3];
-                var indexOptionList = [0,1,2,3];
-                
-                var tempIndexList = [indexOptionList];
-                for (var i = 0; i < 4; i++)
+                var indexArray = [0, 1, 2, 3];
+var indexOptionList = [0, 1, 2, 3];
+
+var tempIndexList = [indexOptionList];
+                for (var i = 0; i< 4; i++)
                 {
-                    var randomInt = Math.floor(Math.random()*(4-i));
-                    indexArray[i] = tempIndexList[i][randomInt];
+                    var randomInt = Math.floor(Math.random() * (4 - i));
+indexArray[i] = tempIndexList[i][randomInt];
                     tempIndexList[i].splice(randomInt, 1);
-                    tempIndexList.push(tempIndexList[i]);
+tempIndexList.push(tempIndexList[i]);
                     
                 }
-                for (var i = 0; i < 4; i++)
+                for (var i = 0; i< 4; i++)
                 {
-                    var currentParent = document.getElementById('BB'.concat(i+1));
-                    currentParent.appendChild(document.getElementById('BL'.concat(indexArray[i]+1)).cloneNode(true));
-                    currentParent.appendChild(document.getElementById('BC'.concat(indexArray[i]+1)).cloneNode(true));
+                    var currentParent = document.getElementById('B'.concat(i + 1));
+currentParent.appendChild(document.getElementById('BB'.concat(indexArray[i]+1)).cloneNode(true));
+                    //currentParent.appendChild(document.getElementById('BC'.concat(indexArray[i]+1)).cloneNode(true));
                 }
-                for (var i = 0; i < 4; i++)
+                for (var i = 0; i< 4; i++)
                 {
-                    var currentParent = document.getElementById('BB'.concat(i + 1));
-                    currentParent.removeChild(currentParent.firstChild);
-                    currentParent.removeChild(currentParent.firstChild);
-                    currentParent.removeChild(currentParent.firstChild);
-                    currentParent.removeChild(currentParent.firstChild);
+                    var currentParent = document.getElementById('B'.concat(i + 1));
+currentParent.removeChild(currentParent.childNodes[1]);
+                    //currentParent.removeChild(currentParent.firstChild);
+                    //currentParent.removeChild(currentParent.firstChild);
+                    //currentParent.removeChild(currentParent.firstChild);
                 }
         </script>
     </div>
-    <footer>Page: <?php echo $pageNumber?></footer>
+    <footer>Page: <? php echo $pageNumber?></footer>
 </body>
 </html>"
             };
@@ -293,8 +304,8 @@ class Benefit
         {
 
             StorageFile storageFile = items[0] as StorageFile;
-            StorageFolder assets = await Package.Current.InstalledLocation.GetFolderAsync("Assets");
-
+            //StorageFolder assets = await Package.Current.InstalledLocation.GetFolderAsync("Assets");
+            //Debug.WriteLine("Assets: " + assets.Path);
             //StorageFile localImageFile = await storageFile.CopyAsync(assets, storageFile.Name, NameCollisionOption.ReplaceExisting);
             BitmapImage bitmapImage;
             //string name = localImageFile.Name; 
@@ -302,7 +313,8 @@ class Benefit
             {
                 bitmapImage = new BitmapImage();
                 await bitmapImage.SetSourceAsync(stream);
-                
+
+                //bitmapImage.UriSource = new Uri(storageFile.Path);
                 bitmapImage.UriSource = new Uri("ms-appx:///Assets/"+storageFile.Name);
                 Debug.WriteLine("bitmapImage uri source = " + bitmapImage.UriSource);
             }
@@ -326,7 +338,7 @@ class Benefit
 
             }
             //Debug.WriteLine("Image is now: " + CurrentBenefitCollection[0].BenefitImage.UriSource);
-            StorageFile localImageFile = await storageFile.CopyAsync(assets, storageFile.Name, NameCollisionOption.ReplaceExisting);
+            StorageFile localImageFile = await storageFile.CopyAsync(App.assetsFolder, storageFile.Name, NameCollisionOption.ReplaceExisting);
             App.SurveyBenefitCollection.FinalBenefitList[pageNumber] = CurrentBenefitCollection;
         }
 
@@ -453,7 +465,7 @@ class Benefit
                 {
                    
                     //Debug.WriteLine("Should Write Stuff.");
-                    string pageTemplateString = staticTemplateArray[0] + App.surveyFile.Name + staticTemplateArray[1];
+                    //string pageTemplateString = staticTemplateArray[0] + App.surveyFile.Name + staticTemplateArray[1];
         
                     //dataWriter.WriteString(pageTemplateString);
                     dataWriter.WriteString(streamReader.ReadToEnd());
@@ -485,6 +497,22 @@ class Benefit
 
         public async void UploadToServer(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            Debug.WriteLine("Begin.");
+            folderPicker.FileTypeFilter.Add("*");
+            StorageFolder zipFileLocation = await folderPicker.PickSingleFolderAsync();
+            StorageApplicationPermissions.FutureAccessList.AddOrReplace("PickedFolderToken", zipFileLocation);
+
+            await Task.Run(() =>
+            {
+                try
+                {
+                    CreateZipFile(zipFileLocation);
+                }
+                catch (Exception w)
+                {
+                    Debug.WriteLine(w);
+                }
+            });
             //surveyFolder = await folderPicker.PickSingleFolderAsync();
             //Upload json
             //await TryPostJsonAsync();
@@ -496,6 +524,15 @@ class Benefit
             //Get/Display shareable link
 
 
+        }
+
+        public void CreateZipFile(StorageFolder parentDirectory)
+        {
+            //Debug.WriteLine("Survey Folder is " + App.surveyFolder.Name);
+            
+            //Debug.WriteLine("Parent Directory = " + parentDirectory.Name);
+            ZipFile.CreateFromDirectory(App.surveyFolder.Path, parentDirectory.Path);
+            //Debug.WriteLine("Created Zip File");
         }
 
 

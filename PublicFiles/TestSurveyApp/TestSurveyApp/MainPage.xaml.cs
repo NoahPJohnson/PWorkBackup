@@ -52,6 +52,7 @@ namespace TestSurveyApp
         {
             App.surveyFolder = await DownloadsFolder.CreateFolderAsync(SurveyNameInput.Text, CreationCollisionOption.FailIfExists); //ApplicationData.Current.LocalFolder.CreateFolderAsync(SurveyNameInput.Text, CreationCollisionOption.FailIfExists);
             App.surveyFile = await App.surveyFolder.CreateFileAsync(SurveyNameInput.Text + ".json", CreationCollisionOption.ReplaceExisting);
+            App.assetsFolder = await App.surveyFolder.CreateFolderAsync("Assets", CreationCollisionOption.FailIfExists);
             /*folderPicker.FileTypeFilter.Add("*");
             folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
             App.surveyFolder = await folderPicker.PickSingleFolderAsync();*/
@@ -73,6 +74,7 @@ namespace TestSurveyApp
             fileOpenPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Downloads;
             StorageFile jsonFile = await fileOpenPicker.PickSingleFileAsync();*/
             App.surveyFile = await App.surveyFolder.GetFileAsync(App.surveyFolder.Name + ".json");
+            App.assetsFolder = await App.surveyFolder.GetFolderAsync("Assets");
             //App.surveyFolder = await jsonFile.GetParentAsync();
             if (App.surveyFolder == null)
             {

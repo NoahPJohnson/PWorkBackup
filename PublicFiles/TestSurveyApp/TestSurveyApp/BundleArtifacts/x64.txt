@@ -1,0 +1,2 @@
+MainPackage=C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\bin\x64\Release\TestSurveyApp_1.0.0.0_x64.appx
+SymbolPackage=C:\Users\Noah\source\repos\TestSurveyApp\TestSurveyApp\AppPackages\TestSurveyApp_1.0.0.0_Test\TestSurveyApp_1.0.0.0_x64.appxsym

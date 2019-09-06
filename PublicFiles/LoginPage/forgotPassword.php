@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     $emailMessage = "Password is: " . $newPassword;
 
 
-    SendAnEmail($email,"Test Forgot Password",$emailMessage);
+    SendAnEmail($email, "Test Forgot Password", $emailMessage);
 
 }
 

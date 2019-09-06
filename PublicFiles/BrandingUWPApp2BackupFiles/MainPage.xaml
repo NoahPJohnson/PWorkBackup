@@ -37,7 +37,7 @@
                         </Grid.ColumnDefinitions>
                         
                         <TextBlock Grid.Row="0" Grid.Column="0" x:Name="CodeLabel" Text="{x:Bind Path=NAICSCode}" FontSize="30" TextWrapping="Wrap"/>
-                        <TextBlock Grid.Row="0" Grid.Column="1" x:Name="TitleLabel" Text="{x:Bind Path=Title}" FontSize="30" FontStyle="Italic" TextWrapping="Wrap"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" x:Name="TitleLabel" Text="{x:Bind Path=Title}" FontSize="30" FontStyle="Italic" TextWrapping="NoWrap"/>
                         <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="650" VerticalAlignment="Stretch">
                             <RichTextBlock x:Name="DescriptionLabel" FontSize="16" TextIndent="12">
                                 <Paragraph>
@@ -75,11 +75,11 @@
                 <DataTemplate x:Name="TableDataTemplate" x:DataType="local:CompanyCode">
                     <Grid Height="48">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="300"/>
-                            <ColumnDefinition Width="360"/>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{x:Bind Path=NAICSCode}" />
-                        <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="{x:Bind Path=Title}"/>
+                        <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{x:Bind Path=Title}" />
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

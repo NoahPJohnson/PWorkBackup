@@ -23,7 +23,7 @@
                 <ColumnDefinition Width="160"/>
             </Grid.ColumnDefinitions>
             <Button Grid.Row="0" Grid.Column="0" x:Name="SaveButton" Content="Save" HorizontalAlignment="Center"  VerticalAlignment="Stretch"  Width="150"  Click="SaveToFile"/>
-            <Button Grid.Row="0" Grid.Column="1" x:Name="PublishButton" Content="Publish" HorizontalAlignment="Center"  VerticalAlignment="Stretch"  Width="150"/>
+            <Button Grid.Row="0" Grid.Column="1" x:Name="PublishButton" Content="Publish" HorizontalAlignment="Center"  VerticalAlignment="Stretch"  Width="150" Click="UploadToServer"/>
         </Grid>
         <Frame Grid.Row="1" x:Name="CurrentPageFrame" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch">
             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="64" Text="{x:Bind surveyName}">The Survey Title</TextBlock>
@@ -39,7 +39,8 @@
                 <NavigationViewItem Icon="Page" Content="SurveyPage6" Tag="Page6"/>
                 <NavigationViewItem Icon="Page" Content="SurveyPage7" Tag="Page7"/>
                 <NavigationViewItem Icon="Page" Content="SurveyPage8" Tag="Page8"/>
-                <NavigationViewItem Icon="Page" Content="SurveyFinalPage" Tag="FinalPage"/>
+                <NavigationViewItem Icon="Page" Content="SurveyFinalBenefitPage" Tag="FinalBenefitPage"/>
+                <NavigationViewItem Icon="Page" Content="SurveyEssayQuestionPage" Tag="EssayQuestionPage"/>
             </NavigationView.MenuItems>
         </Windows10FallCreatorsUpdate:NavigationView>
     </Grid>
