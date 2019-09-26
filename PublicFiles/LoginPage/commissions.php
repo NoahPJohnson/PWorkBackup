@@ -6,7 +6,7 @@ global $wpdb;
 
 // Include config file
 $root = realpath($_SERVER["DOCUMENT_ROOT"]);
-$rootURL = "https://prodigalcompany.com/TLCinsurance";
+$rootURL = "https://prodigalcompany.com/TLCinsurance/npjFiles/uploads/";
 
 require_once "$root/TLCinsurance/wp-config.php";
 
@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
  
     // Destroy the session.
     session_destroy();
- 
+
     // Redirect to login page
     echo "<script>document.location = '/TLCinsurance/login/';</script>";  
     exit;

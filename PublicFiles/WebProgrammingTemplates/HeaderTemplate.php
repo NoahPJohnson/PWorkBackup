@@ -14,6 +14,7 @@
         echo "<ul id='signedOutVersion' class='navigationMenu'>
             <li class='navMenuItem col'><a href='IndexTemplate.php?page=welcome'>Welcome</a></li>
             <li class='navMenuItem col'><a href='IndexTemplate.php?page=map'>Map</a></li>
+            <li class='navMenuItem col'><a href='IndexTemplate.php?page=upload'>Upload</a></li>
             <li class='navMenuItem col'><a href='IndexTemplate.php?page=signup'>Sign Up</a></li>
             <li class='navMenuItem col'><a href='IndexTemplate.php?page=login'>Log In</a></li>
         </ul>";

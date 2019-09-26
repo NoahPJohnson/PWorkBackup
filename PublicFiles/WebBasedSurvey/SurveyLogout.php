@@ -7,8 +7,9 @@ $_SESSION = array();
  
 // Destroy the session.
 session_destroy();
-
+ 
 // Redirect to login page
-
+header("location: SurveyLogin.php");
+//echo "<script>document.location = '/npjTest/Templates/IndexTemplate.php?page=welcome';</script>";
 exit;
 ?>

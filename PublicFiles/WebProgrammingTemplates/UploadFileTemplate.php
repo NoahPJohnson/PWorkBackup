@@ -1,6 +1,6 @@
 <?php
 
-require_once "config.php";
+//require_once "ConfigurationTemplate.php";
 
 $target_directory = "testUploads/";
 $target_file = $target_directory . basename($_FILES["fileToUpload"]["name"]);
@@ -8,9 +8,10 @@ $uploadOk = 1;
 $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 if (isset($_POST["submit"]))
 {
+    var_dump($_FILES);
     $fileInfo = finfo_open(FILEINFO_MIME_TYPE);
     $checkFile = finfo_file($fileInfo, $_FILES["fileToUpload"]["tmp_name"]);//getimagesize($_FILES["fileToUpload"]["tmp_name"]);
-    if ($checkFile === "application/pdf")
+    if ($checkFile === "image/gif" || $checkFile === "image/png" || $checkFile === "image/jpg" || $checkFile === "image/jpeg")
     {
         echo "File is recognized as: " . $checkFile;
         $uploadOk = 1;
@@ -31,7 +32,7 @@ if (isset($_POST["submit"]))
     }
     else
     {
-        echo "File: " . $checkFile . " is not a PDF.";
+        echo "File: " . $checkFile . " is not an image.";
         $uploadOk = 0;
     }
 }
@@ -77,3 +78,13 @@ function temporaryRandomSuffix($path, $suffix)
 }
 
 ?>
+
+<form action="<?php echo htmlspecialchars($_SERVER[""]); ?>" method="post" enctype="multipart/form-data">
+    Select file to upload:
+    <input type="file" name="fileToUpload" id="fileToUpload">
+    <!--<input type="text" name="userID" id="userIDField">
+    <input type="text" name="carrier" id="carrierField">
+    <input type="date" name="startDate" id="startDateField">
+    <input type="date" name="endDate" id="endDateField">-->
+    <input type="submit" value="UploadTheFile" name="submit">
+</form>
