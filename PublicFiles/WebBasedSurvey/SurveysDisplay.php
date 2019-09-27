@@ -83,14 +83,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 $fileManager = fopen($_SESSION["surveyname"] . '.json', 'w');
                 fwrite($fileManager, json_encode (json_decode ("")));
                 fclose($fileManager);
-                location("header: SurveyIndex.php?surveyname=" . $_SESSION["surveyname"]);
+
+                $sqlQuery = "SELECT SurveyID FROM SurveyBuildTable WHERE SurveyOwnerID = ? AND SurveyName = ?";
+                if ($statement = mysqli_prepare($link, $sqlQuery))
+                {
+                    mysqli_stmt_bind_param($statement, "ss", $param_ownerID, $param_surveyName);
+                    if (mysqli_stmt_execute($statement))
+                    {
+                        // Store result
+                        mysqli_stmt_store_result($statement);
+                        if (mysqli_stmt_bind_result($statement, $resultSurveyID))
+                        {
+                            if(mysqli_stmt_fetch($statement))
+                            { 
+                                $_SESSION["surveyid"] = $resultSurveyID;
+
+                                location("header: SurveyIndex.php?surveyname=" . $_SESSION["surveyname"] . "&surveyid=" . $_SESSION["surveyid"]);
+                            }
+                        }
+                    }
+                }   
             }
         }
     }   
 }
     // Prepare a select statement
     //$sql = "SELECT 08a_UserLoginTable.username, 08a_UserLoginTable.Name, 08a_UserLoginTable.LastName, 08a_UserLoginTable.Email, 08a_CommissionTable.Date, 08a_CommissionTable.Value FROM 08a_CommissionTable INNER JOIN 08a_UserLoginTable ON 08a_CommissionTable.UserID = 08a_UserLoginTable.UserID WHERE 08a_CommissionTable.UserID = ?";
-    $sqlQuery = "SELECT SurveyOwnerTable.SurveyOwnerID, SurveyOwnerTable.Email, SurveyBuildTable.SurveyName FROM SurveyOwnerTable INNER JOIN SurveyBuildTable ON SurveyBuildTable.SurveyOwnerID = SurveyOwnerTable.SurveyOwnerID WHERE SurveyBuildTable.SurveyOwnerID = ?";
+    $sqlQuery = "SELECT SurveyOwnerTable.SurveyOwnerID, SurveyOwnerTable.Email, SurveyBuildTable.SurveyID, SurveyBuildTable.SurveyName FROM SurveyOwnerTable INNER JOIN SurveyBuildTable ON SurveyBuildTable.SurveyOwnerID = SurveyOwnerTable.SurveyOwnerID WHERE SurveyBuildTable.SurveyOwnerID = ?";
     $statement = mysqli_prepare($link, $sqlQuery); 
     mysqli_stmt_bind_param($statement, "s", $id);
         // Set parameters
@@ -102,11 +121,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             
             // Store result
             mysqli_stmt_store_result($statement);
-            if (mysqli_stmt_bind_result($statement, $resultSurveyOwnerID, $resultEmail, $resultSurveyName))
+            if (mysqli_stmt_bind_result($statement, $resultSurveyOwnerID, $resultEmail, $resultSurveyID, $resultSurveyName))
             {
                 $row = array();
                 while (mysqli_stmt_fetch($statement))
                 {
+                    $row["SurveyID"] = $resultSurveyID;
                     $row["SurveyOwnerID"] = $resultSurveyOwnerID;
                     $row["Email"] = $resultEmail;
                     $row["SurveyName"] = $resultSurveyName;
@@ -140,7 +160,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         echo "<tr>
                   <td width=\"110px\">" . $table[$i]["SurveyOwnerID"] . "</td> 
                   <td width=\"150px\">" . $table[$i]["Email"] . "</td> 
-                  <td width=\"120px\"><a href='SurveyIndex.php?surveyname=" . $table[$i]["SurveyName"] . "'>" . $table[$i]["SurveyName"] . "</a></td>
+                  <td width=\"120px\"><a href='SurveyIndex.php?surveyname=" . $table[$i]["SurveyName"] . "&surveyid=" . $table[$i]["SurveyID"] . "'>" . $table[$i]["SurveyName"] . "</a></td>
               </tr>";
         //echo "Row: " . $i . " = ". $table[$i]["username"] . ", " . $table[$i]["name"] . ", " . $table[$i]["date"] . ", " . $table[$i]["value"];
         //echo $table[$i];

@@ -16,7 +16,7 @@
                 <ul id='userDropdownContent' class='dropdownContent col hiddenContent'>
                     <li class='dropdownItem col'><a href='SurveysDisplay.php'>Surveys</a></li>
                     <li class='dropdownItem col'><input type='submit' form='surveyForm' value='Save' name='submit'></li>
-                    <li class='dropdownItem col'><a onClick='CreateSurveyShareLink(" . $surveyName . ")'>Get Survey Link</a><p id='SurveyLinkField'></p></li>
+                    <li class='dropdownItem col'><a onClick='CreateSurveyShareLink(\"" . $surveyName . "\")'>Get Survey Link</a><p id='SurveyLinkField'></p></li>
                     <li class='dropdownItem col'><a href='SurveyLogout.php'>Log Out</a></li>
                 </ul>
             </li>

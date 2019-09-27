@@ -2,27 +2,12 @@
 
 
 //echo "HEEEY: " . mysqli_get_host_info($link);
-if (isset($_POST["submit"]))
+if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
-    //var_dump($_POST);
-    /*UploadFile();
-    $pageArray = json_decode($jsonData);
-    for ($i = 0; $i < 4; $i += 1)
-    {
-        if (isset($_POST["BT" . ($i+1)]))
-        {
-            $pageArray[$pageNumber][$i]->BenefitText = htmlspecialchars($_POST["BT" . ($i+1)]);
-            echo "TEXT: " . $pageArray[$pageNumber][$i]->BenefitText;
-        }
-        if (isset($_POST["BL" . ($i+1)]))
-        {
-            $pageArray[$pageNumber][$i]->BenefitLabel = $_POST["BL" . ($i+1)];
-            echo "TITLE: " . $pageArray[$pageNumber][$i]->BenefitLabel;
-        }
-    }
-    //var_dump($pageArray);
-    $jsonDataOutput = json_encode($pageArray);
-    file_put_contents($surveyJSONFile, $jsonDataOutput);*/
+    echo "Start.";
+    $pageNumber = 0;
+    //location("header: SurveyIndex.php?page=" . $pageNumber);
+    echo "<script>document.location = './SurveyIndex.php?surveyname=" . $surveyName . "&page=" . $pageNumber . "';</script>"; 
 }
 
 ?>
@@ -33,6 +18,9 @@ if (isset($_POST["submit"]))
             <form class='BenefitsCollection col' id='surveyForm' action='<?php echo htmlspecialchars($_SERVER[""]); ?>' method='post' enctype="multipart/form-data">
                 <div class='row' style='text-align:center;'>
                     <h1 id='TitleInput' class='col-md-12' name='SurveyTitleValue'></h1>
+                </div>
+                <div class='row' style='text-align:center;'>
+                    <input type='submit' id='StartSurveyButton' class='col-md-12' value='Start Survey'>
                 </div>
             </form>
         </div>
@@ -48,7 +36,7 @@ if (isset($_POST["submit"]))
 
             document.getElementById('TitleInput').innerHTML = '<?php echo $surveyName; ?>';
         </script>
-        <script type='text/javascript' src='ParseSurveyJSON.js'></script>
+        <!--<script type='text/javascript' src='ParseSurveyJSON.js'></script>-->
         <script>
 
         </script>

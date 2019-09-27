@@ -14,7 +14,7 @@ require_once "$root/TLCinsurance/npjFiles/sendMail2.php";
 
 $target_directory = "$root/TLCinsurance/npjFiles/uploads/";
 
-if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true)
+if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true || !isset($_SESSION["admin"]) || $_SESSION["admin"] == 0)
 {
     //header("location: login.php");
     echo "<script>document.location = '/TLCinsurance/login/';</script>";  
@@ -103,7 +103,7 @@ function temporaryRandomSuffix($path, $suffix)
 <html>
 <body>
 
-<form action="uploadFile.php" method="post" enctype="multipart/form-data">
+<form action="uploadFile.php" method="post" enctype="multipart/form-data" style="padding-top:110px">
     <ul>
         <li>
             <p>Upload File: </p>

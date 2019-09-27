@@ -79,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                         </button>
                     </div>
                 </div>
-                <div id='SubmitBenefit<?php echo $pageNumber; ?>' class='SubmitBenefit row'>
+                <div id='SubmitBenefit<?php if ($pageNumber != 'title') {echo $pageNumber;} else { echo 0; }  ?>' class='SubmitBenefit row'>
                     <input id='SubmitBenefitButton' type="submit" class="btn" value="Submit" disabled>
                 </div> 
             </form>

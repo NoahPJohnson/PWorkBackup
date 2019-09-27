@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
         {
             // Prepare a select statement
             //echo "Query database";
-            $sql = "SELECT UserID, Username, Password, Activated FROM 08a_UserLoginTable WHERE Username =  %s";
+            $sql = "SELECT UserID, Admin, Username, Password, Activated FROM 08a_UserLoginTable WHERE Username =  %s";
             $results = $wpdb->get_row($wpdb->prepare($sql, $username), ARRAY_A);
             //If the preparation operation is successful...
             //echo "Results: " . count($results);
@@ -87,6 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                         // Store data in session variables
                         $_SESSION["loggedin"] = true;
                         $_SESSION["id"] = $results["UserID"];
+                        $_SESSION["admin"] = $results["Admin"];
                         $_SESSION["username"] = $results["Username"];                            
                         //echo "LOGGED IN!!";
                         echo "<script>document.location = '/TLCinsurance/agent-home-access/';</script>";  

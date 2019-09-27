@@ -6,6 +6,11 @@ require_once "WebSurveyConfig.php";
 session_start();
 $_SESSION['page'] = $_GET['page'];
 
+if (!isset($_SESSION['surveyid']))
+{
+    $_SESSION['surveyid'] = $_GET["surveyid"];
+}
+
 if (!isset($_SESSION["surveyjsonfile"]))
 {
     $_SESSION["surveyjsonfile"] = $_GET["surveyname"] . ".json";
@@ -30,6 +35,11 @@ else
         $surveyName = $_GET["surveyname"];
     }
     $surveyJSONFile = $_SESSION["surveyjsonfile"];
+}
+
+if (!isset($surveyName) || $surveyName == "")
+{
+    header("location: SurveyLogout.php");
 }
 //echo " :( " . var_dump($_SESSION);
 
@@ -144,7 +154,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     else
     {
         $finalBenefitArray = array();
-        $pageNumber = 0;
+        $pageNumber = 'title';
         if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true)
         {
             require_once "WebSurveyTitlePage.php";

@@ -146,7 +146,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             </form>
         </div>
         <script type='text/javascript'>
-            var pageNumber = <?php echo $pageNumber; ?>;
+            var pageNumber = <?php if ($pageNumber != 'title') {echo $pageNumber;} else { echo 0; } ?>;
             var surveyJSONFile = '<?php echo $_SESSION["surveyjsonfile"]; ?>';
             var finalBenefitArray = [];
             <?php for ($i = 0; $i < 8; $i += 1) 

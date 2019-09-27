@@ -1,58 +1,80 @@
 <?php
 
-$sql = "INSERT INTO SurveyResultTable (SurveyName, Page1Response, Page2Response, Page3Response, Page4Response, Page5Response, Page6Response, Page7Response, Page8Response, Page9Response, ExtendedResponse) VALUES ('TestSurvey', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-//echo $sql;
-
-if ($statement = mysqli_prepare($link, $sql))
+if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
-    echo "Statement Prepared.";
-    // Bind variables to the prepared statement as parameters
-    mysqli_stmt_bind_param($statement, "ssssssssss", $B1Title, $B2Title, $B3Title, $B4Title,
-    $B5Title, $B6Title, $B7Title, $B8Title, $CBTitle, $EssayResponse);
-    
-    $finalBenefitArray = $_SESSION["finalbenefitlist"];
-    
-    
-    $B1Title = $finalBenefitArray[0];
-    $B2Title = $finalBenefitArray[1];
-    $B3Title = $finalBenefitArray[2];
-    $B4Title = $finalBenefitArray[3];
-    $B5Title = $finalBenefitArray[4];
-    $B6Title = $finalBenefitArray[5];
-    $B7Title = $finalBenefitArray[6];
-    $B8Title = $finalBenefitArray[7];
-    $CBTitle = $finalBenefitArray[8];
-    $EssayResponse = $_POST["EssayResponse"];
-        
-    /*echo "  B1 = " . $B1Title;
-    echo "  B2 = " . $B2Title;
-    echo "  B3 = " . $B3Title;
-    echo "  B4 = " . $B4Title;
-    echo "  B5 = " . $B5Title;
-    echo "  B6 = " . $B6Title;
-    echo "  B7 = " . $B7Title;
-    echo "  B8 = " . $B8Title;
-    echo "  CB = " . $CBTitle;*/
-    // Set parameters
-    //$param_username = trim($_POST["username"]);
-        
-    // Attempt to execute the prepared statement
-    if (mysqli_stmt_execute($statement))
+    $sqlQuery = "SELECT SurveyOwnerID FROM SurveyBuildTable WHERE SurveyID = ?;";
+    if ($statement = mysqli_prepare($link, $sqlQuery))
     {
-        echo "Statement Executed.";
-        
-        session_start();
-        $_SESSION["pageNumber"] = 0;
-        $_SESSION["finalBenefitArray"] = array();
-        $_SESSION["EssayResponse"] = "";
-
+        mysqli_stmt_bind_param($statement, "s", $_SESSION["surveyid"]);
+        if (mysqli_stmt_execute($statement))
+        {
+            // Store result
+            mysqli_stmt_store_result($statement);
+            if (mysqli_stmt_bind_result($statement, $resultSurveyOwnerID))
+            {
+                if(mysqli_stmt_fetch($statement))
+                {
+                    $surveyOwnerID = $resultSurveyOwnerID;
+                }
+            }
+        }
     }
-    session_start();
-        $_SESSION["pageNumber"] = 0;
-        $_SESSION["finalBenefitArray"] = array();
-        $_SESSION["EssayResponse"] = "";
-}
+    $sql = "INSERT INTO SurveyResultTable (SurveyName, SurveyOwnerID, Page1Response, Page2Response, Page3Response, Page4Response, Page5Response, Page6Response, Page7Response, Page8Response, Page9Response, ExtendedResponse) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    //echo $sql;
 
+    if ($statement = mysqli_prepare($link, $sql))
+    {
+        //echo "Statement Prepared.";
+        // Bind variables to the prepared statement as parameters
+        mysqli_stmt_bind_param($statement, "ssssssssssss", $SurveyNameParameter, $SurveyOwnerIDParameter, $B1Title, $B2Title, $B3Title, $B4Title,
+        $B5Title, $B6Title, $B7Title, $B8Title, $CBTitle, $EssayResponse);
+        
+        $finalBenefitArray = $_SESSION["finalbenefitlist"];
+        $SurveyNameParameter = $surveyName;
+        $SurveyOwnerIDParameter = $surveyOwnerID;
+        
+        $B1Title = $finalBenefitArray[0];
+        $B2Title = $finalBenefitArray[1];
+        $B3Title = $finalBenefitArray[2];
+        $B4Title = $finalBenefitArray[3];
+        $B5Title = $finalBenefitArray[4];
+        $B6Title = $finalBenefitArray[5];
+        $B7Title = $finalBenefitArray[6];
+        $B8Title = $finalBenefitArray[7];
+        $CBTitle = $finalBenefitArray[8];
+        $EssayResponse = $_POST["EssayResponse"];
+            
+        /*echo "  B1 = " . $B1Title;
+        echo "  B2 = " . $B2Title;
+        echo "  B3 = " . $B3Title;
+        echo "  B4 = " . $B4Title;
+        echo "  B5 = " . $B5Title;
+        echo "  B6 = " . $B6Title;
+        echo "  B7 = " . $B7Title;
+        echo "  B8 = " . $B8Title;
+        echo "  CB = " . $CBTitle;*/
+        // Set parameters
+        //$param_username = trim($_POST["username"]);
+            
+        // Attempt to execute the prepared statement
+        if (mysqli_stmt_execute($statement))
+        {
+            //echo "Statement Executed.";
+            
+            session_start();
+            $_SESSION["page"] = 0;
+            $_SESSION["finalBenefitArray"] = array();
+            $_SESSION["EssayResponse"] = "";
+
+            //header("location: TakeSurveyCompletePage.php");
+            echo "<script>document.location = './TakeSurveyCompletePage.php';</script>";
+        }
+        else
+        {
+            echo "There was an error inserting into the database.";
+        }
+    }
+}
 ?>
 
 <header>Survey: Question</header>
@@ -68,3 +90,8 @@ if ($statement = mysqli_prepare($link, $sql))
                 </div> 
             </form>
         </div>
+        <script type='text/javascript'>
+            var pageNumber = <?php echo $pageNumber; ?>;
+            var surveyJSONFile = '<?php echo $_SESSION["surveyjsonfile"]; ?>';
+
+        </script>
