@@ -68,8 +68,8 @@ if (isset($_POST["submit"]))
                 echo "The file " . basename($_FILES["fileToUpload" . $i]["name"]). " successfully uploaded.";
                 $sqlQuery = "INSERT INTO 08a_CommissionTable (UserID, Carrier, Date, ToDate, OriginalName, MimeType) VALUES (%s, %s, %s, %s, %s, %s);";
                 //mysqli_stmt_bind_param($statement, "sss", $parameter_temporaryName, $parameter_originalName, $parameter_MimeType);
-                $parameter_userID = $_POST["userID" . $i];
-                $parameter_carrier = $_POST["carrier"];
+                $parameter_userID = filter_input(INPUT_POST, ("userID" . $i), FILTER_SANITIZE_STRING);// $_POST["userID" . $i];
+                $parameter_carrier = filter_input(INPUT_POST, "carrier", FILTER_SANITIZE_STRING);// $_POST["carrier"];
                 $parameter_date = $_POST["startDate"];
                 $parameter_toDate = $_POST["endDate"];
                 $parameter_originalName = basename($_FILES["fileToUpload". $i]["name"]);

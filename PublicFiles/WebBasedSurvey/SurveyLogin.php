@@ -25,14 +25,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     {
         //echo "Hey.";
         // Check if username is empty
-        if (empty(trim($_POST["username"])))
+        if (empty(trim(filter_input(INPUT_POST, "username", FILTER_SANITIZE_EMAIL))))
         {
             $username_err = "Please enter username.";
         } 
         else
         {
             //Save value to username variable
-            $username = trim($_POST["username"]);
+            $username = filter_input(INPUT_POST, "username", FILTER_SANITIZE_EMAIL); //trim($_POST["username"]);
         }
     
         // Check if password is empty
@@ -149,7 +149,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     <header>Login</header>
     <div class="wrapper">
     <!--action="/TLCinsurance/agent-home/"-->
-        <form action="<?php echo htmlspecialchars($_SERVER[""]); ?>" method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
                 
                 <input type="text" name="username" placeholder="Username" id="UsernameField" class="form-control TextField" value="<?php echo $username; ?>">
@@ -175,7 +175,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             </script>
         </div>
         <div>
-            <form id="ForgotForm" class="hiddenContent" action="<?php echo htmlspecialchars($_SERVER[""]); ?>" method="post">
+            <form id="ForgotForm" class="hiddenContent" action="<?php echo htmlspecialchars($_SERVER["REQUEST_URI"]); ?>" method="post">
                 <div class="form-group">
                     <input type="text" name="usernameOrEmail" placeholder="Username or Email" id="ForgotField" class="form-control TextField">
                 </div>

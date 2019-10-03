@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             
             // Set parameters
             $param_ownerID = $_SESSION["id"];
-            $param_surveyName = $_POST["NewSurveyName"];
+            $param_surveyName = filter_input(INPUT_POST, "NewSurveyName", FILTER_SANITIZE_STRING);//trim($_POST["NewSurveyName"]);
             // Attempt to execute the prepared statement
             if (mysqli_stmt_execute($statement))
             {
@@ -98,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                             { 
                                 $_SESSION["surveyid"] = $resultSurveyID;
 
-                                location("header: SurveyIndex.php?surveyname=" . $_SESSION["surveyname"] . "&surveyid=" . $_SESSION["surveyid"]);
+                                location("header: SurveyIndex.php?surveyname=" . urlencode($_SESSION["surveyname"]) . "&surveyid=" . urlencode($_SESSION["surveyid"]));
                             }
                         }
                     }
@@ -130,42 +130,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                     $row["SurveyOwnerID"] = $resultSurveyOwnerID;
                     $row["Email"] = $resultEmail;
                     $row["SurveyName"] = $resultSurveyName;
-                    //echo "  Row:  ";
-                    //var_dump($row);
                     $table[] = $row;
-                    /*
-                        foreach ($results as $resultRow)
-                        {
-                            $row["surveyOwnerID"] = $resultRow->SurveyOwnerID;
-                            $row["email"] = $resultRow->Email;
-                            $row["surveyName"] = $resultRow->SurveyName;
-                            
-                            //echo "result row added to table.";
-                        }
-                    */
                 }
-                //echo " | ";
-                //var_dump($table);
             }
         }
     
     $_SESSION["Table"] = $table;
-    echo "<table class='CommissionTableDisplay>'
-              <tr>
-                  <th>SurveyOwnerID</th><th>Email</th><th>SurveyName</th>
-              </tr>";
-
-    for ($i = 0; $i < count($table); $i += 1)
-    {
-        echo "<tr>
-                  <td width=\"110px\">" . $table[$i]["SurveyOwnerID"] . "</td> 
-                  <td width=\"150px\">" . $table[$i]["Email"] . "</td> 
-                  <td width=\"120px\"><a href='SurveyIndex.php?surveyname=" . $table[$i]["SurveyName"] . "&surveyid=" . $table[$i]["SurveyID"] . "'>" . $table[$i]["SurveyName"] . "</a></td>
-              </tr>";
-        //echo "Row: " . $i . " = ". $table[$i]["username"] . ", " . $table[$i]["name"] . ", " . $table[$i]["date"] . ", " . $table[$i]["value"];
-        //echo $table[$i];
-    }
-    echo "</table>";
+    
 
 ?>
 
@@ -188,12 +159,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 </head>
 <body>
     <header>Surveys</header>
-<form action="<?php echo htmlspecialchars($_SERVER[""]); ?>" method="post">
+    <table class='CommissionTableDisplay'>
+        <tr>
+            <th>SurveyOwnerID</th><th>Email</th><th>SurveyName</th>
+        </tr>
+    <?php
+    for ($i = 0; $i < count($table); $i += 1)
+    {
+    ?>
+        <tr>
+            <td width='110px'><?php echo htmlspecialchars($table[$i]["SurveyOwnerID"]); ?></td> 
+            <td width='150px'><?php echo htmlspecialchars($table[$i]["Email"]); ?></td> 
+            <td width='120px'>
+                <a href='SurveyIndex.php?surveyname=<?php echo urlencode($table[$i]["SurveyName"]); ?>&surveyid=<?php echo urlencode($table[$i]["SurveyID"]); ?>'>
+                    <?php echo urlencode($table[$i]["SurveyName"]); ?>
+                </a>
+            </td>
+        </tr>
+    <?php
+    }
+    ?>
+    </table>
+
+<form action="<?php echo htmlspecialchars($_SERVER["REQUEST_URI"]); ?>" method="post">
     <div>
         <p>Survey Name: </p>
         <input type="text" name="NewSurveyName">
         <input type="submit" value="New Survey">
-        <!--<input type="submit" value="Log Out">-->
     </div>
 </form>
 </body>

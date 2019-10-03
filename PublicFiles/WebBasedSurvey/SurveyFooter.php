@@ -1,11 +1,16 @@
 <div class="row page-footer footer">
     <div class="footerContent">
-        <div>Page: <?php if ($pageNumber != 'title') {echo $pageNumber+1;} else { echo 'Title'; } ;?></div>
+        <div>Page: <?php if ($pageNumber != 'title') {echo htmlspecialchars($pageNumber+1);} else { echo 'Title'; } ;?></div>
     </div>
 </div>
 </div>
 </body>
+
 <script>
+<?php 
+if ($_SESSION["loggedin"] == false)
+{
+?>
 if (pageNumber != 'title')
 {
     if (pageNumber < 8)
@@ -31,6 +36,9 @@ if (pageNumber != 'title')
         document.getElementById("BB8").addEventListener("click", function() { SelectBenefit("BB8", "Index8", 8); });
     }
 }
+<?php
+}
+?>
 function SelectBenefit(index, index2, benefitCount) {
     for (var j = 0; j < benefitCount; j += 1)
     {
@@ -44,7 +52,7 @@ function SelectBenefit(index, index2, benefitCount) {
 }
 
 function CreateSurveyShareLink(surveyName) {
-    document.getElementById("SurveyLinkField").innerHTML = "https://www.prodigalcompany.com/npjTest/SurveyStuff/WebBasedSurveyApp/SurveyIndex.php?surveyname=" + surveyName + "&surveyid=" + "<?php echo $_SESSION['surveyid'] ?>";
+    document.getElementById("SurveyLinkField").innerHTML = "https://www.prodigalcompany.com/npjTest/SurveyStuff/WebBasedSurveyApp/SurveyIndex.php?surveyname=" + surveyName + "&surveyid=" + "<?php echo urlencode($_SESSION['surveyid']); ?>";
 }
 </script>
 </html>

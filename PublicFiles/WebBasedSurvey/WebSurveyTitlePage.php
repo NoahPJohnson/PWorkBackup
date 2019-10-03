@@ -21,12 +21,13 @@ if (isset($_POST["submit"]))
             // Attempt to execute the prepared statement
             if (mysqli_stmt_execute($statement))
             {
-                rename($surveyJSONFile, $_POST["SurveyTitleValue"] . ".json");
-                $_SESSION["surveyname"] = $_POST["SurveyTitleValue"];
-                $surveyName = $_POST["SurveyTitleValue"];
-                $_SESSION["surveyjsonfile"] = $_POST["SurveyTitleValue"] . ".json";
+                
+                $_SESSION["surveyname"] = filter_input(INPUT_POST, "SurveyTitleValue", FILTER_SANITIZE_STRING);// $_POST["SurveyTitleValue"];
+                rename($surveyJSONFile, $_SESSION["surveyname"] . ".json");
+                $surveyName = filter_input(INPUT_POST, "SurveyTitleValue", FILTER_SANITIZE_STRING);
+                $_SESSION["surveyjsonfile"] = $_SESSION["surveyname"] . ".json";
                 $surveyJSONFile = $_SESSION["surveyjsonfile"];
-                header("location: SurveyIndex.php?surveyname=" . $surveyName . "&page=title");
+                header("location: SurveyIndex.php?surveyname=" . urlencode($surveyName) . "&page=" . urlencode("title"));
             }
         }
     }
@@ -37,7 +38,7 @@ if (isset($_POST["submit"]))
     <header>Survey: Title Page</header>
     <div class='SurveyPage'>
         <div class='container-fluid'>
-            <form class='BenefitsCollection col' id='surveyForm' action='<?php echo htmlspecialchars($_SERVER[""]); ?>' method='post' enctype="multipart/form-data">
+            <form class='BenefitsCollection col' id='surveyForm' action='<?php echo htmlspecialchars($_SERVER["REQUEST_URI"]); ?>' method='post' enctype="multipart/form-data">
                 <div class='row' style='text-align:center;'>
                     <input id='TitleInput' class='col-md-6' name='SurveyTitleValue' type='text'>
                 </div>
@@ -47,7 +48,7 @@ if (isset($_POST["submit"]))
             var pageNumber = '<?php echo $pageNumber; ?>';
             var surveyJSONFile = '<?php echo $surveyJSONFile; ?>';
 
-            document.getElementById('TitleInput').value = '<?php echo $surveyName; ?>';
+            document.getElementById('TitleInput').value = '<?php echo htmlspecialchars($surveyName); ?>';
         </script>
         <script type='text/javascript' src='ParseSurveyJSON.js'></script>
         <script>

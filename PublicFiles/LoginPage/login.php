@@ -43,14 +43,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     else
     {
         // Check if username is empty
-        if (empty(trim($_POST["username"])))
+        if (empty(trim(filter_input(INPUT_POST, "username", FILTER_SANITIZE_STRING))))
         {
             $username_err = "Please enter username.";
         } 
         else
         {
             //Save value to username variable
-            $username = trim($_POST["username"]);
+            $username = trim(filter_input(INPUT_POST, "username", FILTER_SANITIZE_STRING));
         }
     
         // Check if password is empty

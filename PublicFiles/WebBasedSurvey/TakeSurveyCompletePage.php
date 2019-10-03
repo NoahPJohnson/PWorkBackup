@@ -24,7 +24,7 @@ session_destroy();
 </head>
 <body>
     <header>Survey Complete</header>
-<form action="<?php echo htmlspecialchars($_SERVER[""]); ?>" method="post">
+<form action="<?php echo htmlspecialchars($_SERVER["REQUEST_URI"]); ?>" method="post">
     <div class='container-fluid'>
         <div class='col-md-8'>
             <p>The Survey is complete.</p>

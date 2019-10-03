@@ -7,7 +7,7 @@ function UploadFile()
     //echo "UPLOAD.";
     global $link;
     global $jsonData;
-    global $pageArray;
+    global $SurveyStructureObject;
     global $pageNumber;
     global $surveyJSONFile;
 
@@ -70,14 +70,14 @@ function UploadFile()
                                 if(mysqli_stmt_fetch($statement))
                                 {  
                                     $jsonData = file_get_contents($surveyJSONFile);
-                                    $pageArray = json_decode($jsonData);
-                                    $pageArray[$pageNumber][$i]->BenefitImage = $target_directory . $resultTempName;
-                                    //echo $pageArray[$pageNumber][$i]->BenefitImage;
-                                    $jsonDataOutput = json_encode($pageArray);
+                                    $SurveyStructureObject = json_decode($jsonData);
+                                    $SurveyStructureObject->PageList[$pageNumber][$i]->BenefitImage = $target_directory . $resultTempName;
+                                    //echo $SurveyStructureObject->PageList[$pageNumber][$i]->BenefitImage;
+                                    $jsonDataOutput = json_encode($SurveyStructureObject);
                                     file_put_contents($surveyJSONFile, $jsonDataOutput);
                                     $jsonData = file_get_contents($surveyJSONFile);
-                                    $pageArray = json_decode($jsonData);
-                                    echo "RESULT: " . $pageArray[$pageNumber][$i]->BenefitImage;
+                                    $SurveyStructureObject = json_decode($jsonData);
+                                    echo "RESULT: " . $SurveyStructureObject->PageList[$pageNumber][$i]->BenefitImage;
                                 }
                             }
                         }
@@ -101,10 +101,10 @@ function UploadFile()
                                     {
                                         echo "Database operation successful.";
                                         $jsonData = file_get_contents($surveyJSONFile);
-                                        $pageArray = json_decode($jsonData);
-                                        $pageArray[$pageNumber][$i]->BenefitImage = $target_file;
-                                        //echo "Image src = " . $pageArray[$pageNumber][$i]->BenefitImage;
-                                        $jsonDataOutput = json_encode($pageArray);
+                                        $SurveyStructureObject = json_decode($jsonData);
+                                        $SurveyStructureObject->PageList[$pageNumber][$i]->BenefitImage = $target_file;
+                                        //echo "Image src = " . $SurveyStructureObject->PageList[$pageNumber][$i]->BenefitImage;
+                                        $jsonDataOutput = json_encode($SurveyStructureObject);
                                         file_put_contents($surveyJSONFile, $jsonDataOutput);
                                     }
                                 }
@@ -123,32 +123,6 @@ function UploadFile()
             }
         }
     }
-        /*
-        if ($imageID != "")
-        {
-            if ($imageID == 'BU1')
-            {
-                $pageArray[$pageNumber][0]->BenefitImage = basename($target_file);
-            }
-            else if ($imageID == 'BU2')
-            {
-                $pageArray[$pageNumber][1]->BenefitImage = basename($target_file);
-            }
-            else if ($imageID == 'BU3')
-            {
-                $pageArray[$pageNumber][2]->BenefitImage = basename($target_file);
-            } 
-            else if ($imageID == 'BU4')
-            {
-                $pageArray[$pageNumber][3]->BenefitImage = basename($target_file);
-            } 
-            else
-            {
-                echo "No Image ID";
-            }
-        }
-        */
-
 }
 
 function temporaryRandomSuffix($path, $suffix)
