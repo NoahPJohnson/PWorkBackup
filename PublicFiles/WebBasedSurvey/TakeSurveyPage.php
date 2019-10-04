@@ -93,10 +93,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             for (var i = 0; i < 10; i += 1)
             {
 
-                document.getElementsByClassName("navMenuItem")[1+i].style.visibility = 'hidden';
+                //document.getElementsByClassName("navMenuItem")[1+i].style.visibility = 'hidden';
+                document.getElementsByClassName("navMenuLink")[1+i].style.display = 'none';
+                document.getElementsByClassName("navMenuText")[1+i].style.display = 'inline';
                 if ((i) < pageNumber)
                 {
-                    document.getElementsByClassName("navMenuItem")[1+i].style.visibility = 'visible';//href = ('SurveyIndex.php?page='+i);
+                    //document.getElementsByClassName("navMenuItem")[1+i].style.visibility = 'visible';//href = ('SurveyIndex.php?page='+i);
+                    document.getElementsByClassName("navMenuLink")[1+i].style.display = 'inline';
+                    document.getElementsByClassName("navMenuText")[1+i].style.display = 'none';
                 }
             }
 

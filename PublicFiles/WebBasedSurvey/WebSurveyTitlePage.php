@@ -42,6 +42,20 @@ if (isset($_POST["submit"]))
                 <div class='row' style='text-align:center;'>
                     <input id='TitleInput' class='col-md-6' name='SurveyTitleValue' type='text'>
                 </div>
+                <div class='row'>
+                    <div class='LogoContainer col-md-6'>
+                        <h4 style='text-align:center'>Company Logo (Header)</h4>
+                        <img id='LogoImage1' class='logo' src=''>
+                        <input type='file' name='LogoUpload1' id='LogoUpload1' class='logoFileUpload'>
+                    </div>
+                </div>
+                <div class='row'>
+                    <div class='LogoContainer col-md-6'>
+                        <h4 style='text-align:center'>Agency Logo (Footer)</h4>
+                        <img id='LogoImage2' class='logo' src=''>
+                        <input type='file' name='LogoUpload2' id='LogoUpload2' class='logoFileUpload'>
+                    </div>
+                </div>
             </form>
         </div>
         <script type='text/javascript'>

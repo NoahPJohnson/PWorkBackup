@@ -46,13 +46,14 @@ if (isset($_POST["submit"]))
                             </div>-->
                             <div class='BenefitImage col-sm-12 align-self-center'>
                                 <img id='BI1' src='' style='object-position: 50% 50%'>
-                                <input type='file'  name='BU1' id='BU1' class='fileToUpload'>
+                                <input type='file' name='BU1' id='BU1' class='fileToUpload' onchange="DisableUpload(this.id)">
                                 <select name='imageFit1' class='imageFitSelector' id='FS1' onchange="ChangeImageFit(this.value, 'BI1')">
                                     <option value='contain'>Contain</option>
                                     <option value='cover'>Cover</option>
                                     <option value='fill'>Stretch</option>
                                     <option value='none'>None</option>
-                                </select> 
+                                </select>
+                                <input type='button' name='DI1' id='DI1' class='deleteImageButton' value='X' onclick="DeleteImage('BI1', 'BU1')"> 
                             </div>
                             <input type='hidden' id='IP1' class='imagePositionTracker' name='imagePosition1'>
                             <div class='BenefitText col-sm-12 align-self-center'>
@@ -67,14 +68,14 @@ if (isset($_POST["submit"]))
                             </div>-->
                             <div class='BenefitImage col-sm-12 align-self-center'>
                                 <img id='BI2' src='' style='object-position: 50% 50%'>
-                                <input type='file' name='BU2' id='BU2' class='fileToUpload'>
+                                <input type='file' name='BU2' id='BU2' class='fileToUpload' onchange="DisableUpload(this.id)">
                                 <select name='imageFit2' class='imageFitSelector' id='FS2' onchange="ChangeImageFit(this.value, 'BI2')">
                                     <option value='contain'>Contain</option>
                                     <option value='cover'>Cover</option>
                                     <option value='fill'>Stretch</option>
                                     <option value='none'>None</option>
                                 </select>
-                                
+                                <input type='button' name='DI2' id='DI2' class='deleteImageButton' value='X' onclick="DeleteImage('BI2', 'BU2')">
                             </div>
                             <input type='hidden' id='IP2' class='imagePositionTracker' name='imagePosition2'>
                             <div  class='BenefitText col-sm-12 align-self-center'>
@@ -91,14 +92,14 @@ if (isset($_POST["submit"]))
                             </div>-->
                             <div class='BenefitImage col-sm-12 align-self-center'>
                                 <img id='BI3' src='' style='object-position: 50% 50%'>
-                                <input type='file' name='BU3'  id='BU3' class='fileToUpload'>
+                                <input type='file' name='BU3'  id='BU3' class='fileToUpload' onchange="DisableUpload(this.id)">
                                 <select name='imageFit3' class='imageFitSelector' id='FS3' onchange="ChangeImageFit(this.value, 'BI3')">
                                     <option value='contain'>Contain</option>
                                     <option value='cover'>Cover</option>
                                     <option value='fill'>Stretch</option>
                                     <option value='none'>None</option>
                                 </select>
-                                
+                                <input type='button' name='DI3' id='DI3' class='deleteImageButton' value='X' onclick="DeleteImage('BI3', 'BU3')">
                             </div>
                             <input type='hidden' id='IP3' class='imagePositionTracker' name='imagePosition3'>
                             <div class='BenefitText col-sm-12 align-self-center'>
@@ -113,14 +114,14 @@ if (isset($_POST["submit"]))
                             </div>-->
                             <div class='BenefitImage col-sm-12 align-self-center'>
                                 <img id='BI4' src='' style='object-position: 50% 50%'>
-                                <input type='file' name='BU4'  id='BU4' class='fileToUpload'>
+                                <input type='file' name='BU4'  id='BU4' class='fileToUpload' onchange="DisableUpload(this.id)">
                                 <select name='imageFit4' class='imageFitSelector' id='FS4' onchange="ChangeImageFit(this.value, 'BI4')">
                                     <option value='contain'>Contain</option>
                                     <option value='cover'>Cover</option>
                                     <option value='fill'>Stretch</option>
                                     <option value='none'>None</option>
                                 </select>
-                                
+                                <input type='button' name='DI4' id='DI4' class='deleteImageButton' value='X' onclick="DeleteImage('BI4', 'BU4')">
                             </div>
                             <input type='hidden' id='IP4' class='imagePositionTracker' name='imagePosition4'>
                             <div class='BenefitText col-sm-12 align-self-center'>

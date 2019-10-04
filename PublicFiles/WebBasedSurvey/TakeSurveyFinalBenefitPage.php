@@ -156,4 +156,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
                 finalBenefitArray.push('<?php echo $_SESSION["finalbenefitlist"][$i]; ?>');
             <?php } ?>
         </script>
+        <script type='text/javascript'>
+            var pageNumber = <?php echo htmlspecialchars($pageNumber); ?>;
+            var surveyJSONFile = '<?php echo htmlspecialchars($_SESSION["surveyjsonfile"]); ?>';
+
+            for (var i = 0; i < 10; i += 1)
+            {
+
+                //document.getElementsByClassName("navMenuItem")[1+i].style.visibility = 'hidden';
+                document.getElementsByClassName("navMenuLink")[1+i].style.display = 'none';
+                document.getElementsByClassName("navMenuText")[1+i].style.display = 'inline';
+                if ((i) < pageNumber)
+                {
+                    //document.getElementsByClassName("navMenuItem")[1+i].style.visibility = 'visible';//href = ('SurveyIndex.php?page='+i);
+                    document.getElementsByClassName("navMenuLink")[1+i].style.display = 'inline';
+                    document.getElementsByClassName("navMenuText")[1+i].style.display = 'none';
+                }
+            }
+
+        </script>
         <script type='text/javascript' src='ParseTakeSurveyJSON.js'></script>

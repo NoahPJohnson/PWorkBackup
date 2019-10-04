@@ -3,6 +3,14 @@ dragElement(document.getElementById("BI2"), "IP2");
 dragElement(document.getElementById("BI3"), "IP3");
 dragElement(document.getElementById("BI4"), "IP4");
 
+for (var i = 0; i < 4; i += 1)
+{
+    if (document.getElementById('BI' + (i+1)).src != '')
+    {
+        document.getElementById('BU' + (i+1)).disabled = true;
+    }
+}
+
 
 function dragElement(imageToManipulate, imagePositionTrackerID) {
   var pos1 = 0;
@@ -52,4 +60,15 @@ function ChangeImageFit(fitValue, imageID)
 {
     document.getElementById(imageID).style.objectFit = fitValue;
     document.getElementById(imageID).style.objectPosition = '50% 50%';
+}
+
+function DeleteImage(imageID, uploadID)
+{
+    document.getElementById(imageID).src = '';
+    document.getElementById(uploadID).disabled = false;
+}
+
+function DisableUpload(uploadID)
+{
+    document.getElementById(uploadID).disabled = false;
 }

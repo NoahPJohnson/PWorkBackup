@@ -46,6 +46,11 @@ body {
     font-size: large;
 }
 
+.navMenuText {
+    color: grey;
+    display: none;
+}
+
 .dropdown {
     position: absolute;
     left: 20px;
@@ -64,7 +69,7 @@ body {
     padding-right: 12px !important;
     padding-bottom: 2px !important;
     /*border-bottom: 2px solid #eee;*/
-    z-index: 5;
+    z-index: 35;
 }
 
 .dropdownItem {
@@ -88,6 +93,7 @@ body {
     background-color: white;
     padding: 5px;
     padding-left: 10px;
+    z-index: 40;
 }
 
 .footer {
@@ -195,6 +201,13 @@ body {
     z-index: 30;
 }
 
+.deleteImageButton {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    z-index: 30;
+}
+
 
 .BenefitButton {
     min-width: 400px;
@@ -256,6 +269,33 @@ p {
 
 .BenefitTextArea {
     width: -webkit-fill-available;
+}
+
+.LogoContainer {
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.logo {
+    max-height: 310px;
+    max-width: 310px;
+    width: fit-content;
+    min-width: 160px;
+    margin-left: auto;
+    margin-right: auto;
+    object-fit: contain;
+}
+
+.logoFileUpload {
+    height: 320px;
+    width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: dashed;
+    border-width: 3px;
+    border-color: grey;
 }
 
 .fileToUpload {
