@@ -4,6 +4,7 @@
 //echo "HEEEY: " . mysqli_get_host_info($link);
 if (isset($_POST["submit"]))
 {
+    UploadLogo();
     if ($_POST["SurveyTitleValue"] != $surveyName)
     {
         $sqlQuery = "UPDATE SurveyBuildTable SET SurveyName = ? WHERE SurveyName = ? AND SurveyOwnerID = ?";
@@ -35,7 +36,7 @@ if (isset($_POST["submit"]))
 
 ?>
 
-    <header>Survey: Title Page</header>
+    <!--<header>Survey: Title Page</header>-->
     <div class='SurveyPage'>
         <div class='container-fluid'>
             <form class='BenefitsCollection col' id='surveyForm' action='<?php echo htmlspecialchars($_SERVER["REQUEST_URI"]); ?>' method='post' enctype="multipart/form-data">

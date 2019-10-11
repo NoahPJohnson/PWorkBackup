@@ -26,42 +26,55 @@ xmlhttp.onreadystatechange = function()
             }
             else
             {
-                var randomizedIndexArray = ShuffleIndexes(8);
-                for (var i = 0; i < 8; i += 1)
+                if (pageNumber == 8)
                 {
-                    //var randomIndex = Math.floor(Math.random() * 4);
+                    document.getElementById('PageQuestion').textContent = benefits.QuestionsList[pageNumber];
 
-                    var selectedIndex = finalBenefitArray[i];
-                    var finalIndex = 0;
-                    if (selectedIndex[2] == 'a')
+                    var randomizedIndexArray = ShuffleIndexes(8);
+                    for (var i = 0; i < 8; i += 1)
                     {
-                        finalIndex = 0;
-                    }
-                    else if (selectedIndex[2] == 'b')
-                    {
-                        finalIndex = 1;
-                    }
-                    else if (selectedIndex[2] == 'c')
-                    {
-                        finalIndex = 2;
-                    }
-                    else if (selectedIndex[2] == 'd')
-                    {
-                        finalIndex = 3;
-                    }
+                        //var randomIndex = Math.floor(Math.random() * 4);
+
+                        var selectedIndex = finalBenefitArray[i];
+                        var finalIndex = 0;
+                        if (selectedIndex[2] == 'a')
+                        {
+                            finalIndex = 0;
+                        }
+                        else if (selectedIndex[2] == 'b')
+                        {
+                            finalIndex = 1;
+                        }
+                        else if (selectedIndex[2] == 'c')
+                        {
+                            finalIndex = 2;
+                        }
+                        else if (selectedIndex[2] == 'd')
+                        {
+                            finalIndex = 3;
+                        }
 
 
-                    document.getElementById('BB' + (randomizedIndexArray[i]+1)).value = benefits.PageList[i][finalIndex].BenefitIndex;
-                    document.getElementById('Index' + (randomizedIndexArray[i]+1)).value = benefits.PageList[i][finalIndex].BenefitIndex;
-                    //document.getElementById('BL' + (randomizedIndexArray[i]+1)).innerHTML = benefits[i][finalIndex].BenefitLabel;
-                    //alert(benefits[pageNumber][i].BenefitLabel);
-                    document.getElementById('BI' + (randomizedIndexArray[i]+1)).src = benefits.PageList[i][finalIndex].BenefitImage;
-                    document.getElementById('BI' + (randomizedIndexArray[i]+1)).style.objectPosition = benefits.PageList[i][finalIndex].ImagePosition;
-                    document.getElementById('BI' + (randomizedIndexArray[i]+1)).style.objectFit = benefits.PageList[i][finalIndex].ImageFitType;
-                    document.getElementById('BT' + (randomizedIndexArray[i]+1)).innerHTML = benefits.PageList[i][finalIndex].BenefitText;
+                        document.getElementById('BB' + (randomizedIndexArray[i]+1)).value = benefits.PageList[i][finalIndex].BenefitIndex;
+                        document.getElementById('Index' + (randomizedIndexArray[i]+1)).value = benefits.PageList[i][finalIndex].BenefitIndex;
+                        //document.getElementById('BL' + (randomizedIndexArray[i]+1)).innerHTML = benefits[i][finalIndex].BenefitLabel;
+                        //alert(benefits[pageNumber][i].BenefitLabel);
+                        document.getElementById('BI' + (randomizedIndexArray[i]+1)).src = benefits.PageList[i][finalIndex].BenefitImage;
+                        document.getElementById('BI' + (randomizedIndexArray[i]+1)).style.objectPosition = benefits.PageList[i][finalIndex].ImagePosition;
+                        document.getElementById('BI' + (randomizedIndexArray[i]+1)).style.objectFit = benefits.PageList[i][finalIndex].ImageFitType;
+                        document.getElementById('BT' + (randomizedIndexArray[i]+1)).innerHTML = benefits.PageList[i][finalIndex].BenefitText;
+                    }
                 }
+                else if (pageNumber > 8)
+                {
+                    document.getElementById('EssayQuestion1').textContent = benefits.QuestionsList[pageNumber];
+                    document.getElementById('EssayQuestion2').textContent = benefits.QuestionsList[pageNumber+1];
+                }
+
+                
             }
         }
+        document.getElementById('headerLogoImage').src = benefits.ClientLogo;
     }
 };
 xmlhttp.open("GET", surveyJSONFile, true);

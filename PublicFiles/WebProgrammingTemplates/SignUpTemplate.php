@@ -171,6 +171,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     </style>
 </head>
 <body>-->
+<div class='Page'>
     <div class="wrapper">
         <h2>Sign Up</h2>
         <p>Please fill this form to create an account.</p>

@@ -21,6 +21,7 @@
                     <li class='dropdownItem col'><a href='SurveyLogout.php'>Log Out</a></li>
                 </ul>
             </li>
+            <li class='navMenuItem col navImage'><img class='headerLogo' id='headerLogoImage'></li>
             <li class='navMenuItem col'><a href='SurveyIndex.php?surveyname=<?php echo urlencode($surveyName); ?>&page=<?php echo urlencode('title'); ?>'>Title Page</a></li>
             <li class='navMenuItem col'><a href='SurveyIndex.php?surveyname=<?php echo urlencode($surveyName); ?>&page=<?php echo urlencode(0); ?>'>Page 1</a></li>
             <li class='navMenuItem col'><a href='SurveyIndex.php?surveyname=<?php echo urlencode($surveyName); ?>&page=<?php echo urlencode(1); ?>'>Page 2</a></li>
@@ -39,6 +40,7 @@
     {
     ?>
         <ul id='signedOutVersion' class='navigationMenu'>
+            <li class='navMenuItem col navImage'><img class='headerLogo' id='headerLogoImage'></li>
             <li class='navMenuItem col'><a class='navMenuLink' href='SurveyIndex.php?surveyname=<?php echo urlencode($surveyName); ?>&page=<?php echo urlencode('title'); ?>'>Title Page</a><p class='navMenuText'>Title Page</p></li>
             <li class='navMenuItem col'><a class='navMenuLink' href='SurveyIndex.php?surveyname=<?php echo urlencode($surveyName); ?>&page=<?php echo urlencode(0); ?>'>Page 1</a><p class='navMenuText'>Page 1</p></li>
             <li class='navMenuItem col'><a class='navMenuLink' href='SurveyIndex.php?surveyname=<?php echo urlencode($surveyName); ?>&page=<?php echo urlencode(1); ?>'>Page 2</a><p class='navMenuText'>Page 2</p></li>

@@ -103,3 +103,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
             var pageNumber = <?php echo htmlspecialchars($pageNumber); ?>;
             var surveyJSONFile = '<?php echo htmlspecialchars($_SESSION["surveyjsonfile"]); ?>';
         </script>
+        <script type='text/javascript' src='ParseTakeSurveyJSON.js'></script>

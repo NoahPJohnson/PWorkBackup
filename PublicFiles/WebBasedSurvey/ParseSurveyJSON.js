@@ -25,19 +25,31 @@ xmlhttp.onreadystatechange = function()
             }
             else
             {
-                for (var i = 0; i < 8; i += 1)
+                if (pageNumber == 8)
                 {
-                    var randomIndex = Math.floor(Math.random() * 4);
-                    document.getElementById('BB' + (i+1)).value = benefits.PageList[i][randomIndex].BenefitIndex;
-                    //document.getElementById('BL' + (i+1)).innerHTML = benefits[i][randomIndex].BenefitLabel;
-                    //alert(benefits[pageNumber][i].BenefitLabel);
-                    document.getElementById('BI' + (i+1)).src = benefits.PageList[i][randomIndex].BenefitImage;
-                    document.getElementById('BI' + (i+1)).style.objectPosition = benefits.PageList[i][randomIndex].ImagePosition;
-                    document.getElementById('BI' + (i+1)).style.objectFit = benefits.PageList[i][randomIndex].ImageFitType;
-                    document.getElementById('BT' + (i+1)).textContent = benefits.PageList[i][randomIndex].BenefitText;
+                    document.getElementById('Question').value = benefits.QuestionsList[pageNumber];
+
+                    for (var i = 0; i < 8; i += 1)
+                    {
+                        var randomIndex = Math.floor(Math.random() * 4);
+                        document.getElementById('BB' + (i+1)).value = benefits.PageList[i][randomIndex].BenefitIndex;
+                        //document.getElementById('BL' + (i+1)).innerHTML = benefits[i][randomIndex].BenefitLabel;
+                        //alert(benefits[pageNumber][i].BenefitLabel);
+                        document.getElementById('BI' + (i+1)).src = benefits.PageList[i][randomIndex].BenefitImage;
+                        document.getElementById('BI' + (i+1)).style.objectPosition = benefits.PageList[i][randomIndex].ImagePosition;
+                        document.getElementById('BI' + (i+1)).style.objectFit = benefits.PageList[i][randomIndex].ImageFitType;
+                        document.getElementById('BT' + (i+1)).textContent = benefits.PageList[i][randomIndex].BenefitText;
+                    }
                 }
+                else if (pageNumber > 8)
+                {
+                    document.getElementById('EssayQuestion1').value = benefits.QuestionsList[pageNumber];
+                    document.getElementById('EssayQuestion2').value = benefits.QuestionsList[pageNumber+1];
+                }
+                
             }
         }
+        document.getElementById('headerLogoImage').src = benefits.ClientLogo;
     }
 };
 xmlhttp.open("GET", surveyJSONFile, true);

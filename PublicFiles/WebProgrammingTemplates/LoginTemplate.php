@@ -148,6 +148,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     </style>
 </head>
 <body>-->
+<div class='Page'>
     <div class="wrapper">
     <!--action="/TLCinsurance/agent-home/"-->
         <form action="<?php echo htmlspecialchars($_SERVER[""]); ?>" method="post">

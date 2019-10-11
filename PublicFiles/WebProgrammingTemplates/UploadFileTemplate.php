@@ -78,7 +78,7 @@ function temporaryRandomSuffix($path, $suffix)
 }
 
 ?>
-
+<div class='Page'>
 <form action="<?php echo htmlspecialchars($_SERVER[""]); ?>" method="post" enctype="multipart/form-data">
     Select file to upload:
     <input type="file" name="fileToUpload" id="fileToUpload">

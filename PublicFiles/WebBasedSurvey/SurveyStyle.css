@@ -6,8 +6,8 @@ body {
 .SurveyPage {
     position: relative;
     
-    min-height: 82vh;
-    padding-bottom: 60px;
+    min-height: 80vh;
+    padding-bottom: 96px;
 
 }
 
@@ -44,6 +44,7 @@ body {
     margin-left: 5px;
     margin-right: 5px;
     font-size: large;
+    height: 72px;
 }
 
 .navMenuText {
@@ -53,7 +54,7 @@ body {
 
 .dropdown {
     position: absolute;
-    left: 20px;
+    left: 160px;
 }
 
 .dropdownContent {
@@ -80,6 +81,21 @@ body {
     padding-top: 5px !important;
     padding-bottom: 5px !important;
 }
+
+.navImage {
+    position: absolute;
+    left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    vertical-align: top;
+}
+
+.headerLogo {
+    object-fit: contain;
+    max-height: 64px;
+    vertical-align: top;
+}
+
 
 .hiddenContent {
     display: none;
@@ -111,11 +127,26 @@ body {
 }
 
 .footerContent {
+    float: none;
     margin-top: 10px !important;
-    margin-left: 15px !important;
-    margin-right: 15px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
     margin-bottom: 5px !important;
     
+}
+
+.footerText {
+    display: inline-block;
+    float: none;
+    font-size: large;
+}
+
+.footerLogo {
+    display: inline-block;
+    float: none;
+    object-fit: contain;
+    max-height: 64px;
+    vertical-align: top;
 }
 
 #TitleInput {

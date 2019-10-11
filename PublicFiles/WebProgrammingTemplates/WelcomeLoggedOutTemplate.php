@@ -15,7 +15,7 @@ if (isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] == true)
 //require_once "TopMenuTemplate.php";
 
 ?>
- 
+<div class='Page'>
     <div class="row">
         <h2>Welcome to the site.</h2>
     </div>

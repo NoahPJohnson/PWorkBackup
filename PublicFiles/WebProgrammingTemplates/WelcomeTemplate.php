@@ -19,6 +19,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true)
 <!--<!DOCTYPE html>
 <html lang="en">
 <body>-->
+<div class='Page'>
     <div class=" row">
         <h1>Hi, <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b>. Welcome to our site.</h1>
     </div>

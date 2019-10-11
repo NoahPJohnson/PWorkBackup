@@ -11,27 +11,30 @@
 
     if ($_SESSION["loggedin"] == false)
     {
-        echo "<ul id='signedOutVersion' class='navigationMenu'>
+    ?>
+        <ul id='signedOutVersion' class='navigationMenu'>
             <li class='navMenuItem col'><a href='IndexTemplate.php?page=welcome'>Welcome</a></li>
             <li class='navMenuItem col'><a href='IndexTemplate.php?page=map'>Map</a></li>
-            <li class='navMenuItem col'><a href='IndexTemplate.php?page=upload'>Upload</a></li>
+            <!--<li class='navMenuItem col'><a href='IndexTemplate.php?page=upload'>Upload</a></li>-->
             <li class='navMenuItem col'><a href='IndexTemplate.php?page=signup'>Sign Up</a></li>
             <li class='navMenuItem col'><a href='IndexTemplate.php?page=login'>Log In</a></li>
-        </ul>";
+        </ul>
+    <?php
     }
     else
     {
-        echo "<ul id='signedInVersion hiddenContent' class='navigationMenu'>
+    ?>
+        <ul id='signedInVersion hiddenContent' class='navigationMenu'>
             <li class='navMenuItem col'><a href='IndexTemplate.php?page=welcome'>Welcome</a></li>
             <li class='navMenuItem col'><a href='IndexTemplate.php?page=map'>Map</a></li>
             <li class='navMenuItem dropdown col'>
-                <a class='dropdownButton' onClick='openDropdown()'>". htmlspecialchars($_SESSION["username"]) . 
-                    "
+                <a class='dropdownButton' onClick='openDropdown()'><?php echo htmlspecialchars($_SESSION["username"]); ?>
                 </a>
 
             </li>
 
-        </ul>";
+        </ul>
+    <?php
     }
     ?>
     </div>

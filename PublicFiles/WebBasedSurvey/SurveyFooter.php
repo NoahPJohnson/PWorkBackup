@@ -1,6 +1,7 @@
 <div class="row page-footer footer">
-    <div class="footerContent">
-        <div>Page: <?php if ($pageNumber != 'title') {echo htmlspecialchars($pageNumber+1);} else { echo 'Title'; } ;?></div>
+    <div class="footerContent col-md-6">
+        <p class="footerText col-lg-3">Page: <?php if ($pageNumber != 'title') {echo htmlspecialchars($pageNumber+1);} else { echo 'Title'; } ;?></p>
+        <img class='footerLogo col-lg-3' id='footerLogoImage' src='<?php if ($SurveyStructureObject != null) { echo $SurveyStructureObject->CompanyLogo; } ?>'>
     </div>
 </div>
 </div>

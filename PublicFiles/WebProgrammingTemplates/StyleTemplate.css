@@ -3,6 +3,13 @@ body {
     text-align: center; 
 }
 
+.Page {
+    position: relative;
+    
+    min-height: 80vh;
+    padding-bottom: 96px;
+}
+
 .wrapper { 
     width: 350px; 
     padding: 20px; 
@@ -67,12 +74,13 @@ body {
 .footer {
     width: -webkit-fill-available;
     position: absolute;
-    bottom: 15px;
+    bottom: 0px;
     border-top: 2px solid #eee;
-    margin-top: 3px !important;
-    margin-left: 32px !important;
-    margin-right: 32px !important;
-    margin-bottom: 7px !important;
+    background-color: white;
+    padding-top: 3px !important;
+    padding-left: 32px !important;
+    padding-right: 32px !important;
+    padding-bottom: 7px !important;
     text-align: center;
 
 }
@@ -83,6 +91,72 @@ body {
     margin-right: 15px !important;
     margin-bottom: 5px !important;
     
+}
+
+.mapTable {
+    margin-top: 15px;
+    border: 3px solid black;
+}
+
+.mapTableHeader {
+    border-bottom: 3px solid black;
+}
+
+.mapTableItem {
+    border: 1px solid black;
+    background-color: white;
+}
+
+.EventNameRow {
+    text-align: left;
+    font-weight: bold;
+    margin-top: 0px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 5px;
+    border-top: 1px solid grey;
+    border-bottom: 1px solid grey;
+}
+
+.StartTimeField {
+    padding-top: 3px;
+    padding-bottom: 2px;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: left;
+    /*border-top: 1px solid grey;*/
+    border-bottom: 1px solid grey;
+}
+
+.EndTimeField {
+    padding-top: 3px;
+    padding-bottom: 2px;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: right;
+    border-bottom: 1px solid grey;
+}
+
+.DescriptionField {
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: left;
+}
+
+.TagButtonColumn {
+    margin-top: 5px;
+}
+
+.tagContent {
+    padding: 10px;
+}
+
+.addTagButton {
+    font-weight: bold;
+}
+
+.Selected {
+    background-color: lightcyan;
 }
 
 #myMap {

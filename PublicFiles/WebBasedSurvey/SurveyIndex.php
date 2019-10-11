@@ -53,6 +53,8 @@ require_once "SurveyHeader.php";
 
 require_once "UploadFileFunction.php";
 
+require_once "UploadLogoFunction.php";
+
 
 class Benefit
 {
@@ -77,6 +79,7 @@ class Benefit
 class SurveyStructure
 {
     public $CompanyLogo;
+    public $ClientLogo;
     public $QuestionsList;
     public $PageList;
     //public $EssayResponseOne;
@@ -85,7 +88,7 @@ class SurveyStructure
     function __construct()
     {
         $this->CompanyLogo = "./Assets/";
-
+        $this->ClientLogo = "./Assets/";
         $this->QuestionsList;
         $this->PageList = array();
         for ($i = 0; $i < 8; $i += 1)
@@ -102,6 +105,9 @@ class SurveyStructure
             $benefitArray[3]->BenefitIndex = ($i+1) . "-d";
             $this->PageList[] = $benefitArray;
         }
+        $this->QuestionsList[] = "Which of the following is the strongest benefit?";
+        $this->QuestionsList[] = "Why did you chose that benefit in your previous response?";
+        $this->QuestionsList[] = "Is there anything else you'd like to tell us about the client?";
         //$this->EssayResponseOne = "";
         //$this->EssayResponseTwo = "";
     }

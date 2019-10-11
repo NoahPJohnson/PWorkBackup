@@ -1,10 +1,22 @@
+<?php
+if (isset($_POST["submit"]))
+{
+    $SurveyStructureObject = json_decode($jsonData);
+
+    $SurveyStructureObject->QuestionsList[$pageNumber] = filter_input(INPUT_POST, "QuestionInput", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);//strip_tags($_POST["QuestionInput"]);
+    //var_dump($pageArray);
+    $jsonDataOutput = json_encode($SurveyStructureObject);
+    file_put_contents($surveyJSONFile, $jsonDataOutput);
+}
+?>
 <!--<header>Survey: Question</header>-->
     <div class='SurveyPage'>
-        <div class='QuestionRow row align-items-center'>
-            <input class='SurveyQuestion col-md-8 align-self-center' id='Question' name='QuestionInput' type='text'>
-        </div>
+        
         <div class='container-fluid'>
             <form class='BenefitsCollection col' id='surveyForm' action='<?php echo htmlspecialchars($_SERVER["REQUEST_URI"]); ?>' method='post' enctype="multipart/form-data">
+                <div class='QuestionRow row align-items-center'>
+                    <input class='SurveyQuestion col-md-8 align-self-center' id='Question' name='QuestionInput' type='text'>
+                </div>
                 <div class='BenefitRow row align-items-center'>
                     <div id='B1' class='Benefit col-md-6'>
                         <label id='BB1' class='BenefitButton row' value='' type='submit'>
