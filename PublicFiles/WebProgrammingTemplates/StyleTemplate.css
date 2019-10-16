@@ -46,16 +46,18 @@ body {
 }
 
 .dropdownContent {
-    /*display: block;*/
+    background-color: white;
     position: absolute;
-    right: 5px;
+    top: 70px;
+    left: 0px;
+    width: 140px;
     border-left: 2px solid #eee;
     padding-top: 3px !important;
     padding-left: 12px !important;
     padding-right: 12px !important;
     padding-bottom: 2px !important;
     /*border-bottom: 2px solid #eee;*/
-    z-index: 5;
+    z-index: 35;
 }
 
 .dropdownItem {
@@ -94,7 +96,9 @@ body {
 }
 
 .mapTable {
+    min-height: 420px;
     margin-top: 15px;
+    overflow: overlay;
     border: 3px solid black;
 }
 
@@ -106,6 +110,7 @@ body {
     border: 1px solid black;
     background-color: white;
 }
+
 
 .EventNameRow {
     text-align: left;
@@ -121,30 +126,41 @@ body {
 .StartTimeField {
     padding-top: 3px;
     padding-bottom: 2px;
-    padding-left: 15px;
+    padding-left: 25px;
     padding-right: 15px;
     text-align: left;
     /*border-top: 1px solid grey;*/
     border-bottom: 1px solid grey;
+    border-right: 1px solid grey;
 }
 
 .EndTimeField {
     padding-top: 3px;
     padding-bottom: 2px;
     padding-left: 15px;
-    padding-right: 15px;
+    padding-right: 25px;
     text-align: right;
     border-bottom: 1px solid grey;
+    border-right: 1px solid grey;
 }
 
 .DescriptionField {
     padding-left: 15px;
     padding-right: 15px;
     text-align: left;
+    border-right: 1px solid grey;
 }
 
 .TagButtonColumn {
     margin-top: 5px;
+}
+
+.AttendButtonColumn>h4 {
+    display: inline-block;
+}
+
+.AttendCheck {
+    display: inline-block;
 }
 
 .tagContent {
@@ -163,4 +179,64 @@ body {
     width: 800px !important;
     height: 600px !important;
     margin: 20px !important;
+}
+
+.NameLocationColumn {
+    height: 110px;
+    border-bottom: 1px solid black;
+}
+
+.NameField {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 15px;
+    padding-bottom: 5px;
+    text-align: left;
+    border-bottom: 1px solid grey;
+}
+
+.AddressField {
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: left;
+}
+
+.RoleColumn {
+    height: 110px;
+    vertical-align: bottom;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.InterestsAndTableArea {
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.InterestsColumn {
+    height: 420px;
+    margin-top: 15px;
+    border: 1px solid black;
+}
+
+.InterestsTitle {
+    border-bottom: 1px solid black;
+}
+
+.PrimaryInterestField {
+    padding: 10px;
+    border-bottom: 1px solid grey;
+}
+
+.InterestsField {
+    padding: 10px;
+}
+
+.CreatedEventsColumn {
+    float: none;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 3px solid black;
 }

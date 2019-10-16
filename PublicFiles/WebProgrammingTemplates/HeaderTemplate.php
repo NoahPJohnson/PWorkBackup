@@ -30,7 +30,11 @@
             <li class='navMenuItem dropdown col'>
                 <a class='dropdownButton' onClick='openDropdown()'><?php echo htmlspecialchars($_SESSION["username"]); ?>
                 </a>
-
+                <ul id='userDropdownContent' class='dropdownContent col hiddenContent'>
+                    <li class='dropdownItem col'><a href='IndexTemplate.php?page=account'>Account</a></li>
+                    <li class='dropdownItem col'><a href='IndexTemplate.php?page=changepassword'>Reset Password</a></li>
+                    <li class='dropdownItem col'><a href='LogoutTemplate.php'>Log Out</a></li>
+                </ul>
             </li>
 
         </ul>
@@ -38,10 +42,7 @@
     }
     ?>
     </div>
-    <ul id='userDropdownContent' class='dropdownContent col hiddenContent'>
-        <li class='dropdownItem col'><a href='IndexTemplate.php?page=changepassword'>Reset Password</a></li>
-        <li class='dropdownItem col'><a href='LogoutTemplate.php'>Log Out</a></li>
-    </ul>
+    
 
     <script>
         function openDropdown()

@@ -64,8 +64,8 @@ var pinArray = Array();
             EventTableRow["url"] = url;
 
             EventTableRow["eventName"] = '<?php echo $locationsTable[$i]["EventName"]; ?>';
-            EventTableRow["startTime"] = '<?php echo $locationsTable[$i]["StartTime"]; ?>';
-            EventTableRow["endTime"] = '<?php echo $locationsTable[$i]["EndTime"]; ?>';
+            EventTableRow["startTime"] = '<?php echo ConvertDateTime($locationsTable[$i]["StartTime"]); ?>';
+            EventTableRow["endTime"] = '<?php echo ConvertDateTime($locationsTable[$i]["EndTime"]); ?>';
             EventTableRow["type"] = '<?php echo $locationsTable[$i]["Type"]; ?>';
 
             EventTableArray.push(EventTableRow);

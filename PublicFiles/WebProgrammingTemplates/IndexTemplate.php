@@ -29,6 +29,17 @@ if (isset($_SESSION["page"]))
     {
         require_once "MapTemplate.php";
     }
+    else if ($_SESSION["page"] == "account")
+    {
+        if (isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] == true)
+        {
+            require_once "AccountTemplate.php";
+        }
+        else
+        {
+            require_once "WelcomeLoggedOutTemplate.php";
+        }
+    }
     else if ($_SESSION["page"] == "upload")
     {
         require_once "UploadFileTemplate.php";
