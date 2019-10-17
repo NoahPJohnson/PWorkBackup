@@ -123,7 +123,7 @@ function PerformSQLTAGSelect()
     global $link;
     
     //SELECT EventTagJoinTable.EventID, EventTagJoinTable.EventTaggedAmount, TagTable.TagID, TagTable.TagName, TagTable.TagTotal, TagTable.TagDescription FROM EventTagJoinTable INNER JOIN TagTable ON EventTagJoinTable.TagID = TagTable.TagID
-    $sqlQuery = "SELECT EventTagJoinTable.EventID, EventTagJoinTable.EventTaggedAmount, TagTable.TagID, TagTable.TagName, TagTable.TagTotal, TagTable.TagDescription FROM EventTagJoinTable INNER JOIN TagTable ON EventTagJoinTable.TagID = TagTable.TagID";
+    $sqlQuery = "SELECT EventTagJoinTable.EventID, EventTagJoinTable.Tagged, TagTable.TagID, TagTable.TagName, TagTable.TagTotal, TagTable.TagDescription FROM EventTagJoinTable INNER JOIN TagTable ON EventTagJoinTable.TagID = TagTable.TagID";
     
     $outputTable = array();
 
@@ -143,13 +143,13 @@ function PerformSQLTAGSelect()
             {
 
                 // Bind result variables
-                if (mysqli_stmt_bind_result($statement, $resultEventID, $resultEventTaggedAmount, $resultTagID, $resultTagName, $resultTagTotal, $resultTagDescription))
+                if (mysqli_stmt_bind_result($statement, $resultEventID, $resultTagged, $resultTagID, $resultTagName, $resultTagTotal, $resultTagDescription))
                 {
                     $row = array();
                     while (mysqli_stmt_fetch($statement))
                     {
                         $row["EventID"] = $resultEventID;
-                        $row["EventTaggedAmount"] = $resultEventTaggedAmount;
+                        $row["Tagged"] = $resultTagged;
                         $row["TagID"] = $resultTagID;
                         $row["TagName"] = $resultTagName;
                         $row["TagTotal"] = $resultTagTotal;
@@ -348,8 +348,157 @@ function UpdateAttending($inputEventID)
             }
         }
     }
+}
 
-    
+function GetAllTags()
+{
+    global $link;
+
+    $outputTable = array();
+
+    $sqlQuery = "SELECT TagID, TagName FROM TagTable";
+
+    $statement = mysqli_prepare($link, $sqlQuery);
+
+    //var_dump($statement);
+
+    if ($statement)
+    {
+        // Attempt to execute the prepared statement
+        if (mysqli_stmt_execute($statement))
+        {
+            //echo "Select Executed! ";
+
+            mysqli_stmt_store_result($statement);
+
+            // Check if events exist, if yes then bind variables
+            if (mysqli_stmt_num_rows($statement) >= 1)
+            {
+                if (mysqli_stmt_bind_result($statement, $resultTagID, $resultTagName))
+                {
+                    $row = array();
+                    while (mysqli_stmt_fetch($statement))
+                    {
+                        $row["TagID"] = $resultTagID;
+                        $row["TagName"] = $resultTagName;
+
+                        $outputTable[] = $row;
+                    }
+                }
+            }
+        }
+    }
+    return $outputTable;
+}
+
+function UpdateTag($eventID, $tagID)
+{
+    global $link;
+
+    $sqlQuery = "SELECT EventID, TagID, UserID FROM EventTagJoinTable WHERE EventID = ? AND TagID = ? AND UserID = ?";
+
+    $statement = mysqli_prepare($link, $sqlQuery);
+
+    //var_dump($statement);
+
+    if ($statement)
+    {
+        //echo "Prepared select";
+
+        mysqli_stmt_bind_param($statement, "iii", $parameter_EventID, $parameter_TagID, $parameter_UserID);
+
+        $parameter_EventID = $eventID;
+
+        $parameter_TagID = $tagID;
+
+        $parameter_UserID = $_SESSION["id"];
+
+        // Attempt to execute the prepared statement
+        if (mysqli_stmt_execute($statement))
+        {
+            //echo "Select Executed! ";
+
+            mysqli_stmt_store_result($statement);
+
+            // Check if events exist, if yes then bind variables
+            if (mysqli_stmt_num_rows($statement) >= 1)
+            {
+                //echo "there is a row. ";
+
+                $sqlQuery = "DELETE FROM EventTagJoinTable WHERE EventID = ? AND TagID = ? AND UserID = ?";
+
+                $statement = mysqli_prepare($link, $sqlQuery);
+
+                if ($statement)
+                {
+                    //echo "Delete Prepared... ";
+                    mysqli_stmt_bind_param($statement, "iii", $parameter_EventID, $parameter_TagID, $parameter_UserID);
+
+                    $parameter_EventID = $eventID;
+
+                    $parameter_TagID = $tagID;
+
+                    $parameter_UserID = $_SESSION["id"];
+
+                    // Attempt to execute the prepared statement
+                    if (mysqli_stmt_execute($statement))
+                    {
+                        //echo "ROW DELETED. ";
+                        return true;
+                    }
+                }
+            }
+            else
+            {
+                $sqlQuery = "INSERT INTO EventTagJoinTable (EventID, TagID, UserID) VALUES ((SELECT EventID FROM EventsTable WHERE EventID = ?), (SELECT TagID FROM TagTable WHERE TagID = ?), (SELECT UserID FROM UserTable WHERE UserID = ?)) ";
+
+                $statement = mysqli_prepare($link, $sqlQuery);
+
+                if ($statement)
+                {
+                    mysqli_stmt_bind_param($statement, "iii", $parameter_EventID, $parameter_TagID, $parameter_UserID);
+
+                    $parameter_EventID = $eventID;
+
+                    $parameter_TagID = $tagID;
+
+                    $parameter_UserID = $_SESSION["id"];
+
+                    // Attempt to execute the prepared statement
+                    if (mysqli_stmt_execute($statement))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+}
+
+function AddATag($eventID, $tagID)
+{
+    global $link;
+
+    $sqlQuery = "INSERT INTO EventTagJoinTable (EventID, TagID, UserID) VALUES ((SELECT EventID FROM EventsTable WHERE EventID = ?), (SELECT TagID FROM TagTable WHERE TagID = ?), (SELECT UserID FROM UserTable WHERE UserID = ?))";
+
+    $statement = mysqli_prepare($link, $sqlQuery);
+
+    if ($statement)
+    {
+        mysqli_stmt_bind_param($statement, "iii", $parameter_EventID, $parameter_TagID, $parameter_UserID);
+
+        $parameter_EventID = $eventID;
+
+        $parameter_TagID = $tagID;
+
+        $parameter_UserID = $_SESSION["id"];
+
+        // Attempt to execute the prepared statement
+        if (mysqli_stmt_execute($statement))
+        {
+            return true;
+        }
+    }
 }
 
 ?>
